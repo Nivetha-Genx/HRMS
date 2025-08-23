@@ -13,7 +13,7 @@ import {
 export function SectionCards() {
   return (
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
-      <Card className="@container/card bg-blue-600">
+      <Card className="@container/card bg-blue-400">
         <CardHeader>
           <CardDescription className="text-black font-bold">Total Employees</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
@@ -33,7 +33,7 @@ export function SectionCards() {
           <div className=""><IconUsersGroup className="size-5"/></div>
         </CardFooter>
       </Card>
-          <Card className="@container/card  bg-blue-600">
+          <Card className="@container/card  bg-blue-400">
         <CardHeader>
           <CardDescription className="text-black font-bold">Job Applications</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
@@ -53,7 +53,7 @@ export function SectionCards() {
           <div className="">< IconBriefcase className="size-5"/></div>
         </CardFooter>
       </Card>
-       <Card className="@container/card  bg-blue-600">
+       <Card className="@container/card  bg-blue-400">
         <CardHeader>
           <CardDescription className="text-black font-bold">Projects</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
@@ -73,7 +73,7 @@ export function SectionCards() {
           <div className="">< IconCashBanknoteEdit className="size-5"/></div>
         </CardFooter>
       </Card>
-      <Card className="@container/card  bg-blue-600">
+      <Card className="@container/card  bg-blue-400">
         <CardHeader>
           <CardDescription className="text-black font-bold">Clients</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">

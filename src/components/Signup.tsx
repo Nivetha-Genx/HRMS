@@ -93,7 +93,7 @@ export function Signup({
             </div>
             <div className="mt-4 text-center text-sm">
               Already have an account?{" "}
-              <Link to="/" className="underline underline-offset-4">
+              <Link to="/" className="underline underline-offset-4  text-blue-500">
                 Login
               </Link>
             </div>

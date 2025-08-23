@@ -44,7 +44,7 @@ const pieData = [
   { name: "Pending Projects", value: chartData.reduce((sum, d) => sum + d.pending, 0) },
   { name: "In Progress", value: 300 }, 
 ]
-const COLORS = ["#1d4dd1", "#802aaa", "#dbcb1a"] 
+const COLORS = ["#1c7fdb", "#802aaa", "#dbcb1a"] 
 
 const chartConfig = {
   Statistics: {
@@ -52,11 +52,11 @@ const chartConfig = {
   },
   completed: {
     label: "completed",
-    color: "var(--primary)",
+    color: "#1c7fdb",
   },
   pending: {
     label: "pending",
-    color: "var(--primary)",
+    color: "#1c7fdb",
   },
 } satisfies ChartConfig
 

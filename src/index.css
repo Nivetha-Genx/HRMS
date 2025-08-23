@@ -161,7 +161,7 @@ button:focus-visible {
 
   --popover-foreground: oklch(0.145 0 0);
 
-  --primary: oklch(40.741% 0.19184 266.729);
+  --primary: oklch(59.91% 0.15979 251.57);
 
   --primary-foreground: oklch(0.985 0 0);
 
@@ -203,9 +203,9 @@ button:focus-visible {
 
   --sidebar-primary-foreground: oklch(0.985 0 0);
 
-  --sidebar-accent:  oklch(57.41% 0.19402 269.884);
+  --sidebar-accent:  oklch(59.91% 0.15979 251.57);
 
-  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-accent-foreground:  oklch(0.985 0 0);
 
   --sidebar-border: oklch(0.922 0 0);
 
@@ -284,8 +284,11 @@ button:focus-visible {
   }
   body {
     @apply bg-background text-foreground;
-  }
-  a {
-    @apply text-primary hover:underline;
-  }
+    
+    @apply font-sans;
 }
+  }
+  /* a {
+    @apply text-primary hover:underline;
+  } */
+
