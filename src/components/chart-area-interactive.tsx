@@ -92,7 +92,7 @@ return (
           </div>
           <div>
         <CardDescription>
-         Completed vs Pending Jobs </CardDescription>
+         Completed vs Pending Projects </CardDescription>
       
       <div className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer config={chartConfig} className="h-[250px] w-full">

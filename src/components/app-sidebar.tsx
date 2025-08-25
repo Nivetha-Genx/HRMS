@@ -50,27 +50,27 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/masterLayout/dashboard1",
       icon: IconDashboard,
     },
     {
       title: "Employees",
-      url: "#",
+      url: "/masterLayout/employee",
       icon: IconUsers,
     },
     {
       title: "Leave",
-      url: "#",
+      url: "/leave",
       icon: IconCalendar,
     },
     {
       title: "Projects",
-      url: "#",
+      url: "/projects",
       icon: IconFolder,
     },
     {
       title: "Pay roll",
-      url: "#",
+      url: "/payroll",
       icon: IconCreditCardPay,
     },
   ],

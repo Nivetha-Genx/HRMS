@@ -80,7 +80,7 @@ export function SectionCards() {
             43
           </CardTitle>
           <CardAction>
-            <Badge className="bg-red-700">
+            <Badge className="bg-red-800">
               <IconTrendingDown />
               7.0%
             </Badge >

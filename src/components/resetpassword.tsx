@@ -68,7 +68,7 @@ export function Resetpassword({
            <form onSubmit={handleSubmit}>
               <div className="flex flex-col gap-6">
                 <div className="grid gap-3">
-                  <Label htmlFor="password">Email</Label>
+                  <Label htmlFor="password">New Password</Label>
                     <Input
                       id="newpassword"
                       type="password"
@@ -78,7 +78,7 @@ export function Resetpassword({
                       />
                 </div>
               <div className="grid gap-3">
-                <Label htmlFor="password">Email</Label>
+                <Label htmlFor="password">Confirm Password</Label>
                   <Input
                     id="confirmpassword"
                     type="password"

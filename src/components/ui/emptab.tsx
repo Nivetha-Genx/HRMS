@@ -1,4 +1,15 @@
 "use client"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
 
 import * as React from "react"
 import {
@@ -49,7 +60,7 @@ const data: Payment[] = [
     position:"Manager",
     department:"IT/Technology",
     email: "shivaji@example.com",
-    joinDate:"20.4.2024",
+    joinDate:"20-4-2024",
     status:"Active",
   },
   
@@ -60,7 +71,7 @@ const data: Payment[] = [
     position:"Frontend developer",
     department:"IT/Technology",
     email: "shivani@example.com",
-    joinDate:"20.5.2024",
+    joinDate:"20-5-2024",
      status:"InActive",
   },
     {
@@ -70,7 +81,7 @@ const data: Payment[] = [
     position: "Backend developer",
     department:"IT/Technology",
     email: "akila@example.com",
-    joinDate:"10.6.2024",
+    joinDate:"10-6-2024",
      status:"Active",
   },
   {
@@ -80,7 +91,7 @@ const data: Payment[] = [
     position: "Frontend developer",
     department:"IT/Technology",
     email: "jayashree@example.com",
-    joinDate:"20.8.2024",
+    joinDate:"20-8-2024",
      status:"Active",
   },
   {
@@ -90,7 +101,7 @@ const data: Payment[] = [
     position:"UI/UX designer",
     department:"IT/Technology",
     email: "pavithra@example.com",
-    joinDate:"30.2.2025",
+    joinDate:"30-2-2025",
      status:"InActive",
   },
   {
@@ -100,7 +111,7 @@ const data: Payment[] = [
     position : "Team Lead",
     department:"IT/Technology",
     email: "nisha@example.com",
-    joinDate:"29.4.2025",
+    joinDate:"29-4-2025",
     status:"Active",
   },
   {
@@ -110,7 +121,7 @@ const data: Payment[] = [
     position:"Developer",
     department:"IT/Technology",
     email: "sagana@example.com",
-    joinDate:"10.6.2025",
+    joinDate:"10-6-2025",
     status:"Active",
   },
 
@@ -221,17 +232,61 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
               <span className="sr-only">Open menu</span>
-              <MoreHorizontal />
+                <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            {/* <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-            </DropdownMenuItem> */}
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+              <DropdownMenuSeparator />
+          <Dialog>
+            <DialogTrigger asChild>
+              <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Edit Employee</DialogTitle>
+                  <DialogDescription>
+                      Edit employee details and click save
+                  </DialogDescription>
+              </DialogHeader>
+              <form className="grid gap-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="employeeID">EmployeeId</Label>
+                     <Input id="employeeid" />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="name">Name</Label>
+                      <Input id="name" />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="email">Email</Label>
+                      <Input id="email" placeholder="@gmail.com" />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="dateofbirth">BirthDate</Label>
+                      <Input id="email" type="date" />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="position">Position</Label>
+                      <Input id="position" />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="department">Department</Label>
+                      <Input id="department" />
+                </div>
+                <div className="grid gap-2">
+                    <Label htmlFor="joinDate">Join-Date</Label>
+                      <Input id="joindate" />
+                </div>
+              <DialogFooter>
+                  <DialogClose asChild>
+                      <Button variant="outline">Cancel</Button>
+                  </DialogClose>
+                     <Button type="submit">Save</Button>
+              </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
             <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -272,13 +327,64 @@ export function DataTableDemo() {
     <div className="w-full max-w mx-auto px-5 ">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter names..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
+         <div className="flex items-center gap-2 ml-auto">
+          <Dialog>
+              <DialogTrigger asChild>
+                <Button className="ml-auto">+ Add New</Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                   <DialogTitle>Add Employee</DialogTitle>
+                      <DialogDescription>
+                           Fill in employee details and click save.
+                      </DialogDescription>
+                </DialogHeader>
+              <form className="grid gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="employeeID">EmployeeId</Label>
+                       <Input id="employeeid" />
+                  </div>
+                 <div className="grid gap-2">
+                    <Label htmlFor="name">Name</Label>
+                        <Input id="name" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="email">Email</Label>
+                       <Input id="email" placeholder="@gmail.com" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="dateofbirth">BirthDate</Label>
+                      <Input id="email" type="date" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="position">Position</Label>
+                      <Input id="position" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="department">Department</Label>
+                      <Input id="department" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="joinDate">Join-Date</Label>
+                      <Input id="joindate" />
+                  </div>
+              <DialogFooter>
+                  <DialogClose asChild>
+                      <Button variant="outline">Cancel</Button>
+                  </DialogClose>
+                  <Button type="submit">Save</Button>
+              </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -305,6 +411,7 @@ export function DataTableDemo() {
               })}
           </DropdownMenuContent>
         </DropdownMenu>
+      </div>
       </div>
       <div className="overflow-hidden rounded-md border">
         <Table>
