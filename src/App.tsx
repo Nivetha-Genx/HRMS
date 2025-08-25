@@ -7,6 +7,7 @@ import OTP from './Pages/OTP'
 import Resetpassword from './Pages/Resetpassword'
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import  Forgot from './Pages/Forgot';
+import { Toaster } from "sonner"
 import Dashboard1 from './Dashboard/Dashboard1'
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
               
           </Routes>
        </BrowserRouter> 
+        <Toaster position="top-right" richColors />
 
     </>
   )

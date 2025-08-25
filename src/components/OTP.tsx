@@ -1,6 +1,8 @@
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { useNavigate} from "react-router-dom"
+import { useNavigate , useLocation} from "react-router-dom"
+import { verifyOtpApi } from '../Services/authservice'
+import { useState } from "react"
 import {
   Card,
   CardContent,
@@ -15,7 +17,35 @@ export function OTP({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-    const navigate = useNavigate()
+    
+  const navigate = useNavigate()
+  const [otp, setOtp] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
+  const location = useLocation()
+
+  const email = (location.state as { email?: string })?.email || ""
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError("")
+
+    try {
+
+      await verifyOtpApi({ email ,otp })
+      navigate("/resetpassword")
+    } catch (err: any) {
+      if (err.response?.status === 400) {
+        setError("Invalid or expired OTP")
+      } else {
+        setError("Failed to verify OTP. Try again.")
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -26,21 +56,23 @@ export function OTP({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="otp">OTP</Label>
                 <Input
                   id="otp"
                   type="otp"
-                  placeholder="OTP"
+                  placeholder="Enter OTP"
+                  onChange={(e) => setOtp(e.target.value)}
                   required
                 />
               </div>
              
               <div className="flex flex-col gap-3">
-                <Button type="submit" className="w-full"  onClick={() => navigate("/resetpassword")}>
-                  Confirm
+                {error && <p className="text-red-700 text-sm">{error}</p>}
+                <Button type="submit" className="w-full">
+                   {loading ? "Verifying..." : "Confirm"}
                 </Button>
               </div>
             </div>
