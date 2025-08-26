@@ -8,8 +8,11 @@ import Resetpassword from './Pages/Resetpassword'
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import  Forgot from './Pages/Forgot';
 import { Toaster } from "sonner"
-import Dashboard1 from './Dashboard/Dashboard1'
-import Employee from './Pages/Employee'
+import Dashboard1 from './componentsUI/Dashboard/Dashboard1'
+import Employee from './componentsUI/Employee/Employee'
+import Attendance from './componentsUI/Attendance/Attendance'
+import Projects from './componentsUI/Projects/Projects'
+import Payroll from './componentsUI/Payroll/Payroll'
 import MasterLayout from './MasterLayout.tsx/MaterLayout'
 
 function App() {
@@ -30,6 +33,9 @@ function App() {
               <Route index element={<Dashboard1 />} /> 
               <Route path="dashboard1" element={<Dashboard1/>} />
               <Route path="employee" element={<Employee/>} />
+              <Route path="attendance" element={<Attendance/>} />
+              <Route path="projects" element={<Projects/>} />
+              <Route path="payroll" element={<Payroll/>} />
               
             </Route>
           </Routes>

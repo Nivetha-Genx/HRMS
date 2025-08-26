@@ -59,18 +59,18 @@ const data = {
       icon: IconUsers,
     },
     {
-      title: "Leave",
-      url: "/leave",
+      title: "Attendance",
+      url: "/masterLayout/attendance",
       icon: IconCalendar,
     },
     {
       title: "Projects",
-      url: "/projects",
+      url: "/masterLayout/projects",
       icon: IconFolder,
     },
     {
       title: "Pay roll",
-      url: "/payroll",
+      url: "/masterLayout/payroll",
       icon: IconCreditCardPay,
     },
   ],
