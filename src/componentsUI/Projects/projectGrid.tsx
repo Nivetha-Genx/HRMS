@@ -42,10 +42,9 @@ export default function ProjectCard() {
                   <span className="flex items-center text-green-500">
                      <FileCheck2 />
                   </span>
-                <span>
-                  Tasks : <span className="font-medium">6/10</span>
-                </span>
-                </div>
+                <span  className="font-medium">
+                  Tasks : </span>6/10
+               </div>
 
             <div className="flex -space-x-2">
                <Avatar className="h-7 w-7 border-2 border-white">
@@ -97,9 +96,8 @@ export default function ProjectCard() {
                   <span className="flex items-center text-green-500">
                      <FileCheck2 />
                   </span>
-                <span>
-                  Tasks : <span className="font-medium">7/10</span>
-                </span>
+                <span  className="font-medium">
+                  Tasks : </span>7/10
                 </div>
 
             <div className="flex -space-x-2">
@@ -152,9 +150,8 @@ export default function ProjectCard() {
                   <span className="flex items-center text-green-500">
                      <FileCheck2 />
                   </span>
-                <span>
-                  Tasks : <span className="font-medium">5/10</span>
-                </span>
+              <span  className="font-medium">
+                  Tasks : </span>5/10
                 </div>
 
             <div className="flex -space-x-2">
@@ -207,9 +204,170 @@ export default function ProjectCard() {
                   <span className="flex items-center text-green-500">
                      <FileCheck2 />
                   </span>
-                <span>
-                  Tasks : <span className="font-medium">8/10</span>
-                </span>
+               <span  className="font-medium">
+                  Tasks : </span>8/10
+                </div>
+
+            <div className="flex -space-x-2">
+               <Avatar className="h-7 w-7 border-2 border-white">
+                  <AvatarImage src="https://randomuser.me/api/portraits/women/45.jpg" />
+                  <AvatarFallback>A</AvatarFallback>
+               </Avatar>
+               <Avatar className="h-7 w-7 border-2 border-white">
+              <AvatarImage src="https://randomuser.me/api/portraits/men/23.jpg" />
+               <AvatarFallback>B</AvatarFallback>
+              </Avatar>
+              <Avatar className="h-7 w-7 border-2 border-white">
+                <AvatarImage src="https://randomuser.me/api/portraits/women/67.jpg" />
+                  <AvatarFallback>C</AvatarFallback>
+                </Avatar>
+              <Badge className="h-7 w-7 flex items-center justify-center rounded-full bg-blue-500 text-white text-xs border-2 border-white">
+                +1
+              </Badge>
+            </div>
+          </div>
+        </Card>
+         <Card className="p-4 rounded-xl shadow-sm">
+          <div className="flex items-start justify-between">
+            <h3 className="text-base font-semibold">Hotel Booking App</h3>
+              <MoreVertical className="h-4 w-4 text-gray-500 cursor-pointer" />
+          </div>
+            <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
+              A hotel booking app allows users to search, compare, and book accommodations with ease, offering a wide range of options.
+            </p>
+          <hr  />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src="https://github.com/leerob.png" />
+                <AvatarFallback>AL</AvatarFallback>
+              </Avatar>
+            <div>
+              <p className="text-sm font-medium">Pavithra</p>
+              <p className="text-xs text-muted-foreground">Project Leader</p>
+            </div>
+            </div>
+            <div className="text-right">
+              <p className="text-xs text-muted-foreground">Deadline</p>
+              <p className="text-sm font-medium">20 dec 2025</p>
+            </div>
+           </div>
+            <hr />
+            <div className="flex items-center justify-between">
+               <div className="flex items-center gap-2 text-sm">
+                  <span className="flex items-center text-green-500">
+                     <FileCheck2 />
+                  </span>
+               <span  className="font-medium">
+                  Tasks : </span>9/10
+                </div>
+
+            <div className="flex -space-x-2">
+               <Avatar className="h-7 w-7 border-2 border-white">
+                  <AvatarImage src="https://randomuser.me/api/portraits/women/45.jpg" />
+                    <AvatarFallback>A</AvatarFallback>
+                </Avatar>
+               <Avatar className="h-7 w-7 border-2 border-white">
+              <AvatarImage src="https://randomuser.me/api/portraits/men/23.jpg" />
+                <AvatarFallback>B</AvatarFallback>
+              </Avatar>
+              <Avatar className="h-7 w-7 border-2 border-white">
+                <AvatarImage src="https://randomuser.me/api/portraits/women/67.jpg" />
+                  <AvatarFallback>C</AvatarFallback>
+                </Avatar>
+              <Badge className="h-7 w-7 flex items-center justify-center rounded-full bg-blue-500 text-white text-xs border-2 border-white">
+                +1
+              </Badge>
+            </div>
+          </div>
+        </Card>
+        <Card className="p-4 rounded-xl shadow-sm">
+          <div className="flex items-start justify-between">
+            <h3 className="text-base font-semibold">Food Order App</h3>
+              <MoreVertical className="h-4 w-4 text-gray-500 cursor-pointer" />
+          </div>
+            <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
+           A food order app allows users to browse menus, place orders, and track delivery from their favorite restaurants with ease.
+            </p>
+        <hr  />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src="https://i.pravatar.cc/150?img=4" />
+                <AvatarFallback>AL</AvatarFallback>
+              </Avatar>
+            <div>
+              <p className="text-sm font-medium">Nisha Danasegaran</p>
+              <p className="text-xs text-muted-foreground">Project Leader</p>
+            </div>
+            </div>
+            <div className="text-right">
+              <p className="text-xs text-muted-foreground">Deadline</p>
+              <p className="text-sm font-medium">20 nov 2025</p>
+            </div>
+           </div>
+            <hr />
+            <div className="flex items-center justify-between">
+               <div className="flex items-center gap-2 text-sm">
+                  <span className="flex items-center text-green-500">
+                     <FileCheck2 />
+                  </span>
+                  <span  className="font-medium">
+                  Tasks : </span>5/10
+                </div>
+
+            <div className="flex -space-x-2">
+               <Avatar className="h-7 w-7 border-2 border-white">
+                  <AvatarImage src="https://randomuser.me/api/portraits/women/45.jpg" />
+                  <AvatarFallback>A</AvatarFallback>
+               </Avatar>
+               <Avatar className="h-7 w-7 border-2 border-white">
+              <AvatarImage src="https://randomuser.me/api/portraits/men/23.jpg" />
+               <AvatarFallback>B</AvatarFallback>
+              </Avatar>
+              <Avatar className="h-7 w-7 border-2 border-white">
+                <AvatarImage src="https://randomuser.me/api/portraits/women/67.jpg" />
+                  <AvatarFallback>C</AvatarFallback>
+                </Avatar>
+              <Badge className="h-7 w-7 flex items-center justify-center rounded-full bg-blue-500 text-white text-xs border-2 border-white">
+                +1
+              </Badge>
+            </div>
+          </div>
+        </Card>
+        <Card className="p-4 rounded-xl shadow-sm">
+            <div className="flex items-start justify-between">
+               <h3 className="text-base font-semibold">Sevice Booking Software</h3>
+                  <MoreVertical className="h-4 w-4 text-gray-500 cursor-pointer" />
+            </div>
+              <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
+                  Service booking software enables users to schedule appointments, manage bookings, and handle payments for various services.
+              </p>
+             <hr  />
+            <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src="https://i.pravatar.cc/150?img=4" />
+                <AvatarFallback>AL</AvatarFallback>
+              </Avatar>
+            <div>
+              <p className="text-sm font-medium">Akila Sri</p>
+              <p className="text-xs text-muted-foreground">Project Leader</p>
+            </div>
+            </div>
+            <div className="text-right">
+              <p className="text-xs text-muted-foreground">Deadline</p>
+              <p className="text-sm font-medium">20 feb 2026</p>
+            </div>
+           </div>
+            <hr />
+            <div className="flex items-center justify-between">
+               <div className="flex items-center gap-2 text-sm">
+                  <span className="flex items-center text-green-500">
+                     <FileCheck2 />
+                  </span>
+               <span  className="font-medium">
+                  Tasks : </span>3/10
                 </div>
 
             <div className="flex -space-x-2">
