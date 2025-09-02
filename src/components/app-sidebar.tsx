@@ -13,6 +13,7 @@ import {
   IconInnerShadowTop,
   IconCalendar,IconUsers,
   IconReport,
+ IconDoorExit,
   IconSearch,
   IconSettings,
   IconCreditCardPay,
@@ -62,6 +63,11 @@ const data = {
       title: "Attendance",
       url: "/masterLayout/attendance",
       icon: IconCalendar,
+    },
+     {
+      title: "Leave",
+      url: "/masterLayout/leave",
+      icon: IconDoorExit,
     },
     {
       title: "Projects",

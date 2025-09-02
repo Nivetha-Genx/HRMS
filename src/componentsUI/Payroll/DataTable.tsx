@@ -1,4 +1,5 @@
 "use client"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import {
   Dialog,
   DialogClose,
@@ -56,23 +57,31 @@ const data: Payment[] = [
     {
     id: "ghqej43k",
     employeeId:"ET001",
-    name:"Shivaji Maharaj",
+    name:{
+      empname:"Shivaji Maharaj",
+      avatar:"https://i.pravatar.cc/150?img=12"
+    },
     position:"Manager",
     department:"IT/Technology",
     email: "shivaji@example.com",
     joinDate:"20-4-2024",
-    status:"Active",
+    salary:"60000",
+    payslip:""
   },
   
   {
     id: "lhcej53d",
     employeeId:"ET002",
-    name:"Shivani Nachiyar",
+    name:{
+      empname:"Shivani Nachiyar",
+      avatar:"https://i.pravatar.cc/150?img=12"
+    },
     position:"Frontend developer",
     department:"IT/Technology",
     email: "shivani@example.com",
     joinDate:"20-5-2024",
-     status:"InActive",
+    salary:"40000",
+    payslip:""
   },
     {
     id: "m5gr84i9",
@@ -81,8 +90,9 @@ const data: Payment[] = [
     position: "Backend developer",
     department:"IT/Technology",
     email: "akila@example.com",
-    joinDate:"10-6-2024",
-     status:"Active",
+    joinDate:"20-8-2024",
+    salary:"40000",
+    payslip:""
   },
   {
     id: "3u1reuv4",
@@ -91,8 +101,9 @@ const data: Payment[] = [
     position: "Frontend developer",
     department:"IT/Technology",
     email: "jayashree@example.com",
-    joinDate:"20-8-2024",
-     status:"Active",
+    joinDate:"30-2-2025",
+    salary:"450000",
+    payslip:""
   },
   {
     id: "derv1ws0",
@@ -101,8 +112,9 @@ const data: Payment[] = [
     position:"UI/UX designer",
     department:"IT/Technology",
     email: "pavithra@example.com",
-    joinDate:"30-2-2025",
-     status:"InActive",
+    joinDate:"29-4-2025",
+    salary:"50000",
+    payslip:""
   },
   {
     id: "5kma53ae",
@@ -111,8 +123,9 @@ const data: Payment[] = [
     position : "Team Lead",
     department:"IT/Technology",
     email: "nisha@example.com",
-    joinDate:"29-4-2025",
-    status:"Active",
+    joinDate:"10-6-2025",
+    salary:"350000",
+    payslip:""
   },
   {
     id: "bhqecj4p",
@@ -121,8 +134,9 @@ const data: Payment[] = [
     position:"Developer",
     department:"IT/Technology",
     email: "sagana@example.com",
-    joinDate:"10-6-2025",
-    status:"Active",
+    joinDate:"19-4-2025",
+    salary:"40000",
+    payslip:""
   },
 
 ]
@@ -130,13 +144,18 @@ const data: Payment[] = [
 export type Payment = {
   id: string
   employeeId: string
-  name:string
   position: string
   department: string
   email: string
   joinDate:string
-  status:string
+  salary:string
+  payslip:string
+  name: {
+    empname: string
+    avatar: string
+  }
 }
+
 
 export const columns: ColumnDef<Payment>[] = [
   {
@@ -173,10 +192,36 @@ export const columns: ColumnDef<Payment>[] = [
   accessorKey: "name",
   header: () => <div className="text-left">Name</div>,
   cell: ({ row }) => {
-    const name = row.getValue("name") as string
-    return <div className="text-left font-medium">{name}</div>
+    const name = row.getValue("name") as {
+      empname: string;
+      avatar: string;
+    };
+    return <div className="text-left font-medium">
+       <Avatar>
+//           <AvatarImage src={name.avatar} alt={name.empname} />
+//           <AvatarFallback>{name.empname.charAt(0)}</AvatarFallback>
+//         </Avatar>
+          <span className="capitalize">{name.empname}</span></div>
   },
 },
+
+//   {
+//   accessorKey: "leader",
+//   header: "Leader",
+//   cell: ({ row }) => {
+//     const leader = row.original.leader as { name: string; avatar: string }
+
+//     return (
+//       <div className="flex items-center gap-2">
+//         <Avatar>
+//           <AvatarImage src={leader.avatar} alt={leader.name} />
+//           <AvatarFallback>{leader.name.charAt(0)}</AvatarFallback>
+//         </Avatar>
+//         <span className="capitalize">{leader.name}</span>
+//       </div>
+//     )
+//   },
+// },
   {
     accessorKey: "email",
     header: ({ column }) => {
@@ -214,10 +259,17 @@ export const columns: ColumnDef<Payment>[] = [
     ),
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "salary",
+    header: "Salary",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
+      <div className="capitalize">{row.getValue("salary")}</div>
+    ),
+  },
+  {
+    accessorKey: "payslip",
+    header: "Payslip",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("payslip")}</div>
     ),
   },
 
@@ -295,7 +347,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ]
 
-export function DataTableDemo() {
+export default function DataTableDemo() {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []

@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
-
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import * as React from "react"
 import {
 
@@ -56,73 +56,67 @@ const data: Payment[] = [
     {
     id: "ghqej43k",
     employeeId:"ET001",
-    name:"Shivaji Maharaj",
-    position:"Manager",
-    department:"IT/Technology",
-    email: "shivaji@example.com",
-    joinDate:"20-4-2024",
-    status:"Active",
+    employeeName:"Shivaji Maharaj",
+    leaveType:"Medical Leave",
+    from:"30-8-2025",
+    to: "5-9-2025",
+    numberofdays:"7 Days",
   },
   
   {
     id: "lhcej53d",
     employeeId:"ET002",
-    name:"Shivani Nachiyar",
-    position:"Frontend developer",
-    department:"IT/Technology",
-    email: "shivani@example.com",
-    joinDate:"20-5-2024",
-     status:"InActive",
+    employeeName:"Shivani Nachiyar",
+    leaveType:"Casual Leave",
+    from:"31-8-2025",
+    to: "4-9-2025",
+    numberofdays:"6 Days",
   },
     {
     id: "m5gr84i9",
     employeeId:"ET003",
-    name:"Akila Sri",
-    position: "Backend developer",
-    department:"IT/Technology",
-    email: "akila@example.com",
-    joinDate:"10-6-2024",
-     status:"Active",
+    employeeName:"Akila Sri",
+    leaveType:"Medical Leave",
+    from:"25-8-2025",
+    to: "29-8-2025",
+    numberofdays:"5 Days",
+ 
   },
   {
     id: "3u1reuv4",
     employeeId:"ET004",
-    name: "Jayashree",
-    position: "Frontend developer",
-    department:"IT/Technology",
-    email: "jayashree@example.com",
-    joinDate:"20-8-2024",
-     status:"Active",
+    employeeName: "Jayashree",
+    leaveType:"Casual Leave",
+    from:"6-9-2025",
+    to: "8-9-2025",
+    numberofdays:"3 Days",
   },
   {
     id: "derv1ws0",
     employeeId:"ET005",
-    name:"Pavithra Sundaram",
-    position:"UI/UX designer",
-    department:"IT/Technology",
-    email: "pavithra@example.com",
-    joinDate:"30-2-2025",
-     status:"InActive",
+    employeeName:"Pavithra Sundaram",
+    leaveType:"Medical Leave",
+    from:"7-8-2025",
+    to: "8-9-2025",
+    numberofdays:"2 Days",
   },
   {
     id: "5kma53ae",
     employeeId:"ET006",
-    name:"Nisha Dhanasegaran",
-    position : "Team Lead",
-    department:"IT/Technology",
-    email: "nisha@example.com",
-    joinDate:"29-4-2025",
-    status:"Active",
+    employeeName:"Nisha Dhanasegaran",
+    leaveType:"Casual Leave",
+    from:"10-9-2025",
+    to: "15-9-2025",
+    numberofdays:"6 Days",
   },
   {
     id: "bhqecj4p",
     employeeId:"ET007",
-    name:"Sagana",
-    position:"Developer",
-    department:"IT/Technology",
-    email: "sagana@example.com",
-    joinDate:"10-6-2025",
-    status:"Active",
+    employeeName:"Sagana",
+    leaveType:"Casual Leave",
+    from:"12-8-2025",
+    to: "15-9-2025",
+    numberofdays:"4 Days",
   },
 
 ]
@@ -130,12 +124,12 @@ const data: Payment[] = [
 export type Payment = {
   id: string
   employeeId: string
-  name:string
-  position: string
-  department: string
-  email: string
-  joinDate:string
-  status:string
+  employeeName:string
+  leaveType: string
+  from: string
+  to: string
+  numberofdays:string
+
 }
 
 export const columns: ColumnDef<Payment>[] = [
@@ -170,57 +164,41 @@ export const columns: ColumnDef<Payment>[] = [
   },
   
     {
-  accessorKey: "name",
+  accessorKey: "employeeName",
   header: () => <div className="text-left">Name</div>,
   cell: ({ row }) => {
-    const name = row.getValue("name") as string
-    return <div className="text-left font-medium">{name}</div>
+    const employeeName = row.getValue("employeeName") as string
+    return <div className="text-left font-medium">{employeeName}</div>
   },
 },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+{
+    accessorKey: "leaveType",
+    header: "Leave Type",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("leaveType")}</div>
+    ),
   },
     {
-    accessorKey: "position",
-    header: "Position",
+    accessorKey: "from",
+    header: "From",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("position")}</div>
+      <div className="capitalize">{row.getValue("from")}</div>
     ),
   },
    {
-    accessorKey: "department",
-    header: "Department",
+    accessorKey: "to",
+    header: "To",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("department")}</div>
+      <div className="capitalize">{row.getValue("to")}</div>
     ),
   },
   {
-    accessorKey: "joinDate",
-    header: "Join-Date",
+    accessorKey: "numberofdays",
+    header: "No of Days",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("joinDate")}</div>
+      <div className="capitalize">{row.getValue("numberofdays")}</div>
     ),
   },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
-    ),
-  },
-
   {
     id: "actions",
     enableHiding: false,
@@ -244,39 +222,54 @@ export const columns: ColumnDef<Payment>[] = [
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
-                <DialogTitle>Edit Employee</DialogTitle>
+                <DialogTitle>Edit Leave</DialogTitle>
                   <DialogDescription>
-                      Edit employee details and click save
+                      Edit leave details and click save
                   </DialogDescription>
               </DialogHeader>
               <form className="grid gap-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="employeeID">EmployeeId</Label>
-                     <Input id="employeeid" />
+                  <Label htmlFor="employeeName">Employee Name</Label>
+                      <Select>
+                         <SelectTrigger id="employeeName" className="w-full h-10">
+                         </SelectTrigger>
+                         <SelectContent>
+                            <SelectItem value="name">Shivaji</SelectItem>
+                            <SelectItem value="name">Shivani</SelectItem>
+                            <SelectItem value="name">jayashree</SelectItem>
+                            <SelectItem value="name">Akila Sri</SelectItem>
+                            <SelectItem value="name">Pavithra</SelectItem>
+                            <SelectItem value="name">Nisha</SelectItem>
+                            <SelectItem value="name">Sagana</SelectItem>
+                         </SelectContent>
+                    </Select>  
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="name">Name</Label>
-                      <Input id="name" />
+                  <Label htmlFor="leaveType">Leave Type</Label>
+                      <Select>
+                         <SelectTrigger id="leaveType" className="w-full h-10">
+                         </SelectTrigger>
+                         <SelectContent>
+                            <SelectItem value="leaveType">Medical Leave</SelectItem>
+                            <SelectItem value="leaveType">Casual Leave</SelectItem>  
+                         </SelectContent>
+                    </Select>  
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
-                      <Input id="email" placeholder="@gmail.com" />
+                  <Label htmlFor="from">From</Label>
+                      <Input id="from" type="date" />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="dateofbirth">BirthDate</Label>
-                      <Input id="email" type="date" />
+                  <Label htmlFor="to">To</Label>
+                      <Input id="to" type="date"/>
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="position">Position</Label>
-                      <Input id="position" />
+                  <Label htmlFor="numberofdays">No of Days</Label>
+                      <Input id="numberofdays" type="number" />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="department">Department</Label>
-                      <Input id="department" />
-                </div>
-                <div className="grid gap-2">
-                    <Label htmlFor="joinDate">Join-Date</Label>
-                      <Input id="joindate" />
+                    <textarea>Reason</textarea>
+                      <Input id="reason" />
                 </div>
               <DialogFooter>
                   <DialogClose asChild>
@@ -295,7 +288,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ]
 
-export function DataTableDemo() {
+export default function DataTable() {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -337,54 +330,82 @@ export function DataTableDemo() {
          <div className="flex items-center gap-2 ml-auto">
           <Dialog>
               <DialogTrigger asChild>
-                <Button className="ml-auto">+ Add New</Button>
+                <Button className="ml-auto">+ Add Leave</Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                   <DialogTitle>Add Employee</DialogTitle>
+                   <DialogTitle>Add Leave</DialogTitle>
                       <DialogDescription>
-                           Fill in employee details and click save.
+                           Fill in leave details and click add leave.
                       </DialogDescription>
                 </DialogHeader>
               <form className="grid gap-4">
-                  <div className="grid gap-2">
-                    <Label htmlFor="employeeID">EmployeeId</Label>
-                       <Input id="employeeid" />
-                  </div>
-                 <div className="grid gap-2">
-                    <Label htmlFor="name">Name</Label>
-                        <Input id="name" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="email">Email</Label>
-                       <Input id="email" placeholder="@gmail.com" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="dateofbirth">BirthDate</Label>
-                      <Input id="email" type="date" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="position">Position</Label>
-                      <Input id="position" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="department">Department</Label>
-                      <Input id="department" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="joinDate">Join-Date</Label>
-                      <Input id="joindate" />
-                  </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="employeeName">Employee Name</Label>
+                      <Select>
+                         <SelectTrigger id="employeeName" className="w-full h-10">
+                         </SelectTrigger>
+                         <SelectContent>
+                            <SelectItem value="name">Shivaji</SelectItem>
+                            <SelectItem value="name">Shivani</SelectItem>
+                            <SelectItem value="name">jayashree</SelectItem>
+                            <SelectItem value="name">Akila Sri</SelectItem>
+                            <SelectItem value="name">Pavithra</SelectItem>
+                            <SelectItem value="name">Nisha</SelectItem>
+                            <SelectItem value="name">Sagana</SelectItem>
+                         </SelectContent>
+                    </Select>  
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="leaveType">Leave Type</Label>
+                      <Select>
+                         <SelectTrigger id="leaveType" className="w-full h-10">
+                         </SelectTrigger>
+                         <SelectContent>
+                            <SelectItem value="leaveType">Medical Leave</SelectItem>
+                            <SelectItem value="leaveType">Casual Leave</SelectItem>  
+                         </SelectContent>
+                    </Select>  
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="from">From</Label>
+                      <Input id="from" type="date" />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="to">To</Label>
+                      <Input id="to" type="date"/>
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="numberofdays">No of Days</Label>
+                      <Input id="numberofdays" type="number" />
+                </div>
+                <div className="grid gap-2">
+                    <textarea className="font-semibold">Reason</textarea>
+                      <Input id="reason" />
+                </div>
               <DialogFooter>
                   <DialogClose asChild>
                       <Button variant="outline">Cancel</Button>
                   </DialogClose>
-                  <Button type="submit">Save</Button>
+                     <Button type="submit">Add Leave</Button>
               </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
-
+               <div className="flex items-center gap-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline">
+                    Leave Type <ChevronDown />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                  <DropdownMenuItem>Medical Leave</DropdownMenuItem>
+                  <DropdownMenuItem>Casual Leave</DropdownMenuItem>
+                  <DropdownMenuItem>Annual Leave</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">

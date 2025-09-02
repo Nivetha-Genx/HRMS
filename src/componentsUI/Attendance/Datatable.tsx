@@ -1,4 +1,5 @@
 "use client"
+import { useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -9,8 +10,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
-
+import { IconEdit } from '@tabler/icons-react';
 import * as React from "react"
 import {
 
@@ -52,77 +54,78 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
+
 const data: Payment[] = [
     {
     id: "ghqej43k",
     employeeId:"ET001",
     name:"Shivaji Maharaj",
-    position:"Manager",
-    department:"IT/Technology",
-    email: "shivaji@example.com",
-    joinDate:"20-4-2024",
-    status:"Active",
+    status:"Present",
+    checkIn:"09.00 AM",
+    checkOut:"04.45 PM",
+    break: "30 Min",
+    productionHours:"8.55 Hrs",
   },
   
   {
     id: "lhcej53d",
     employeeId:"ET002",
     name:"Shivani Nachiyar",
-    position:"Frontend developer",
-    department:"IT/Technology",
-    email: "shivani@example.com",
-    joinDate:"20-5-2024",
-     status:"InActive",
+    status:"Prsent",
+    checkIn:"09.02 AM",
+    checkOut:"06.12 PM",
+    break: "20 Mins",
+    productionHours:"7.54 Hrs",
   },
     {
     id: "m5gr84i9",
     employeeId:"ET003",
     name:"Akila Sri",
-    position: "Backend developer",
-    department:"IT/Technology",
-    email: "akila@example.com",
-    joinDate:"10-6-2024",
-     status:"Active",
+    status:"Present",
+    checkIn:"09.00 AM",
+    checkOut:"06.15 PM",
+    break: "50 Mins",
+    productionHours:"8.54 Hrs",
   },
   {
     id: "3u1reuv4",
     employeeId:"ET004",
     name: "Jayashree",
-    position: "Frontend developer",
-    department:"IT/Technology",
-    email: "jayashree@example.com",
-    joinDate:"20-8-2024",
-     status:"Active",
+    status:"Present",
+    checkIn:"09.09 AM",
+    checkOut:"06.30 PM",
+    break: "20 Mins",
+    productionHours:"8.54 Hrs",
   },
   {
     id: "derv1ws0",
     employeeId:"ET005",
     name:"Pavithra Sundaram",
-    position:"UI/UX designer",
-    department:"IT/Technology",
-    email: "pavithra@example.com",
-    joinDate:"30-2-2025",
-     status:"InActive",
+    status:"Absent",
+    checkIn:" ",
+    checkOut:" ",
+    break: " ",
+    productionHours:" ",
   },
   {
     id: "5kma53ae",
     employeeId:"ET006",
     name:"Nisha Dhanasegaran",
-    position : "Team Lead",
-    department:"IT/Technology",
-    email: "nisha@example.com",
-    joinDate:"29-4-2025",
-    status:"Active",
+    status:"Present",
+    checkIn:"09.10 AM",
+    checkOut:"07.12 PM",
+    break: "35 Mins",
+    productionHours:"7.54 Hrs",
   },
   {
     id: "bhqecj4p",
     employeeId:"ET007",
     name:"Sagana",
-    position:"Developer",
-    department:"IT/Technology",
-    email: "sagana@example.com",
-    joinDate:"10-6-2025",
-    status:"Active",
+    status:"Absent",
+    checkIn:" ",
+    checkOut:" ",
+    break: " ",
+    productionHours:" ",
   },
 
 ]
@@ -131,11 +134,11 @@ export type Payment = {
   id: string
   employeeId: string
   name:string
-  position: string
-  department: string
-  email: string
-  joinDate:string
   status:string
+  checkIn: string
+  checkOut: string
+  break: string
+  productionHours:string
 }
 
 export const columns: ColumnDef<Payment>[] = [
@@ -177,47 +180,42 @@ export const columns: ColumnDef<Payment>[] = [
     return <div className="text-left font-medium">{name}</div>
   },
 },
+ {
+  accessorKey: "status",
+  header: () => <div className="text-left">Status</div>,
+  cell: ({ row }) => {
+    const status = row.getValue("status") as string
+    return <div className="text-left ">{status}</div>
+  },
+},
   {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+  accessorKey: "checkIn",
+  header: () => <div className="text-left">CkeckIn</div>,
+  cell: ({ row }) => {
+    const checkIn = row.getValue("checkIn") as string
+    return <div className="text-left">{checkIn}</div>
   },
-    {
-    accessorKey: "position",
-    header: "Position",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("position")}</div>
-    ),
-  },
+},
    {
-    accessorKey: "department",
-    header: "Department",
+  accessorKey: "checkOut",
+  header: () => <div className="text-left">CheckOut</div>,
+  cell: ({ row }) => {
+    const checkOut = row.getValue("checkOut") as string
+    return <div className="text-left">{checkOut}</div>
+  },
+},
+   {
+    accessorKey: "break",
+    header: "Break",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("department")}</div>
+      <div className="capitalize">{row.getValue("break")}</div>
     ),
   },
   {
-    accessorKey: "joinDate",
-    header: "Join-Date",
+    accessorKey: "productionHours",
+    header: "Production Hours",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("joinDate")}</div>
-    ),
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
+      <div className="capitalize">{row.getValue("productionHours")}</div>
     ),
   },
 
@@ -227,56 +225,130 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       const payment = row.original
 
+
+      const [hour, setHour] = useState("09");
+  const [minute, setMinute] = useState("00");
+  const [ampm, setAmPm] = useState("AM");
+
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
               <span className="sr-only">Open menu</span>
-                <MoreHorizontal />
+              <IconEdit />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
           <Dialog>
             <DialogTrigger asChild>
               <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Edit Employee</DialogTitle>
-                  <DialogDescription>
-                      Edit employee details and click save
-                  </DialogDescription>
-              </DialogHeader>
-              <form className="grid gap-4">
+            <DialogHeader>
+                <DialogTitle>Add Attendance</DialogTitle>
+            </DialogHeader>
+            <form className="grid gap-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="employeeID">EmployeeId</Label>
-                     <Input id="employeeid" />
+                   <Label htmlFor="date">Date</Label>
+                    <Input id="employeeid" type="date"/>
+                </div>
+                <div className="flex gap-2">
+                    <Label htmlFor="checkIn">CheckIn</Label>
+                    <Input
+                        id="hour"
+                        type="number"
+                        min="1"
+                        max="12"
+                        value={hour}
+                        onChange={(e) => setHour(e.target.value)}
+                        className="w-16"
+                        />
+                    <span className="text-lg">:</span>
+
+                    <Input
+                        id="minute"
+                        type="number"
+                        min="0"
+                        max="59"
+                        value={minute}
+                        onChange={(e) => setMinute(e.target.value)}
+                        className="w-16"
+                        />
+
+                    <Select value={ampm} onValueChange={setAmPm}>
+                        <SelectTrigger className="w-20">
+                        <SelectValue placeholder="AM/PM" />
+                        </SelectTrigger>
+                        <SelectContent>
+                        <SelectItem value="AM">AM</SelectItem>
+                        <SelectItem value="PM">PM</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+
+                <p className="text-sm text-gray-500">
+                    Selected: {hour}:{minute} {ampm}
+                </p>
+ 
+                <div className="flex gap-2">
+                    <Label htmlFor="checkOut">CheckOut</Label>
+                    <Input
+                        id="hour"
+                        type="number"
+                        min="1"
+                        max="12"
+                        value={hour}
+                        onChange={(e) => setHour(e.target.value)}
+                        className="w-16"
+                        />
+                    <span className="text-lg">:</span>
+
+                    <Input
+                        id="minute"
+                        type="number"
+                        min="0"
+                        max="59"
+                        value={minute}
+                        onChange={(e) => setMinute(e.target.value)}
+                        className="w-16"
+                    />
+
+                    <Select value={ampm} onValueChange={setAmPm}>
+                    <SelectTrigger className="w-20">
+                    <SelectValue placeholder="AM/PM" />
+                    </SelectTrigger>
+                    <SelectContent>
+                    <SelectItem value="AM">AM</SelectItem>
+                    <SelectItem value="PM">PM</SelectItem>
+                    </SelectContent>
+                    </Select>
+                </div>
+
+                <p className="text-sm text-gray-500">
+                    Selected: {hour}:{minute} {ampm}
+                 </p>
+               
+                <div className="grid gap-2">
+                    <Label htmlFor="break">Break</Label>
+                    <Input id="break" type="time" />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="name">Name</Label>
-                      <Input id="name" />
+                    <Label htmlFor="productionHour">Production Hours</Label>
+                    <Input id="productionHours" type="time" />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
-                      <Input id="email" placeholder="@gmail.com" />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="dateofbirth">BirthDate</Label>
-                      <Input id="email" type="date" />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="position">Position</Label>
-                      <Input id="position" />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="department">Department</Label>
-                      <Input id="department" />
-                </div>
-                <div className="grid gap-2">
-                    <Label htmlFor="joinDate">Join-Date</Label>
-                      <Input id="joindate" />
+                    <Label htmlFor="status">Status</Label>
+                        <Select>
+                        <SelectTrigger id="status" className="w-full h-10">
+                            <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="High">Present</SelectItem>
+                            <SelectItem value="Medium">Absent</SelectItem>
+                        </SelectContent>
+                        </Select> 
                 </div>
               <DialogFooter>
                   <DialogClose asChild>
@@ -287,9 +359,8 @@ export const columns: ColumnDef<Payment>[] = [
           </form>
         </DialogContent>
       </Dialog>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      </DropdownMenuContent>
+      </DropdownMenu>
       )
     },
   },
@@ -323,68 +394,63 @@ export function DataTableDemo() {
     },
   })
 
+ 
   return (
     <div className="w-full max-w mx-auto px-5 ">
-      <div className="flex items-center py-4">
+      <div className="flex gap-5 items-center py-4">
         <Input
           placeholder="Filter names..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm "
         />
-         <div className="flex items-center gap-2 ml-auto">
-          <Dialog>
-              <DialogTrigger asChild>
-                <Button className="ml-auto">+ Add New</Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                   <DialogTitle>Add Employee</DialogTitle>
-                      <DialogDescription>
-                           Fill in employee details and click save.
-                      </DialogDescription>
-                </DialogHeader>
-              <form className="grid gap-4">
-                  <div className="grid gap-2">
-                    <Label htmlFor="employeeID">EmployeeId</Label>
-                       <Input id="employeeid" />
-                  </div>
-                 <div className="grid gap-2">
-                    <Label htmlFor="name">Name</Label>
-                        <Input id="name" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="email">Email</Label>
-                       <Input id="email" placeholder="@gmail.com" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="dateofbirth">BirthDate</Label>
-                      <Input id="email" type="date" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="position">Position</Label>
-                      <Input id="position" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="department">Department</Label>
-                      <Input id="department" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="joinDate">Join-Date</Label>
-                      <Input id="joindate" />
-                  </div>
-              <DialogFooter>
-                  <DialogClose asChild>
-                      <Button variant="outline">Cancel</Button>
-                  </DialogClose>
-                  <Button type="submit">Save</Button>
-              </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+         <div className="flex items-center gap-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">
+              Day <ChevronDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+          <DropdownMenuItem>Today</DropdownMenuItem>
+          <DropdownMenuItem>Yesterday</DropdownMenuItem>
+          <DropdownMenuItem>Last 7 days</DropdownMenuItem>
+          <DropdownMenuItem>Last 30 Days</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+       </div>
+       <div className="flex items-center gap-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">
+            Select Status <ChevronDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+          <DropdownMenuItem>Present</DropdownMenuItem>
+          <DropdownMenuItem>Absent</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+     <div className="flex items-center gap-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">
+            Department <ChevronDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+          <DropdownMenuItem>IT/Technology</DropdownMenuItem>
+          <DropdownMenuItem>UI/UX</DropdownMenuItem>
+          <DropdownMenuItem>Testing</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+          
 
+         <div className="flex items-center gap-2 ml-auto">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -463,6 +529,7 @@ export function DataTableDemo() {
           </TableBody>
         </Table>
       </div>
+
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="text-muted-foreground flex-1 text-sm">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}

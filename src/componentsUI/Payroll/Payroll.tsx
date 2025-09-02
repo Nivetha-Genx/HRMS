@@ -1,11 +1,13 @@
-import React from 'react'
+
+import DataTable from './DataTable'
 
 function Payroll() {
   return (
     <div>
-      
+      <DataTable />
     </div>
   )
 }
 
 export default Payroll
+
