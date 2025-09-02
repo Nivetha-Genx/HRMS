@@ -23,6 +23,13 @@ import {
   useReactTable,
   
 } from "@tanstack/react-table"
+ import { ChevronDownIcon } from "lucide-react"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import type{
       ColumnDef,
   ColumnFiltersState,
@@ -308,6 +315,8 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const payment = row.original
+      const [open, setOpen] = React.useState(false)
+      const [date, setDate] = React.useState<Date | undefined>(undefined)
 
       return (
         <DropdownMenu>
@@ -375,8 +384,33 @@ export const columns: ColumnDef<Payment>[] = [
                     </Select>  
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="deadLine">DeadLine</Label>
-                      <Input id="deadLine" type='date' />
+                  {/* <Label htmlFor="deadLine">DeadLine</Label>
+                      <Input id="deadLine" type='date' /> */}
+                           <Label htmlFor="date" className="px-1">
+                    DeadLine
+                  </Label>
+                  <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild>
+                  <Button
+                      variant="outline"
+                      id="date"
+                      className="justify-between font-normal">
+                      {date ? date.toLocaleDateString() : "Select date"}
+                    <ChevronDownIcon />
+                  </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    captionLayout="dropdown"
+                    onSelect={(date) => {
+                    setDate(date)
+                    setOpen(false)
+                    }}
+                    />
+                  </PopoverContent>
+                  </Popover>  
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="priority">Priority</Label>
@@ -450,7 +484,8 @@ export default function Projects() {
       rowSelection,
     },
   })
-
+ const [open, setOpen] = React.useState(false)
+  const [date, setDate] = React.useState<Date | undefined>(undefined)
   return (
     <div className="w-full max-w mx-auto px-5 ">
       <div className="flex items-center py-4">
@@ -518,8 +553,33 @@ export default function Projects() {
                     </Select>  
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="deadLine">DeadLine</Label>
-                      <Input id="deadLine" type='date' />
+                  {/* <Label htmlFor="deadLine">DeadLine</Label>
+                      <Input id="deadLine" type='date' /> */}
+                      <Label htmlFor="date" className="px-1">
+                    DeadLine
+                  </Label>
+                  <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild>
+                  <Button
+                      variant="outline"
+                      id="date"
+                      className="justify-between font-normal">
+                      {date ? date.toLocaleDateString() : "Select date"}
+                    <ChevronDownIcon />
+                  </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    captionLayout="dropdown"
+                    onSelect={(date) => {
+                    setDate(date)
+                    setOpen(false)
+                    }}
+                    />
+                  </PopoverContent>
+                  </Popover>
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="priority">Priority</Label>

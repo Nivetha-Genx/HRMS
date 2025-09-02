@@ -24,6 +24,14 @@ import {
   useReactTable,
   
 } from "@tanstack/react-table"
+import { ChevronDownIcon } from "lucide-react"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
 import type{
       ColumnDef,
   ColumnFiltersState,
@@ -226,9 +234,12 @@ export const columns: ColumnDef<Payment>[] = [
       const payment = row.original
 
 
-      const [hour, setHour] = useState("09");
+  const [hour, setHour] = useState("09");
   const [minute, setMinute] = useState("00");
   const [ampm, setAmPm] = useState("AM");
+  const [open, setOpen] = React.useState(false)
+  const [date, setDate] = React.useState<Date | undefined>(undefined)
+
 
 
       return (
@@ -251,8 +262,34 @@ export const columns: ColumnDef<Payment>[] = [
             </DialogHeader>
             <form className="grid gap-4">
                 <div className="grid gap-2">
-                   <Label htmlFor="date">Date</Label>
-                    <Input id="employeeid" type="date"/>
+                   {/* <Label htmlFor="date">Date</Label>
+                    <Input id="employeeid" type="date"/> */}
+                     <Label htmlFor="date" className="px-1">
+                    Date of birth
+                  </Label>
+                  <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild>
+                  <Button
+                      variant="outline"
+                      id="date"
+                      className="justify-between font-normal">
+                      {date ? date.toLocaleDateString() : "Select date"}
+                    <ChevronDownIcon />
+                  </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    captionLayout="dropdown"
+                    onSelect={(date) => {
+                    setDate(date)
+                    setOpen(false)
+                    }}
+                    />
+                  </PopoverContent>
+                  </Popover>
+
                 </div>
                 <div className="flex gap-2">
                     <Label htmlFor="checkIn">CheckIn</Label>

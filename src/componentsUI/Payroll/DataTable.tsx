@@ -11,8 +11,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
-
 import * as React from "react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
 
   flexRender,
@@ -74,7 +74,7 @@ const data: Payment[] = [
     employeeId:"ET002",
     name:{
       empname:"Shivani Nachiyar",
-      avatar:"https://i.pravatar.cc/150?img=12"
+      avatar:"https://randomuser.me/api/portraits/women/45.jpg"
     },
     position:"Frontend developer",
     department:"IT/Technology",
@@ -86,7 +86,10 @@ const data: Payment[] = [
     {
     id: "m5gr84i9",
     employeeId:"ET003",
-    name:"Akila Sri",
+    name:{
+      empname:"Akila Sri",
+      avatar:"https://i.pravatar.cc/150?img=4"
+    },
     position: "Backend developer",
     department:"IT/Technology",
     email: "akila@example.com",
@@ -97,7 +100,10 @@ const data: Payment[] = [
   {
     id: "3u1reuv4",
     employeeId:"ET004",
-    name: "Jayashree",
+    name: {
+      empname:"Jayashree",
+      avatar:"https://github.com/leerob.png"
+    },
     position: "Frontend developer",
     department:"IT/Technology",
     email: "jayashree@example.com",
@@ -108,7 +114,10 @@ const data: Payment[] = [
   {
     id: "derv1ws0",
     employeeId:"ET005",
-    name:"Pavithra Sundaram",
+    name:{
+      empname:"Pavithra Sundaram",
+      avatar:"https://i.pravatar.cc/150?img=2"
+    },
     position:"UI/UX designer",
     department:"IT/Technology",
     email: "pavithra@example.com",
@@ -119,7 +128,10 @@ const data: Payment[] = [
   {
     id: "5kma53ae",
     employeeId:"ET006",
-    name:"Nisha Dhanasegaran",
+    name:{
+      empname:"Nisha Dhanasegaran",
+      avatar:"https://i.pravatar.cc/150?img=12"
+    },
     position : "Team Lead",
     department:"IT/Technology",
     email: "nisha@example.com",
@@ -130,7 +142,10 @@ const data: Payment[] = [
   {
     id: "bhqecj4p",
     employeeId:"ET007",
-    name:"Sagana",
+    name:{
+      empname:"Sagana",
+      avatar:"https://randomuser.me/api/portraits/women/67.jpg"
+    },
     position:"Developer",
     department:"IT/Technology",
     email: "sagana@example.com",
@@ -196,32 +211,14 @@ export const columns: ColumnDef<Payment>[] = [
       empname: string;
       avatar: string;
     };
-    return <div className="text-left font-medium">
+    return <div className="text-left font-medium flex gap-2 ">
        <Avatar>
-//           <AvatarImage src={name.avatar} alt={name.empname} />
-//           <AvatarFallback>{name.empname.charAt(0)}</AvatarFallback>
-//         </Avatar>
+         <AvatarImage src={name.avatar} alt={name.empname} />
+          <AvatarFallback>{name.empname.charAt(0)}</AvatarFallback>
+       </Avatar>
           <span className="capitalize">{name.empname}</span></div>
   },
 },
-
-//   {
-//   accessorKey: "leader",
-//   header: "Leader",
-//   cell: ({ row }) => {
-//     const leader = row.original.leader as { name: string; avatar: string }
-
-//     return (
-//       <div className="flex items-center gap-2">
-//         <Avatar>
-//           <AvatarImage src={leader.avatar} alt={leader.name} />
-//           <AvatarFallback>{leader.name.charAt(0)}</AvatarFallback>
-//         </Avatar>
-//         <span className="capitalize">{leader.name}</span>
-//       </div>
-//     )
-//   },
-// },
   {
     accessorKey: "email",
     header: ({ column }) => {
@@ -391,41 +388,57 @@ export default function DataTableDemo() {
               <DialogTrigger asChild>
                 <Button className="ml-auto">+ Add New</Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
+              <DialogContent className="sm:max-w-max">
                 <DialogHeader>
-                   <DialogTitle>Add Employee</DialogTitle>
-                      <DialogDescription>
-                           Fill in employee details and click save.
-                      </DialogDescription>
+                   <DialogTitle>Add Employee Salary</DialogTitle>  
                 </DialogHeader>
               <form className="grid gap-4">
+                <div className="flex gap-5">
                   <div className="grid gap-2">
-                    <Label htmlFor="employeeID">EmployeeId</Label>
-                       <Input id="employeeid" />
+                    <Label htmlFor="employeename">EmployeeName</Label>
+                       <Select>
+                         <SelectTrigger id="leader" className="w-full h-10">
+                            <SelectValue placeholder="Select Team leader" />
+                         </SelectTrigger>
+                         <SelectContent>
+                            <SelectItem value="name">Shivaji</SelectItem>
+                            <SelectItem value="name">Shivani</SelectItem>
+                            <SelectItem value="name">jayashree</SelectItem>
+                            <SelectItem value="name">Akila Sri</SelectItem>
+                            <SelectItem value="name">Pavithra</SelectItem>
+                            <SelectItem value="name">Nisha</SelectItem>
+                            <SelectItem value="name">Sagana</SelectItem>
+                         </SelectContent>
+                    </Select>  
                   </div>
                  <div className="grid gap-2">
-                    <Label htmlFor="name">Name</Label>
-                        <Input id="name" />
+                    <Label htmlFor="netsalary">Net Salary</Label>
+                        <Input id="netsalary" />
+                  </div>
+                  </div>
+                  
+                  <h3 className="font-medium">Earnings</h3>
+                  <div className="flex gap-5">
+                  <div className="grid gap-2">
+                    <Label htmlFor="basic">Basic</Label>
+                       <Input id="basic" />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="email">Email</Label>
-                       <Input id="email" placeholder="@gmail.com" />
+                    <Label htmlFor="DA">DA(40%)</Label>
+                      <Input id="DA" />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="dateofbirth">BirthDate</Label>
-                      <Input id="email" type="date" />
+                    <Label htmlFor="HRA">HRA(15%)</Label>
+                      <Input id="HRA" />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="position">Position</Label>
-                      <Input id="position" />
+                    <Label htmlFor="conveyance">Conveyance</Label>
+                      <Input id="conveyance" />
+                  </div>
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="department">Department</Label>
-                      <Input id="department" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="joinDate">Join-Date</Label>
-                      <Input id="joindate" />
+                    <Label htmlFor="allowance">Allowance</Label>
+                      <Input id="" />
                   </div>
               <DialogFooter>
                   <DialogClose asChild>

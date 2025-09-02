@@ -13,14 +13,14 @@ export default function Attendance(){
           <div className="@container/main flex flex-1 flex-col gap-2">
             <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
               <h2 className="mx-5 my-2 font-medium">Attendance Details Today</h2>
-                <p className="mx-5">Data from the 800+ total no of employees</p>
+                <p className="mx-5">Data from the 250+ total no of employees</p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 px-5">
                 
   <Card>
     <div className="flex items-center">
       <div className="ms-5">
         <p className="text-sm text-gray-500 font-medium">Present</p>
-        <p className="text-2xl font-bold text-gray-900">250</p>
+        <p className="text-2xl font-bold text-gray-900">230</p>
       </div>
     <div><Badge className ="bg-emerald-600 text-white font-medium ml-55">
         <IconTrendingUp />
