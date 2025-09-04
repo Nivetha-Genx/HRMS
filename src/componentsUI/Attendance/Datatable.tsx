@@ -1,67 +1,15 @@
 "use client"
-import { useState } from "react";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Label } from "@/components/ui/label"
-import { IconEdit } from '@tabler/icons-react';
 import * as React from "react"
-import {
-
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-  
-} from "@tanstack/react-table"
-import { ChevronDownIcon } from "lucide-react"
-import { Calendar } from "@/components/ui/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-
-import type{
-      ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-} from "@tanstack/react-table"
-
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
-
+import {  flexRender,getCoreRowModel,getFilteredRowModel,getPaginationRowModel,getSortedRowModel,useReactTable,} from "@tanstack/react-table"
+import type{ColumnDef,ColumnFiltersState,SortingState,VisibilityState} from "@tanstack/react-table"
+import { ChevronDown} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import {DropdownMenu,DropdownMenuCheckboxItem,DropdownMenuContent,DropdownMenuTrigger,} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-
+import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "@/components/ui/table"
+import Edit from '../Attendance/Edit'
+import Day from '../Attendance/Day'
 
 const data: Payment[] = [
     {
@@ -179,7 +127,6 @@ export const columns: ColumnDef<Payment>[] = [
       <div className="capitalize">{row.getValue("employeeId")}</div>
     ),
   },
-  
     {
   accessorKey: "name",
   header: () => <div className="text-left">Name</div>,
@@ -226,176 +173,14 @@ export const columns: ColumnDef<Payment>[] = [
       <div className="capitalize">{row.getValue("productionHours")}</div>
     ),
   },
-
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original
-
-
-  const [hour, setHour] = useState("09");
-  const [minute, setMinute] = useState("00");
-  const [ampm, setAmPm] = useState("AM");
-  const [open, setOpen] = React.useState(false)
-  const [date, setDate] = React.useState<Date | undefined>(undefined)
-
-
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <IconEdit />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-              <DropdownMenuSeparator />
-          <Dialog>
-            <DialogTrigger asChild>
-              <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-                <DialogTitle className="mb-3">Add Attendance</DialogTitle>
-            </DialogHeader>
-            <form className="grid gap-5">
-                <div className="grid gap-2">
-                     <Label htmlFor="date" className="px-1">
-                    Date of birth
-                  </Label>
-                  <Popover open={open} onOpenChange={setOpen}>
-                  <PopoverTrigger asChild>
-                  <Button
-                      variant="outline"
-                      id="date"
-                      className="justify-between font-normal">
-                      {date ? date.toLocaleDateString() : "Select date"}
-                    <ChevronDownIcon />
-                  </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    captionLayout="dropdown"
-                    onSelect={(date) => {
-                    setDate(date)
-                    setOpen(false)
-                    }}
-                    />
-                  </PopoverContent>
-                  </Popover>
-
-                </div>
-                <div className="flex gap-2">
-                    <Label htmlFor="checkIn">CheckIn</Label>
-                    <Input
-                        id="hour"
-                        type="number"
-                        min="1"
-                        max="12"
-                        value={hour}
-                        onChange={(e) => setHour(e.target.value)}
-                        className="w-16"
-                        />
-                    <span className="text-lg">:</span>
-
-                    <Input
-                        id="minute"
-                        type="number"
-                        min="0"
-                        max="59"
-                        value={minute}
-                        onChange={(e) => setMinute(e.target.value)}
-                        className="w-16"
-                        />
-
-                    <Select value={ampm} onValueChange={setAmPm}>
-                        <SelectTrigger className="w-20">
-                        <SelectValue placeholder="AM/PM" />
-                        </SelectTrigger>
-                        <SelectContent>
-                        <SelectItem value="AM">AM</SelectItem>
-                        <SelectItem value="PM">PM</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-
-                <p className="text-sm text-gray-500">
-                    Selected: {hour}:{minute} {ampm}
-                </p>
- 
-                <div className="flex gap-2">
-                    <Label htmlFor="checkOut">CheckOut</Label>
-                    <Input
-                        id="hour"
-                        type="number"
-                        min="1"
-                        max="12"
-                        value={hour}
-                        onChange={(e) => setHour(e.target.value)}
-                        className="w-16"
-                        />
-                    <span className="text-lg">:</span>
-
-                    <Input
-                        id="minute"
-                        type="number"
-                        min="0"
-                        max="59"
-                        value={minute}
-                        onChange={(e) => setMinute(e.target.value)}
-                        className="w-16"
-                    />
-
-                    <Select value={ampm} onValueChange={setAmPm}>
-                    <SelectTrigger className="w-20">
-                    <SelectValue placeholder="AM/PM" />
-                    </SelectTrigger>
-                    <SelectContent>
-                    <SelectItem value="AM">AM</SelectItem>
-                    <SelectItem value="PM">PM</SelectItem>
-                    </SelectContent>
-                    </Select>
-                </div>
-
-                <p className="text-sm text-gray-500">
-                    Selected: {hour}:{minute} {ampm}
-                 </p>
-               
-                <div className="grid gap-2">
-                    <Label htmlFor="break">Break</Label>
-                    <Input id="break" type="time" />
-                </div>
-                <div className="grid gap-2">
-                    <Label htmlFor="productionHour">Production Hours</Label>
-                    <Input id="productionHours" type="time" />
-                </div>
-                <div className="grid gap-2 mb-3">
-                    <Label htmlFor="status">Status</Label>
-                        <Select>
-                        <SelectTrigger id="status" className="w-full h-10">
-                            <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="High">Present</SelectItem>
-                            <SelectItem value="Medium">Absent</SelectItem>
-                        </SelectContent>
-                        </Select> 
-                </div>
-              <DialogFooter>
-                  <DialogClose asChild>
-                      <Button variant="outline">Cancel</Button>
-                  </DialogClose>
-                     <Button type="submit">Save</Button>
-              </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-      </DropdownMenuContent>
-      </DropdownMenu>
+     const payment = row.original
+    
+     return (
+      <Edit />
       )
     },
   },
@@ -429,7 +214,6 @@ export function DataTableDemo() {
     },
   })
 
- 
   return (
     <div className="w-full max-w mx-auto px-5 ">
       <div className="flex gap-5 items-center py-4">
@@ -441,52 +225,11 @@ export function DataTableDemo() {
           }
           className="max-w-sm "
         />
-         <div className="flex items-center gap-2">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">
-              Day <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-          <DropdownMenuItem>Today</DropdownMenuItem>
-          <DropdownMenuItem>Yesterday</DropdownMenuItem>
-          <DropdownMenuItem>Last 7 days</DropdownMenuItem>
-          <DropdownMenuItem>Last 30 Days</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-       </div>
-       <div className="flex items-center gap-2">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">
-            Select Status <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-          <DropdownMenuItem>Present</DropdownMenuItem>
-          <DropdownMenuItem>Absent</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-     <div className="flex items-center gap-2">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">
-            Department <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-          <DropdownMenuItem>IT/Technology</DropdownMenuItem>
-          <DropdownMenuItem>UI/UX</DropdownMenuItem>
-          <DropdownMenuItem>Testing</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-          
-
-         <div className="flex items-center gap-2 ml-auto">
-        <DropdownMenu>
+        <div className="flex items-center gap-2">
+          <Day />
+        </div>
+        <div className="flex items-center gap-2 ml-auto">
+          <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
               Columns <ChevronDown />

@@ -1,31 +1,31 @@
-
-import { MoreVertical } from "lucide-react"
-import { Dialog,DialogClose,DialogContent,DialogDescription,DialogFooter,DialogHeader,DialogTitle,DialogTrigger,} from "@/components/ui/dialog"
-import * as React from "react"
-import {DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuLabel,DropdownMenuSeparator,DropdownMenuTrigger,} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+"use client"
+import React from "react"
+import { Dialog,DialogClose,  DialogContent,DialogDescription,DialogFooter,DialogHeader,DialogTitle,DialogTrigger,} from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
 import { ChevronDownIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
+import {Popover,PopoverContent,PopoverTrigger} from "@/components/ui/popover"
+import { MoreHorizontal } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import {DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuLabel,DropdownMenuSeparator,DropdownMenuTrigger,} from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
 
-function dropdown() {
-    const [open, setOpen] = React.useState(false)
-    const [date, setDate] = React.useState<Date | undefined>(undefined)
+function Edit() {
+       const [open, setOpen] = React.useState(false)
+        const [date, setDate] = React.useState<Date | undefined>(undefined)
   return (
     <div>
       <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
-               <span className="sr-only">Open menu</span>
-               <MoreVertical className="h-4 w-4 text-gray-500 cursor-pointer" />
+              <span className="sr-only">Open menu</span>
+                <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-               <DropdownMenuSeparator />
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
           <Dialog>
             <DialogTrigger asChild>
               <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
@@ -50,9 +50,9 @@ function dropdown() {
                   <Label htmlFor="leader">Leader</Label>
                       <Select>
                          <SelectTrigger id="leader" className="w-full h-10">
-                          <SelectValue placeholder="Select Team leader" />
+                            <SelectValue placeholder="Select Team leader" />
                          </SelectTrigger>
-                          <SelectContent>
+                         <SelectContent>
                             <SelectItem value="name">Shivaji</SelectItem>
                             <SelectItem value="name">Shivani</SelectItem>
                             <SelectItem value="name">jayashree</SelectItem>
@@ -71,17 +71,19 @@ function dropdown() {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="name">Shivaji</SelectItem>
-                            <SelectItem value="name">Shivani</SelectItem>
-                            <SelectItem value="name">jayashree</SelectItem>
-                            <SelectItem value="name">Akila Sri</SelectItem>
+                             <SelectItem value="name">Shivani</SelectItem>
+                             <SelectItem value="name">jayashree</SelectItem>
+                             <SelectItem value="name">Akila Sri</SelectItem>
                             <SelectItem value="name">Pavithra</SelectItem>
                             <SelectItem value="name">Nisha</SelectItem>
-                            <SelectItem value="name">Sagana</SelectItem>
+                             <SelectItem value="name">Sagana</SelectItem>
                         </SelectContent>
                     </Select>  
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="date" className="px-1">DeadLine</Label>
+                  <Label htmlFor="date" className="px-1">
+                    DeadLine
+                  </Label>
                   <Popover open={open} onOpenChange={setOpen}>
                   <PopoverTrigger asChild>
                   <Button
@@ -100,7 +102,8 @@ function dropdown() {
                     onSelect={(date) => {
                     setDate(date)
                     setOpen(false)
-                    }} />
+                    }}
+                    />
                   </PopoverContent>
                   </Popover>  
                 </div>
@@ -113,24 +116,23 @@ function dropdown() {
                         <SelectContent>
                             <SelectItem value="High">High</SelectItem>
                             <SelectItem value="Medium">Medium</SelectItem>
-                            <SelectItem value="Low">Low</SelectItem>
+                             <SelectItem value="Low">Low</SelectItem>
                         </SelectContent>
                     </Select> 
                 </div>
                 <div className="grid gap-2">
                     <Label htmlFor="status">Status</Label>
-                      <Select>
+                        <Select>
                          <SelectTrigger id="status" className="w-full h-10">
-                          <SelectValue placeholder="Select status" />
+                             <SelectValue placeholder="Select status" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="Active">Active</SelectItem>
                             <SelectItem value="Inactive">Inactive</SelectItem>
                         </SelectContent>
-                      </Select>
+                        </Select>
                 </div>
-                
-              <DialogFooter>
+                <DialogFooter>
                   <DialogClose asChild>
                       <Button variant="outline">Cancel</Button>
                   </DialogClose>
@@ -146,4 +148,4 @@ function dropdown() {
   )
 }
 
-export default dropdown
+export default Edit

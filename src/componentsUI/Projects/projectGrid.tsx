@@ -10,7 +10,7 @@ export default function ProjectCard() {
        <div className="flex flex-col mb-5">
           <div className="@container/main flex flex-1 flex-col gap-2">
             <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 px-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
          <Card className="p-4 rounded-xl shadow-sm">
             <div className="flex items-start justify-between">
             <h3 className="text-base font-semibold">Office Management</h3>
@@ -35,8 +35,7 @@ export default function ProjectCard() {
               <p className="text-xs text-muted-foreground">Deadline</p>
               <p className="text-sm font-medium">29 sep 2025</p>
             </div>
-           </div>
-            <hr />
+           </div><hr />
             <div className="flex items-center justify-between">
                <div className="flex items-center gap-2 text-sm">
                   <span className="flex items-center text-green-500">
@@ -48,17 +47,17 @@ export default function ProjectCard() {
 
             <div className="flex -space-x-2">
                <Avatar className="h-7 w-7 border-2 border-white">
-                  <AvatarImage src="https://randomuser.me/api/portraits/women/45.jpg" />
-                  <AvatarFallback>A</AvatarFallback>
+                    <AvatarImage src="https://randomuser.me/api/portraits/women/45.jpg" />
+                    <AvatarFallback>A</AvatarFallback>
                </Avatar>
                <Avatar className="h-7 w-7 border-2 border-white">
-              <AvatarImage src="https://randomuser.me/api/portraits/men/23.jpg" />
-               <AvatarFallback>B</AvatarFallback>
-              </Avatar>
-              <Avatar className="h-7 w-7 border-2 border-white">
-                <AvatarImage src="https://randomuser.me/api/portraits/women/67.jpg" />
-                  <AvatarFallback>C</AvatarFallback>
-                </Avatar>
+                   <AvatarImage src="https://randomuser.me/api/portraits/men/23.jpg" />
+                   <AvatarFallback>B</AvatarFallback>
+               </Avatar>
+               <Avatar className="h-7 w-7 border-2 border-white">
+                   <AvatarImage src="https://randomuser.me/api/portraits/women/67.jpg" />
+                   <AvatarFallback>C</AvatarFallback>
+               </Avatar>
               <Badge className="h-7 w-7 flex items-center justify-center rounded-full bg-blue-500 text-white text-xs border-2 border-white">
                 +1
               </Badge>
@@ -104,13 +103,13 @@ export default function ProjectCard() {
                   <AvatarFallback>A</AvatarFallback>
                </Avatar>
                <Avatar className="h-7 w-7 border-2 border-white">
-              <AvatarImage src="https://randomuser.me/api/portraits/men/23.jpg" />
-               <AvatarFallback>B</AvatarFallback>
+                  <AvatarImage src="https://randomuser.me/api/portraits/men/23.jpg" />
+                  <AvatarFallback>B</AvatarFallback>
               </Avatar>
               <Avatar className="h-7 w-7 border-2 border-white">
-                <AvatarImage src="https://randomuser.me/api/portraits/women/67.jpg" />
+                  <AvatarImage src="https://randomuser.me/api/portraits/women/67.jpg" />
                   <AvatarFallback>C</AvatarFallback>
-                </Avatar>
+              </Avatar>
               <Badge className="h-7 w-7 flex items-center justify-center rounded-full bg-blue-500 text-white text-xs border-2 border-white">
                 +1
               </Badge>
@@ -156,13 +155,13 @@ export default function ProjectCard() {
                   <AvatarFallback>A</AvatarFallback>
                </Avatar>
                <Avatar className="h-7 w-7 border-2 border-white">
-              <AvatarImage src="https://randomuser.me/api/portraits/men/23.jpg" />
-               <AvatarFallback>B</AvatarFallback>
+                   <AvatarImage src="https://randomuser.me/api/portraits/men/23.jpg" />
+                   <AvatarFallback>B</AvatarFallback>
               </Avatar>
               <Avatar className="h-7 w-7 border-2 border-white">
-                <AvatarImage src="https://randomuser.me/api/portraits/women/67.jpg" />
-                  <AvatarFallback>C</AvatarFallback>
-                </Avatar>
+                    <AvatarImage src="https://randomuser.me/api/portraits/women/67.jpg" />
+                    <AvatarFallback>C</AvatarFallback>
+              </Avatar>
               <Badge className="h-7 w-7 flex items-center justify-center rounded-full bg-blue-500 text-white text-xs border-2 border-white">
                 +1
               </Badge>
@@ -180,8 +179,8 @@ export default function ProjectCard() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Avatar className="h-8 w-8">
-                <AvatarImage src="https://i.pravatar.cc/150?img=4" />
-                <AvatarFallback>AL</AvatarFallback>
+                 <AvatarImage src="https://i.pravatar.cc/150?img=4" />
+                 <AvatarFallback>AL</AvatarFallback>
               </Avatar>
             <div>
               <p className="text-sm font-medium">Sagana</p>
@@ -208,13 +207,13 @@ export default function ProjectCard() {
                   <AvatarFallback>A</AvatarFallback>
                </Avatar>
                <Avatar className="h-7 w-7 border-2 border-white">
-              <AvatarImage src="https://randomuser.me/api/portraits/men/23.jpg" />
-               <AvatarFallback>B</AvatarFallback>
+                  <AvatarImage src="https://randomuser.me/api/portraits/men/23.jpg" />
+                  <AvatarFallback>B</AvatarFallback>
               </Avatar>
               <Avatar className="h-7 w-7 border-2 border-white">
-                <AvatarImage src="https://randomuser.me/api/portraits/women/67.jpg" />
-                  <AvatarFallback>C</AvatarFallback>
-                </Avatar>
+                   <AvatarImage src="https://randomuser.me/api/portraits/women/67.jpg" />
+                   <AvatarFallback>C</AvatarFallback>
+              </Avatar>
               <Badge className="h-7 w-7 flex items-center justify-center rounded-full bg-blue-500 text-white text-xs border-2 border-white">
                 +1
               </Badge>
@@ -233,8 +232,8 @@ export default function ProjectCard() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Avatar className="h-8 w-8">
-                <AvatarImage src="https://github.com/leerob.png" />
-                <AvatarFallback>AL</AvatarFallback>
+                 <AvatarImage src="https://github.com/leerob.png" />
+                 <AvatarFallback>AL</AvatarFallback>
               </Avatar>
             <div>
               <p className="text-sm font-medium">Pavithra</p>
@@ -259,14 +258,14 @@ export default function ProjectCard() {
             <div className="flex -space-x-2">
                <Avatar className="h-7 w-7 border-2 border-white">
                   <AvatarImage src="https://randomuser.me/api/portraits/women/45.jpg" />
-                    <AvatarFallback>A</AvatarFallback>
+                  <AvatarFallback>A</AvatarFallback>
                 </Avatar>
                <Avatar className="h-7 w-7 border-2 border-white">
-              <AvatarImage src="https://randomuser.me/api/portraits/men/23.jpg" />
-                <AvatarFallback>B</AvatarFallback>
+                  <AvatarImage src="https://randomuser.me/api/portraits/men/23.jpg" />
+                  <AvatarFallback>B</AvatarFallback>
               </Avatar>
               <Avatar className="h-7 w-7 border-2 border-white">
-                <AvatarImage src="https://randomuser.me/api/portraits/women/67.jpg" />
+                  <AvatarImage src="https://randomuser.me/api/portraits/women/67.jpg" />
                   <AvatarFallback>C</AvatarFallback>
                 </Avatar>
               <Badge className="h-7 w-7 flex items-center justify-center rounded-full bg-blue-500 text-white text-xs border-2 border-white">
@@ -286,8 +285,8 @@ export default function ProjectCard() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Avatar className="h-8 w-8">
-                <AvatarImage src="https://i.pravatar.cc/150?img=4" />
-                <AvatarFallback>AL</AvatarFallback>
+                 <AvatarImage src="https://i.pravatar.cc/150?img=4" />
+                 <AvatarFallback>AL</AvatarFallback>
               </Avatar>
             <div>
               <p className="text-sm font-medium">Nisha Danasegaran</p>
@@ -315,12 +314,12 @@ export default function ProjectCard() {
                   <AvatarFallback>A</AvatarFallback>
                </Avatar>
                <Avatar className="h-7 w-7 border-2 border-white">
-              <AvatarImage src="https://randomuser.me/api/portraits/men/23.jpg" />
-               <AvatarFallback>B</AvatarFallback>
+                   <AvatarImage src="https://randomuser.me/api/portraits/men/23.jpg" />
+                   <AvatarFallback>B</AvatarFallback>
               </Avatar>
               <Avatar className="h-7 w-7 border-2 border-white">
-                <AvatarImage src="https://randomuser.me/api/portraits/women/67.jpg" />
-                  <AvatarFallback>C</AvatarFallback>
+                   <AvatarImage src="https://randomuser.me/api/portraits/women/67.jpg" />
+                   <AvatarFallback>C</AvatarFallback>
                 </Avatar>
               <Badge className="h-7 w-7 flex items-center justify-center rounded-full bg-blue-500 text-white text-xs border-2 border-white">
                 +1
@@ -340,8 +339,8 @@ export default function ProjectCard() {
             <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Avatar className="h-8 w-8">
-                <AvatarImage src="https://i.pravatar.cc/150?img=4" />
-                <AvatarFallback>AL</AvatarFallback>
+                  <AvatarImage src="https://i.pravatar.cc/150?img=4" />
+                   <AvatarFallback>AL</AvatarFallback>
               </Avatar>
             <div>
               <p className="text-sm font-medium">Akila Sri</p>
@@ -364,16 +363,16 @@ export default function ProjectCard() {
                 </div>
             <div className="flex -space-x-2">
                <Avatar className="h-7 w-7 border-2 border-white">
-                  <AvatarImage src="https://randomuser.me/api/portraits/women/45.jpg" />
-                  <AvatarFallback>A</AvatarFallback>
+                   <AvatarImage src="https://randomuser.me/api/portraits/women/45.jpg" />
+                   <AvatarFallback>A</AvatarFallback>
                </Avatar>
                <Avatar className="h-7 w-7 border-2 border-white">
-              <AvatarImage src="https://randomuser.me/api/portraits/men/23.jpg" />
-               <AvatarFallback>B</AvatarFallback>
+                   <AvatarImage src="https://randomuser.me/api/portraits/men/23.jpg" />
+                   <AvatarFallback>B</AvatarFallback>
               </Avatar>
               <Avatar className="h-7 w-7 border-2 border-white">
-                <AvatarImage src="https://randomuser.me/api/portraits/women/67.jpg" />
-                  <AvatarFallback>C</AvatarFallback>
+                   <AvatarImage src="https://randomuser.me/api/portraits/women/67.jpg" />
+                   <AvatarFallback>C</AvatarFallback>
                 </Avatar>
               <Badge className="h-7 w-7 flex items-center justify-center rounded-full bg-blue-500 text-white text-xs border-2 border-white">
                 +1

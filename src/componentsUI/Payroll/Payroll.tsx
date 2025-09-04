@@ -1,4 +1,3 @@
-
 import DataTable from './DataTable'
 
 function Payroll() {

@@ -1,7 +1,6 @@
 
 import './App.css'
 import Login from './Pages/Login'
-
 import Signup from './Pages/Signup'
 import OTP from './Pages/OTP'
 import Resetpassword from './Pages/Resetpassword'
@@ -13,7 +12,7 @@ import Employee from './componentsUI/Employee/Employee'
 import Attendance from './componentsUI/Attendance/Attendance'
 import Leave from './componentsUI/Leave/Leave'
 import Projects from './componentsUI/Projects/Projects'
-import PayRoll from './componentsUI/Payroll/Payroll'
+import PayRoll from './componentsUI/Payroll/PayRoll'
 import MasterLayout from './MasterLayout.tsx/MaterLayout'
 
 function App() {
@@ -42,8 +41,7 @@ function App() {
             </Route>
           </Routes>
        </BrowserRouter> 
-        <Toaster position="top-right" richColors />
-
+      <Toaster position="top-right" richColors />
     </>
   )
 }

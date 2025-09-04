@@ -1,57 +1,17 @@
 "use client"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
 import * as React from "react"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import {
-
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-  
-} from "@tanstack/react-table"
-import type{
-      ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-} from "@tanstack/react-table"
-
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
-
+import {flexRender,getCoreRowModel,getFilteredRowModel,getPaginationRowModel,getSortedRowModel,useReactTable,} from "@tanstack/react-table"
+import type{ColumnDef,ColumnFiltersState,SortingState,VisibilityState,} from "@tanstack/react-table"
+import { ArrowUpDown, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import {DropdownMenu, DropdownMenuCheckboxItem,DropdownMenuContent,DropdownMenuTrigger,} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "@/components/ui/table"
+import axios from "axios"
+import Edit from '../Payroll/Edit'
+import Add from '../Payroll/Add'
 
 const data: Payment[] = [
     {
@@ -108,7 +68,7 @@ const data: Payment[] = [
     department:"IT/Technology",
     email: "jayashree@example.com",
     joinDate:"30-2-2025",
-    salary:"450000",
+    salary:"45000",
     payslip:""
   },
   {
@@ -136,7 +96,7 @@ const data: Payment[] = [
     department:"IT/Technology",
     email: "nisha@example.com",
     joinDate:"10-6-2025",
-    salary:"350000",
+    salary:"35000",
     payslip:""
   },
   {
@@ -153,7 +113,6 @@ const data: Payment[] = [
     salary:"40000",
     payslip:""
   },
-
 ]
 
 export type Payment = {
@@ -170,7 +129,6 @@ export type Payment = {
     avatar: string
   }
 }
-
 
 export const columns: ColumnDef<Payment>[] = [
   {
@@ -202,7 +160,6 @@ export const columns: ColumnDef<Payment>[] = [
       <div className="capitalize">{row.getValue("employeeId")}</div>
     ),
   },
-
 {
   accessorFn: (row) => row.name.empname,  
   id: "name",                             
@@ -264,141 +221,46 @@ export const columns: ColumnDef<Payment>[] = [
     ),
   },
   {
-    accessorKey: "payslip",
-    header: "Payslip",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("payslip")}</div>
-    ),
+  accessorKey: "payslip",
+  header: "Payslip",
+  cell: ({ row }) => {
+    const employee = row.original;
+
+    const handleGeneratePayslip = async () => {
+      try {
+        const res = await axios.post(
+          "http://localhost:5000/api/payslip/generate",
+          { employeeId: employee.employeeId }, 
+          { responseType: "blob" }
+        );
+
+        const blob = new Blob([res.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
+        setTimeout(() => window.URL.revokeObjectURL(url), 10000);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    return (
+      <button
+        onClick={handleGeneratePayslip}
+        className="px-3 py-1 bg-[#3E8EDF] text-white rounded hover:bg-[#0b78e6]"
+      >
+        Generate Payslip
+      </button>
+    );
   },
+},
 
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
       const payment = row.original
-
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-                <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-          <Dialog>
-            <DialogTrigger asChild>
-              <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-max">
-              <DialogHeader>
-                <DialogTitle>Edit Employee Salary</DialogTitle>
-              </DialogHeader>
-              <form className="grid gap-4">
-                <div className="flex gap-5">
-                  <div className="grid gap-2">
-                    <Label htmlFor="employeename">EmployeeName</Label>
-                       <Select>
-                         <SelectTrigger id="leader" className="w-full h-10">
-                            <SelectValue placeholder="Select Team leader" />
-                         </SelectTrigger>
-                         <SelectContent>
-                            <SelectItem value="name">Shivaji</SelectItem>
-                            <SelectItem value="name">Shivani</SelectItem>
-                            <SelectItem value="name">jayashree</SelectItem>
-                            <SelectItem value="name">Akila Sri</SelectItem>
-                            <SelectItem value="name">Pavithra</SelectItem>
-                            <SelectItem value="name">Nisha</SelectItem>
-                            <SelectItem value="name">Sagana</SelectItem>
-                         </SelectContent>
-                    </Select>  
-                  </div>
-                 <div className="grid gap-2">
-                    <Label htmlFor="netsalary">Net Salary</Label>
-                        <Input id="netsalary" />
-                  </div>
-                  </div>
-                  
-                  <h3 className="font-medium">Earnings</h3>
-                  <div className="flex gap-5">
-                  <div className="grid gap-2">
-                    <Label htmlFor="basic">Basic</Label>
-                       <Input id="basic" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="DA">DA(40%)</Label>
-                      <Input id="DA" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="HRA">HRA(15%)</Label>
-                      <Input id="HRA" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="conveyance">Conveyance</Label>
-                      <Input id="conveyance" />
-                  </div>
-                  </div>
-                  <div className="flex gap-5">
-                  <div className="grid gap-2">
-                    <Label htmlFor="allowance">Allowance</Label>
-                      <Input id="" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="medicalallowance">Medical Allowance</Label>
-                      <Input id="" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="others"> Others</Label>
-                      <Input id="" />
-                  </div>
-                  </div>
-                  <h3 className="font-medium">Deductions</h3>
-                  <div className="flex gap-5">
-                  <div className="grid gap-2">
-                    <Label htmlFor="TDS">TDS</Label>
-                       <Input id="TDS" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="ESI">ESI</Label>
-                       <Input id="ESI" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="PF">PF</Label>
-                       <Input id="PF" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="leave">Leave</Label>
-                       <Input id="leave" />
-                  </div>
-                  </div>
-                  <div className="flex gap-5">
-                  <div className="grid gap-2">
-                    <Label htmlFor="proftax">Prof.Tax</Label>
-                       <Input id="proftax" />
-                  </div>
-                   <div className="grid gap-2">
-                    <Label htmlFor="labourwelfare">Labour Welfare</Label>
-                       <Input id="labourwelfare" />
-                  </div>
-                   <div className="grid gap-2">
-                    <Label htmlFor="others">Others</Label>
-                       <Input id="others" />
-                  </div>
-                  </div>
-              <DialogFooter>
-                  <DialogClose asChild>
-                      <Button variant="outline">Cancel</Button>
-                  </DialogClose>
-                     <Button type="submit">Save</Button>
-              </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Edit />
       )
     },
   },
@@ -443,124 +305,15 @@ export default function DataTableDemo() {
           }
           className="max-w-sm"
         />
-         <div className="flex items-center gap-2 ml-auto">
-          <Dialog>
-              <DialogTrigger asChild>
-                <Button className="ml-auto">+ Add New</Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-max">
-                <DialogHeader>
-                   <DialogTitle>Add Employee Salary</DialogTitle>  
-                </DialogHeader>
-              <form className="grid gap-4">
-                <div className="flex gap-5">
-                  <div className="grid gap-2">
-                    <Label htmlFor="employeename">EmployeeName</Label>
-                       <Select>
-                         <SelectTrigger id="leader" className="w-full h-10">
-                            <SelectValue placeholder="Select Team leader" />
-                         </SelectTrigger>
-                         <SelectContent>
-                            <SelectItem value="name">Shivaji</SelectItem>
-                            <SelectItem value="name">Shivani</SelectItem>
-                            <SelectItem value="name">jayashree</SelectItem>
-                            <SelectItem value="name">Akila Sri</SelectItem>
-                            <SelectItem value="name">Pavithra</SelectItem>
-                            <SelectItem value="name">Nisha</SelectItem>
-                            <SelectItem value="name">Sagana</SelectItem>
-                         </SelectContent>
-                    </Select>  
-                  </div>
-                 <div className="grid gap-2">
-                    <Label htmlFor="netsalary">Net Salary</Label>
-                        <Input id="netsalary" />
-                  </div>
-                  </div>
-                  
-                  <h3 className="font-medium">Earnings</h3>
-                  <div className="flex gap-5">
-                  <div className="grid gap-2">
-                    <Label htmlFor="basic">Basic</Label>
-                       <Input id="basic" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="DA">DA(40%)</Label>
-                      <Input id="DA" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="HRA">HRA(15%)</Label>
-                      <Input id="HRA" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="conveyance">Conveyance</Label>
-                      <Input id="conveyance" />
-                  </div>
-                  </div>
-                  <div className="flex gap-5">
-                  <div className="grid gap-2">
-                    <Label htmlFor="allowance">Allowance</Label>
-                      <Input id="" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="medicalallowance">Medical Allowance</Label>
-                      <Input id="" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="others"> Others</Label>
-                      <Input id="" />
-                  </div>
-                  </div>
-                  <h3 className="font-medium">Deductions</h3>
-                  <div className="flex gap-5">
-                  <div className="grid gap-2">
-                    <Label htmlFor="TDS">TDS</Label>
-                       <Input id="TDS" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="ESI">ESI</Label>
-                       <Input id="ESI" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="PF">PF</Label>
-                       <Input id="PF" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="leave">Leave</Label>
-                       <Input id="leave" />
-                  </div>
-                  </div>
-                  <div className="flex gap-5">
-                  <div className="grid gap-2">
-                    <Label htmlFor="proftax">Prof.Tax</Label>
-                       <Input id="proftax" />
-                  </div>
-                   <div className="grid gap-2">
-                    <Label htmlFor="labourwelfare">Labour Welfare</Label>
-                       <Input id="labourwelfare" />
-                  </div>
-                   <div className="grid gap-2">
-                    <Label htmlFor="others">Others</Label>
-                       <Input id="others" />
-                  </div>
-                  </div>
-
-              <DialogFooter>
-                  <DialogClose asChild>
-                      <Button variant="outline">Cancel</Button>
-                  </DialogClose>
-                  <Button type="submit">Add Employee Salary</Button>
-              </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <div className="flex items-center gap-2 ml-auto">
+            <Add />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
+                Columns <ChevronDown />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
@@ -578,8 +331,8 @@ export default function DataTableDemo() {
                   </DropdownMenuCheckboxItem>
                 )
               })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+            </DropdownMenuContent>
+          </DropdownMenu>
       </div>
       </div>
       <div className="overflow-hidden rounded-md border">
