@@ -74,7 +74,7 @@ const data: Payment[] = [
     employeeId:"ET002",
     name:{
       empname:"Shivani Nachiyar",
-      avatar:"https://randomuser.me/api/portraits/women/45.jpg"
+      avatar:"https://randomuser.me/api/portraits/women/67.jpg"
     },
     position:"Frontend developer",
     department:"IT/Technology",
@@ -202,21 +202,22 @@ export const columns: ColumnDef<Payment>[] = [
       <div className="capitalize">{row.getValue("employeeId")}</div>
     ),
   },
-  
-    {
-  accessorKey: "name",
+
+{
+  accessorFn: (row) => row.name.empname,  
+  id: "name",                             
   header: () => <div className="text-left">Name</div>,
   cell: ({ row }) => {
-    const name = row.getValue("name") as {
-      empname: string;
-      avatar: string;
-    };
-    return <div className="text-left font-medium flex gap-2 ">
-       <Avatar>
-         <AvatarImage src={name.avatar} alt={name.empname} />
-          <AvatarFallback>{name.empname.charAt(0)}</AvatarFallback>
-       </Avatar>
-          <span className="capitalize">{name.empname}</span></div>
+    const { empname, avatar } = row.original.name;
+    return (
+      <div className="text-left font-medium flex gap-2">
+        <Avatar>
+          <AvatarImage src={avatar} alt={empname} />
+          <AvatarFallback>{empname.charAt(0)}</AvatarFallback>
+        </Avatar>
+        <span className="capitalize">{empname}</span>
+      </div>
+    );
   },
 },
   {
@@ -291,42 +292,101 @@ export const columns: ColumnDef<Payment>[] = [
             <DialogTrigger asChild>
               <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-max">
               <DialogHeader>
-                <DialogTitle>Edit Employee</DialogTitle>
-                  <DialogDescription>
-                      Edit employee details and click save
-                  </DialogDescription>
+                <DialogTitle>Edit Employee Salary</DialogTitle>
               </DialogHeader>
               <form className="grid gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="employeeID">EmployeeId</Label>
-                     <Input id="employeeid" />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="name">Name</Label>
-                      <Input id="name" />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
-                      <Input id="email" placeholder="@gmail.com" />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="dateofbirth">BirthDate</Label>
-                      <Input id="email" type="date" />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="position">Position</Label>
-                      <Input id="position" />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="department">Department</Label>
-                      <Input id="department" />
-                </div>
-                <div className="grid gap-2">
-                    <Label htmlFor="joinDate">Join-Date</Label>
-                      <Input id="joindate" />
-                </div>
+                <div className="flex gap-5">
+                  <div className="grid gap-2">
+                    <Label htmlFor="employeename">EmployeeName</Label>
+                       <Select>
+                         <SelectTrigger id="leader" className="w-full h-10">
+                            <SelectValue placeholder="Select Team leader" />
+                         </SelectTrigger>
+                         <SelectContent>
+                            <SelectItem value="name">Shivaji</SelectItem>
+                            <SelectItem value="name">Shivani</SelectItem>
+                            <SelectItem value="name">jayashree</SelectItem>
+                            <SelectItem value="name">Akila Sri</SelectItem>
+                            <SelectItem value="name">Pavithra</SelectItem>
+                            <SelectItem value="name">Nisha</SelectItem>
+                            <SelectItem value="name">Sagana</SelectItem>
+                         </SelectContent>
+                    </Select>  
+                  </div>
+                 <div className="grid gap-2">
+                    <Label htmlFor="netsalary">Net Salary</Label>
+                        <Input id="netsalary" />
+                  </div>
+                  </div>
+                  
+                  <h3 className="font-medium">Earnings</h3>
+                  <div className="flex gap-5">
+                  <div className="grid gap-2">
+                    <Label htmlFor="basic">Basic</Label>
+                       <Input id="basic" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="DA">DA(40%)</Label>
+                      <Input id="DA" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="HRA">HRA(15%)</Label>
+                      <Input id="HRA" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="conveyance">Conveyance</Label>
+                      <Input id="conveyance" />
+                  </div>
+                  </div>
+                  <div className="flex gap-5">
+                  <div className="grid gap-2">
+                    <Label htmlFor="allowance">Allowance</Label>
+                      <Input id="" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="medicalallowance">Medical Allowance</Label>
+                      <Input id="" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="others"> Others</Label>
+                      <Input id="" />
+                  </div>
+                  </div>
+                  <h3 className="font-medium">Deductions</h3>
+                  <div className="flex gap-5">
+                  <div className="grid gap-2">
+                    <Label htmlFor="TDS">TDS</Label>
+                       <Input id="TDS" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="ESI">ESI</Label>
+                       <Input id="ESI" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="PF">PF</Label>
+                       <Input id="PF" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="leave">Leave</Label>
+                       <Input id="leave" />
+                  </div>
+                  </div>
+                  <div className="flex gap-5">
+                  <div className="grid gap-2">
+                    <Label htmlFor="proftax">Prof.Tax</Label>
+                       <Input id="proftax" />
+                  </div>
+                   <div className="grid gap-2">
+                    <Label htmlFor="labourwelfare">Labour Welfare</Label>
+                       <Input id="labourwelfare" />
+                  </div>
+                   <div className="grid gap-2">
+                    <Label htmlFor="others">Others</Label>
+                       <Input id="others" />
+                  </div>
+                  </div>
               <DialogFooter>
                   <DialogClose asChild>
                       <Button variant="outline">Cancel</Button>
@@ -436,15 +496,59 @@ export default function DataTableDemo() {
                       <Input id="conveyance" />
                   </div>
                   </div>
+                  <div className="flex gap-5">
                   <div className="grid gap-2">
                     <Label htmlFor="allowance">Allowance</Label>
                       <Input id="" />
                   </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="medicalallowance">Medical Allowance</Label>
+                      <Input id="" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="others"> Others</Label>
+                      <Input id="" />
+                  </div>
+                  </div>
+                  <h3 className="font-medium">Deductions</h3>
+                  <div className="flex gap-5">
+                  <div className="grid gap-2">
+                    <Label htmlFor="TDS">TDS</Label>
+                       <Input id="TDS" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="ESI">ESI</Label>
+                       <Input id="ESI" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="PF">PF</Label>
+                       <Input id="PF" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="leave">Leave</Label>
+                       <Input id="leave" />
+                  </div>
+                  </div>
+                  <div className="flex gap-5">
+                  <div className="grid gap-2">
+                    <Label htmlFor="proftax">Prof.Tax</Label>
+                       <Input id="proftax" />
+                  </div>
+                   <div className="grid gap-2">
+                    <Label htmlFor="labourwelfare">Labour Welfare</Label>
+                       <Input id="labourwelfare" />
+                  </div>
+                   <div className="grid gap-2">
+                    <Label htmlFor="others">Others</Label>
+                       <Input id="others" />
+                  </div>
+                  </div>
+
               <DialogFooter>
                   <DialogClose asChild>
                       <Button variant="outline">Cancel</Button>
                   </DialogClose>
-                  <Button type="submit">Save</Button>
+                  <Button type="submit">Add Employee Salary</Button>
               </DialogFooter>
           </form>
         </DialogContent>

@@ -1,14 +1,7 @@
-import { IconTrendingDown, IconTrendingUp,IconUsers, IconBriefcase,IconUsersGroup,IconCashBanknoteEdit  } from "@tabler/icons-react"
-import { User } from "lucide-react";
-import { Badge } from "@/components/ui/badge"
-import {
-  Card,
-  CardAction,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { IconUserEdit } from '@tabler/icons-react';
+import { IconUserCheck } from '@tabler/icons-react';
+import { IconUserExclamation } from '@tabler/icons-react';
+import { IconUserQuestion } from '@tabler/icons-react';
 import DataTable from "./dataTable";
 
 export default function Leave() {
@@ -21,7 +14,7 @@ export default function Leave() {
           clipPath: "polygon(0 0, 60% 0, 100%  100%, 100%  160%, 0 150%)",
         }}
       >
-        <User className="text-white w-6 h-6" />
+        <IconUserCheck className="text-white w-6 h-6" />
       </div>
       <div className="ml-28">
         <p className="text-gray-500 text-sm">Total Present</p>
@@ -38,7 +31,7 @@ export default function Leave() {
           clipPath: "polygon(0 0, 60% 0, 100%  100%, 100%  160%, 0 150%)",
         }}
       >
-        <User className="text-white w-6 h-6" />
+        <IconUserEdit className="text-white w-6 h-6" />
       </div>
       <div className="ml-28">
         <p className="text-gray-500 text-sm">Planned leaves</p>
@@ -55,7 +48,7 @@ export default function Leave() {
           clipPath: "polygon(0 0, 60% 0, 100%  100%, 100%  160%, 0 150%)",
         }}
       >
-        <User className="text-white w-6 h-6" />
+        <IconUserExclamation className="text-white w-6 h-6" />
       </div>
       <div className="ml-28">
         <p className="text-gray-500 text-sm">Unplanned leaves</p>
@@ -71,7 +64,7 @@ export default function Leave() {
           clipPath: "polygon(0 0, 60% 0, 100%  100%, 100%  160%, 0 150%)",
         }}
       >
-        <User className="text-white w-6 h-6" />
+        <IconUserQuestion className="text-white w-6 h-6" />
       </div>
       <div className="ml-28">
         <p className="text-gray-500 text-sm">Pending request</p>

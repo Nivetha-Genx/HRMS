@@ -202,7 +202,7 @@ export const columns: ColumnDef<Payment>[] = [
             <DialogTrigger asChild>
               <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] max-h-[80vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Edit Employee</DialogTitle>
               </DialogHeader>
@@ -212,7 +212,7 @@ export const columns: ColumnDef<Payment>[] = [
                   <TabsTrigger value="basic">Basic Information</TabsTrigger>
                   <TabsTrigger value="personal">Advance Information</TabsTrigger>
                   </TabsList>
-                <TabsContent value="basic" className="space-y-4 mt-4">
+                <TabsContent value="basic" className="space-y-8 mt-4">
                  <div className="grid gap-2">
                    <Label htmlFor="employeeID">EmployeeId</Label>
                     <Input id="employeeid" />
@@ -239,7 +239,7 @@ export const columns: ColumnDef<Payment>[] = [
                 </div>
             </TabsContent>
         {/* Personal Information Tab */}
-              <TabsContent value="personal" className="space-y-4 mt-4">
+              <TabsContent value="personal" className="space-y-8 mt-4">
                  <div className="grid gap-4">
                  <Label>Gender</Label>
                <RadioGroup defaultValue="male" className="flex gap-6">
@@ -422,18 +422,18 @@ export function DataTableDemo() {
               <DialogTrigger asChild>
                 <Button className="ml-auto">+ Add New</Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px] overflow-scroll">
+              <DialogContent className="sm:max-w-[425px] max-h-[80vh] overflow-y-auto">
                 <DialogHeader>
                    <DialogTitle>Add Employee</DialogTitle>
                 </DialogHeader>
-              <form className="grid gap-4">
+              <form className="grid gap-10">
                { /*Basic information tab*/}
                 <Tabs defaultValue="basic" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2">
+                  <TabsList className="grid w-full grid-cols-2 gap-4">
                   <TabsTrigger value="basic">Basic Information</TabsTrigger>
                   <TabsTrigger value="personal">Advance Information</TabsTrigger>
                   </TabsList>
-                <TabsContent value="basic" className="space-y-4 mt-4">
+                <TabsContent value="basic" className="space-y-8 mt-5">
                  <div className="grid gap-2">
                    <Label htmlFor="employeeID">EmployeeId</Label>
                     <Input id="employeeid" />
@@ -456,11 +456,21 @@ export function DataTableDemo() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="department">Department</Label>
-                  <Input id="department" placeholder="Enter department" />
+                  <Select>
+                        <SelectTrigger id="department" className="w-full h-10">
+                            <SelectValue placeholder="Select department" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="research and development">Research and development</SelectItem>
+                            <SelectItem value="UI/UX">UI/UX</SelectItem>
+                            <SelectItem value="human resource">Human Resource</SelectItem>
+                            <SelectItem value="administration">Administration</SelectItem>
+                        </SelectContent>
+                        </Select> 
                 </div>
             </TabsContent>
         {/* Personal Information Tab */}
-              <TabsContent value="personal" className="space-y-4 mt-4">
+              <TabsContent value="personal" className="space-y-8 mt-4">
                  <div className="grid gap-4">
                  <Label>Gender</Label>
                <RadioGroup defaultValue="male" className="flex gap-6">

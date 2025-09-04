@@ -1,65 +1,21 @@
 "use client"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import { Dialog,DialogClose,  DialogContent,DialogDescription,DialogFooter,DialogHeader,DialogTitle,DialogTrigger,} from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import * as React from "react"
-import {
-
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-  
-} from "@tanstack/react-table"
- import { ChevronDownIcon } from "lucide-react"
+import {flexRender,getCoreRowModel,getFilteredRowModel,getPaginationRowModel,getSortedRowModel,useReactTable,} from "@tanstack/react-table"
+import { ChevronDownIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import type{
-      ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-} from "@tanstack/react-table"
+import {Popover,PopoverContent,PopoverTrigger} from "@/components/ui/popover"
+import type{ColumnDef,ColumnFiltersState,SortingState,VisibilityState,} from "@tanstack/react-table"
 import { Badge } from "@/components/ui/badge"
-
 import { ChevronDown, MoreHorizontal } from "lucide-react"
-
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import {DropdownMenu,DropdownMenuCheckboxItem,DropdownMenuContent,DropdownMenuItem,DropdownMenuLabel,DropdownMenuSeparator,DropdownMenuTrigger,} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow} from "@/components/ui/table"
 import ProjectCard from "./projectGrid"
 
 const data: Payment[] = [
@@ -69,8 +25,7 @@ const data: Payment[] = [
     projectName:"Office management App",
     leader: {
     name: "Shivaji Maharaj",
-    avatar: "https://i.pravatar.cc/150?img=12"
-},
+    avatar: "https://i.pravatar.cc/150?img=12"},
     team: [
       { name: "John Doe", avatar: "https://github.com/shadcn.png" },
       { name: "Jane Smith", avatar: "https://github.com/evilrabbit.png" },
@@ -80,15 +35,13 @@ const data: Payment[] = [
     deadLine:"20-9-2025",
     status:"Active",
   },
-  
   {
     id: "lhcej53d",
     projectId:"PRO-002",
     projectName:"Clinic Management",
     leader: {
         name: "shivani Nachiyar",
-        avatar:"https://github.com/evilrabbit.png"
-    },
+        avatar:"https://github.com/evilrabbit.png"},
     team: [
       { name: "John Doe", avatar: "https://github.com/leerob.png" },
       { name: "Jane Smith", avatar: "https://github.com/shadcn.png" },
@@ -98,15 +51,13 @@ const data: Payment[] = [
     deadLine:"20-12-2025",
     status:"Active",
   },
-
   {
     id: "lhcej53d",
     projectId:"PRO-003",
     projectName:"Educational Platform",
     leader:{
         name:"Jayashree",
-        avatar: "https://i.pravatar.cc/150?img=2"
-    },
+        avatar: "https://i.pravatar.cc/150?img=2"},
     team: [
       { name: "John Doe", avatar: "https://i.pravatar.cc/150?img=3" },
       { name: "Jane Smith", avatar: "https://i.pravatar.cc/150?img=4" },
@@ -116,15 +67,13 @@ const data: Payment[] = [
     deadLine:"20-10-2025",
     status:"Active",
   },
-
   {
     id: "lhcej53d",
     projectId:"PRO-004",
     projectName:"Travel Planning Website",
     leader: {
         name:"sagana",
-        avatar:"https://i.pravatar.cc/150?img=4"
-    },
+        avatar:"https://i.pravatar.cc/150?img=4"},
     team: [
       { name: "John Doe", avatar: "https://i.pravatar.cc/150?img=1" },
       { name: "Jane Smith", avatar: "https://i.pravatar.cc/150?img=2" },
@@ -134,15 +83,13 @@ const data: Payment[] = [
     deadLine:"30-9-2025",
     status:"Active",
   },
-
   {
     id: "lhcej53d",
     projectId:"PRO-005",
     projectName:"Hotel Booking App",
     leader:{
         name:"Pavithra",
-        avatar:"https://github.com/leerob.png" 
-    },
+        avatar:"https://github.com/leerob.png" },
     team: [
       { name: "John Doe", avatar: "https://i.pravatar.cc/150?img=3" },
       { name: "Jane Smith", avatar: "https://i.pravatar.cc/150?img=4" },
@@ -158,8 +105,7 @@ const data: Payment[] = [
     projectName:"Food Order App",
     leader:{
         name:"Nisha Danasegaran",
-        avatar:"https://i.pravatar.cc/150?img=4"
-    },
+        avatar:"https://i.pravatar.cc/150?img=4"},
     team: [
       { name: "John Doe", avatar: "https://github.com/leerob.png" },
       { name: "Jane Smith", avatar: "https://github.com/leerob.png" },
@@ -175,8 +121,7 @@ const data: Payment[] = [
     projectName:"Service Booking Software",
     leader: {
         name:"Akila Sri",
-        avatar:"https://github.com/leerob.png"
-    },
+        avatar:"https://github.com/leerob.png"},
     team: [
       { name: "John Doe", avatar: "https://i.pravatar.cc/150?img=3" },
       { name: "Jane Smith", avatar: "https://i.pravatar.cc/150?img=4" },
@@ -186,14 +131,12 @@ const data: Payment[] = [
     deadLine:"20-2-2026",
     status:"InActive",
   },
-
 ]
 
 export type TeamMember = {
   name: string
   avatar: string
 } 
-
 export type Payment = {
   id: string
   projectId: string
@@ -238,7 +181,6 @@ export const columns: ColumnDef<Payment>[] = [
       <div className="capitalize">{row.getValue("projectId")}</div>
     ),
   },
-  
     {
   accessorKey: "projectName",
   header: () => <div className="text-left">Project Name</div>,
@@ -287,7 +229,6 @@ export const columns: ColumnDef<Payment>[] = [
     )
   },
  },
-
    {
     accessorKey: "priority",
     header: "Priority",
@@ -309,7 +250,6 @@ export const columns: ColumnDef<Payment>[] = [
       <div className="capitalize">{row.getValue("status")}</div>
     ),
   },
-
   {
     id: "actions",
     enableHiding: false,
@@ -333,14 +273,14 @@ export const columns: ColumnDef<Payment>[] = [
             <DialogTrigger asChild>
               <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] gap-8">
               <DialogHeader>
                 <DialogTitle>Edit Project</DialogTitle>
                   <DialogDescription>
                       Edit Project details and click save
                   </DialogDescription>
               </DialogHeader>
-              <form className="grid gap-4">
+              <form className="grid gap-8">
                 <div className="grid gap-2">
                   <Label htmlFor="projectID">ProjectId</Label>
                      <Input id="projectid" />
@@ -370,7 +310,7 @@ export const columns: ColumnDef<Payment>[] = [
                   <Label htmlFor="team">Team</Label>
                      <Select>
                         <SelectTrigger id="team" className="w-full h-10">
-                             <SelectValue placeholder="Select Team members" />
+                        <SelectValue placeholder="Select Team members" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="name">Shivaji</SelectItem>
@@ -384,9 +324,7 @@ export const columns: ColumnDef<Payment>[] = [
                     </Select>  
                 </div>
                 <div className="grid gap-2">
-                  {/* <Label htmlFor="deadLine">DeadLine</Label>
-                      <Input id="deadLine" type='date' /> */}
-                           <Label htmlFor="date" className="px-1">
+                  <Label htmlFor="date" className="px-1">
                     DeadLine
                   </Label>
                   <Popover open={open} onOpenChange={setOpen}>
@@ -437,8 +375,7 @@ export const columns: ColumnDef<Payment>[] = [
                         </SelectContent>
                         </Select>
                 </div>
-                
-              <DialogFooter>
+                <DialogFooter>
                   <DialogClose asChild>
                       <Button variant="outline">Cancel</Button>
                   </DialogClose>
@@ -454,16 +391,10 @@ export const columns: ColumnDef<Payment>[] = [
     },
   },
 ]
-
-
-
 export default function Projects() {
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] =React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({
@@ -502,14 +433,14 @@ export default function Projects() {
               <DialogTrigger asChild>
                 <Button className="ml-auto">+ Add New</Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
+              <DialogContent className="sm:max-w-[425px] gap-8">
                 <DialogHeader>
                    <DialogTitle>Add Project</DialogTitle>
                       <DialogDescription>
                            Fill in project details and click save.
                       </DialogDescription>
                 </DialogHeader>
-                   <form className="grid gap-4">
+                   <form className="grid gap-8">
                 <div className="grid gap-2">
                   <Label htmlFor="projectID">ProjectId</Label>
                      <Input id="projectid" />
@@ -519,7 +450,7 @@ export default function Projects() {
                       <Input id="projectName" />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="leader">Leader</Label>
+                  <Label htmlFor="leader">Team Leader</Label>
                       <Select>
                          <SelectTrigger id="leader" className="w-full h-10">
                             <SelectValue placeholder="Select Team leader" />
@@ -553,8 +484,6 @@ export default function Projects() {
                     </Select>  
                 </div>
                 <div className="grid gap-2">
-                  {/* <Label htmlFor="deadLine">DeadLine</Label>
-                      <Input id="deadLine" type='date' /> */}
                       <Label htmlFor="date" className="px-1">
                     DeadLine
                   </Label>

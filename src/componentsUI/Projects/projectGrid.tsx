@@ -1,8 +1,9 @@
 import { Card} from "@/components/ui/card"
-import { MoreVertical } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { FileCheck2 } from 'lucide-react';
+import * as React from "react"
+import Dropdown from "../Projects/dropdown"
 
 export default function ProjectCard() {
   return (
@@ -11,15 +12,14 @@ export default function ProjectCard() {
             <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 px-5">
          <Card className="p-4 rounded-xl shadow-sm">
-          <div className="flex items-start justify-between">
+            <div className="flex items-start justify-between">
             <h3 className="text-base font-semibold">Office Management</h3>
-              <MoreVertical className="h-4 w-4 text-gray-500 cursor-pointer" />
+              <Dropdown />
           </div>
             <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
               An office management app project streamlines administrative tasks by
               integrating tools for scheduling, communication, and task management,...
-            </p>
-        <hr />
+            </p><hr />
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Avatar className="h-8 w-8">
@@ -68,12 +68,11 @@ export default function ProjectCard() {
         <Card className="p-4 rounded-xl shadow-sm">
           <div className="flex items-start justify-between">
             <h3 className="text-base font-semibold">Clinic Management</h3>
-              <MoreVertical className="h-4 w-4 text-gray-500 cursor-pointer" />
+              <Dropdown />
           </div>
             <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
               A clinic management project streamlines patient records, appointments, and billing processes to improve operational efficiency.
-            </p>
-        <hr />
+            </p><hr />
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Avatar className="h-8 w-8">
@@ -89,8 +88,7 @@ export default function ProjectCard() {
               <p className="text-xs text-muted-foreground">Deadline</p>
               <p className="text-sm font-medium">20 dec 2025</p>
             </div>
-           </div>
-            <hr />
+           </div><hr />
           <div className="flex items-center justify-between">
                <div className="flex items-center gap-2 text-sm">
                   <span className="flex items-center text-green-500">
@@ -122,12 +120,11 @@ export default function ProjectCard() {
             <Card className="p-4 rounded-xl shadow-sm">
           <div className="flex items-start justify-between">
             <h3 className="text-base font-semibold">Educational Platform</h3>
-              <MoreVertical className="h-4 w-4 text-gray-500 cursor-pointer" />
+             <Dropdown />
           </div>
             <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
              An educational platform project provides a centralized space for delivering online courses, tracking progress, and managing student assessments.
-            </p>
-        <hr />
+            </p><hr />
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Avatar className="h-8 w-8">
@@ -143,14 +140,13 @@ export default function ProjectCard() {
               <p className="text-xs text-muted-foreground">Deadline</p>
               <p className="text-sm font-medium">20 oct 2025</p>
             </div>
-           </div>
-            <hr  />
+           </div> <hr  />
             <div className="flex items-center justify-between">
                <div className="flex items-center gap-2 text-sm">
                   <span className="flex items-center text-green-500">
                      <FileCheck2 />
                   </span>
-              <span  className="font-medium">
+                  <span  className="font-medium">
                   Tasks : </span>5/10
                 </div>
 
@@ -176,12 +172,11 @@ export default function ProjectCard() {
          <Card className="p-4 rounded-xl shadow-sm">
           <div className="flex items-start justify-between">
             <h3 className="text-base font-semibold">Travel planning website</h3>
-              <MoreVertical className="h-4 w-4 text-gray-500 cursor-pointer" />
+             <Dropdown />
           </div>
             <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
             A travel planning website helps users explore destinations, compare flights and accommodations, and create personalized itineraries.
-            </p>
-        <hr  />
+            </p><hr/>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Avatar className="h-8 w-8">
@@ -197,8 +192,7 @@ export default function ProjectCard() {
               <p className="text-xs text-muted-foreground">Deadline</p>
               <p className="text-sm font-medium">30 sep 2025</p>
             </div>
-           </div>
-            <hr />
+           </div> <hr />
             <div className="flex items-center justify-between">
                <div className="flex items-center gap-2 text-sm">
                   <span className="flex items-center text-green-500">
@@ -230,7 +224,7 @@ export default function ProjectCard() {
          <Card className="p-4 rounded-xl shadow-sm">
           <div className="flex items-start justify-between">
             <h3 className="text-base font-semibold">Hotel Booking App</h3>
-              <MoreVertical className="h-4 w-4 text-gray-500 cursor-pointer" />
+             <Dropdown />
           </div>
             <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
               A hotel booking app allows users to search, compare, and book accommodations with ease, offering a wide range of options.
@@ -284,12 +278,11 @@ export default function ProjectCard() {
         <Card className="p-4 rounded-xl shadow-sm">
           <div className="flex items-start justify-between">
             <h3 className="text-base font-semibold">Food Order App</h3>
-              <MoreVertical className="h-4 w-4 text-gray-500 cursor-pointer" />
+              <Dropdown />
           </div>
             <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
            A food order app allows users to browse menus, place orders, and track delivery from their favorite restaurants with ease.
-            </p>
-        <hr  />
+            </p><hr  />
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Avatar className="h-8 w-8">
@@ -338,7 +331,7 @@ export default function ProjectCard() {
         <Card className="p-4 rounded-xl shadow-sm">
             <div className="flex items-start justify-between">
                <h3 className="text-base font-semibold">Sevice Booking Software</h3>
-                  <MoreVertical className="h-4 w-4 text-gray-500 cursor-pointer" />
+                 <Dropdown />
             </div>
               <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
                   Service booking software enables users to schedule appointments, manage bookings, and handle payments for various services.
@@ -369,7 +362,6 @@ export default function ProjectCard() {
                <span  className="font-medium">
                   Tasks : </span>3/10
                 </div>
-
             <div className="flex -space-x-2">
                <Avatar className="h-7 w-7 border-2 border-white">
                   <AvatarImage src="https://randomuser.me/api/portraits/women/45.jpg" />

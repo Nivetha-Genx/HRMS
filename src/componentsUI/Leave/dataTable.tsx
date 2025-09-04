@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
 import * as React from "react"
 import {
 
@@ -172,7 +172,7 @@ export const columns: ColumnDef<Payment>[] = [
   
     {
   accessorKey: "employeeName",
-  header: () => <div className="text-left">Name</div>,
+  header: () => <div className="text-left">Employee Name</div>,
   cell: ({ row }) => {
     const employeeName = row.getValue("employeeName") as string
     return <div className="text-left font-medium">{employeeName}</div>
@@ -232,18 +232,19 @@ export const columns: ColumnDef<Payment>[] = [
             <DialogTrigger asChild>
               <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] gap-8">
               <DialogHeader>
                 <DialogTitle>Edit Leave</DialogTitle>
                   <DialogDescription>
                       Edit leave details and click save
                   </DialogDescription>
               </DialogHeader>
-              <form className="grid gap-4">
+              <form className="grid gap-8">
                 <div className="grid gap-2">
                   <Label htmlFor="employeeName">Employee Name</Label>
                       <Select>
-                         <SelectTrigger id="employeeName" className="w-full h-10">
+                         <SelectTrigger id="employeeName" className="w-full h-10" >
+                          <SelectValue placeholder="Select Employee Name" />
                          </SelectTrigger>
                          <SelectContent>
                             <SelectItem value="name">Shivaji</SelectItem>
@@ -260,7 +261,8 @@ export const columns: ColumnDef<Payment>[] = [
                   <Label htmlFor="leaveType">Leave Type</Label>
                       <Select>
                          <SelectTrigger id="leaveType" className="w-full h-10">
-                         </SelectTrigger>
+                          <SelectValue placeholder="Select Leave Type" />
+                          </SelectTrigger>
                          <SelectContent>
                             <SelectItem value="leaveType">Medical Leave</SelectItem>
                             <SelectItem value="leaveType">Casual Leave</SelectItem>  
@@ -386,9 +388,9 @@ export default function DataTable() {
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter names..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("employeeName")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("employeeName")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -397,18 +399,19 @@ export default function DataTable() {
               <DialogTrigger asChild>
                 <Button className="ml-auto">+ Add Leave</Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
+              <DialogContent className="sm:max-w-[425px] gap-6">
                 <DialogHeader>
                    <DialogTitle>Add Leave</DialogTitle>
                       <DialogDescription>
                            Fill in leave details and click add leave.
                       </DialogDescription>
                 </DialogHeader>
-              <form className="grid gap-4">
+              <form className="grid gap-8">
                 <div className="grid gap-2">
                   <Label htmlFor="employeeName">Employee Name</Label>
                       <Select>
-                         <SelectTrigger id="employeeName" className="w-full h-10">Select Name
+                         <SelectTrigger id="employeeName" className="w-full h-10">
+                           <SelectValue placeholder="Select Employee Name" />
                          </SelectTrigger>
                          <SelectContent>
                             <SelectItem value="name">Shivaji</SelectItem>
@@ -424,7 +427,8 @@ export default function DataTable() {
                 <div className="grid gap-2">
                   <Label htmlFor="leaveType">Leave Type</Label>
                       <Select>
-                         <SelectTrigger id="leaveType" className="w-full h-10">Select leave tpe
+                         <SelectTrigger id="leaveType" className="w-full h-10">
+                           <SelectValue placeholder="Select Leave Type" />
                          </SelectTrigger>
                          <SelectContent>
                             <SelectItem value="leaveType">Medical Leave</SelectItem>

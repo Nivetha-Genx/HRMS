@@ -258,12 +258,10 @@ export const columns: ColumnDef<Payment>[] = [
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-                <DialogTitle>Add Attendance</DialogTitle>
+                <DialogTitle className="mb-3">Add Attendance</DialogTitle>
             </DialogHeader>
-            <form className="grid gap-4">
+            <form className="grid gap-5">
                 <div className="grid gap-2">
-                   {/* <Label htmlFor="date">Date</Label>
-                    <Input id="employeeid" type="date"/> */}
                      <Label htmlFor="date" className="px-1">
                     Date of birth
                   </Label>
@@ -375,7 +373,7 @@ export const columns: ColumnDef<Payment>[] = [
                     <Label htmlFor="productionHour">Production Hours</Label>
                     <Input id="productionHours" type="time" />
                 </div>
-                <div className="grid gap-2">
+                <div className="grid gap-2 mb-3">
                     <Label htmlFor="status">Status</Label>
                         <Select>
                         <SelectTrigger id="status" className="w-full h-10">
