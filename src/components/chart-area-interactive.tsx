@@ -1,30 +1,15 @@
 "use client"
-
-
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from "recharts"
-
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart"
+import {Card,CardContent,CardDescription,  CardHeader,CardTitle,} from "@/components/ui/card"
+import {ChartContainer,ChartTooltip,ChartTooltipContent} from "@/components/ui/chart"
 import type  {ChartConfig,} from "@/components/ui/chart"
-
+// import { useState,useEffect } from "react"
+// import type { ChartRecord } from "@/Services/type"
+// import { getChartData } from "@/Services/DashService"
 
 export const description = "An interactive area chart"
-
 const chartData = [
- 
   { month: "Jan", completed: 120, pending: 30 },
   { month: "Feb", completed: 95, pending: 25 },
   { month: "Mar", completed: 140, pending: 20 },
@@ -39,7 +24,8 @@ const chartData = [
   { month: "Dec", completed: 220, pending: 20 },
 ]
 
-const pieData = [
+const pieData = 
+[  
   { name: "Completed Projects", value: chartData.reduce((sum, d) => sum + d.completed, 0) },
   { name: "Pending Projects", value: chartData.reduce((sum, d) => sum + d.pending, 0) },
   { name: "In Progress", value: 300 }, 
@@ -60,8 +46,50 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function ChartAreaInteractive() {
-  
+// const COLORS = ["#1c7fdb", "#802aaa", "#dbcb1a"];
+
+// const chartConfig = {
+//   Statistics: { label: "Project Statistics" },
+//   completed: { label: "completed", color: "#1c7fdb" },
+//   pending: { label: "pending", color: "#802aaa" },
+// };
+
+// export function ChartAreaInteractive() {
+//   const [chartData, setChartData] = useState<ChartRecord[]>([]);
+//   const [pieData, setPieData] = useState<PieRecord[]>([]);
+//   const [loading, setLoading] = useState(true);
+//   useEffect(() => {
+//     getChartData()
+//       .then((res) => {
+//         setChartData(res.chartData);
+//         setPieData(res.pieData);
+//       })
+//       .catch((err) => console.error("Error fetching chart data:", err))
+//       .finally(() => setLoading(false));
+//   }, []);
+
+//   if (loading) {
+//     return <div className="text-center">Loading charts...</div>;
+//   }
+
+// useEffect(() => {
+//   const fetchCharts = async () => {
+//     try {
+//       setLoading(true);
+//       const res = await getChartData();
+//       setChartData(res.chartData || []);
+//       setPieData(res.pieData || []);
+//     } catch (err) {
+//       console.error("Error fetching chart data:", err);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   fetchCharts();
+// }, []);
+
+ export function ChartAreaInteractive() {
 
 return (
     <Card className="@container/card">
@@ -90,6 +118,8 @@ return (
             </PieChart>
           </ResponsiveContainer>
           </div>
+
+          {/*RIGHT :Area Chart */}
           <div>
         <CardDescription>
          Completed vs Pending Projects </CardDescription>

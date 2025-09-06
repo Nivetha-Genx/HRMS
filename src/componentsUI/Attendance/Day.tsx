@@ -7,7 +7,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { ChevronDown} from "lucide-react"
 
-function Day() {
+function Day({ table }: { table: any }) {
+  
   return (
     <>
     <div>
@@ -24,17 +25,30 @@ function Day() {
           <DropdownMenuItem>Last 30 Days</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-       </div>
-       <div className="flex items-center gap-2">
+    </div>
+    <div className="flex items-center gap-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">
-            Select Status <ChevronDown />
+              Select Status <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-          <DropdownMenuItem>Present</DropdownMenuItem>
-          <DropdownMenuItem>Absent</DropdownMenuItem>
+          <DropdownMenuItem
+             onClick={() => table.getColumn("status")?.setFilterValue("Present")}
+             >
+            Present
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => table.getColumn("status")?.setFilterValue("Absent")}
+            >
+            Absent
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => table.getColumn("status")?.setFilterValue(undefined)}
+            >
+            Show All
+          </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
     </div>

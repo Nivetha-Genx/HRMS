@@ -1,4 +1,5 @@
 import axios from "axios"
+import type { LoginRequest , LoginResponse } from './type'
 
 const API_BASE = "https://your-backend-url.com/api" 
 
@@ -16,5 +17,6 @@ api.interceptors.request.use((config: any) => {
   }
   return config
 })
+
 
 export default api

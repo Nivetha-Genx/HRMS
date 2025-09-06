@@ -226,7 +226,7 @@ export function DataTableDemo() {
           className="max-w-sm "
         />
         <div className="flex items-center gap-2">
-          <Day />
+          <Day table={table}  />
         </div>
         <div className="flex items-center gap-2 ml-auto">
           <DropdownMenu>

@@ -1,9 +1,9 @@
-import api from '../Services/apiclient' 
-import type { LoginRequest , LoginResponse } from '../Services/type'
-import type { ForgotPasswordRequest, ForgotPasswordResponse } from '../Services/type'
-import type { VerifyOtpRequest, VerifyOtpResponse } from '../Services/type'
-import type { ResetPasswordRequest } from '../Services/type'
-import type { SignupRequest , SignupResponse} from '../Services/type'
+import api from './ApiService' 
+import type { LoginRequest , LoginResponse } from './type'
+import type { ForgotPasswordRequest, ForgotPasswordResponse } from './type'
+import type { VerifyOtpRequest, VerifyOtpResponse } from './type'
+import type { ResetPasswordRequest } from './type'
+import type { SignupRequest , SignupResponse} from './type'
 
 
 export async function loginApi(data: LoginRequest): Promise<LoginResponse> {
@@ -30,4 +30,5 @@ export async function resetPasswordApi(data: ResetPasswordRequest) {
   const response = await api.post("/auth/reset-password", data)
   return response.data
 }
+
 

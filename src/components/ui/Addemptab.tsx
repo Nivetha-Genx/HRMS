@@ -10,13 +10,87 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState} from 'react'
+import type { addEmpReq } from '@/Services/type'
+import { postEmployees } from '@/Services/EmployeeService'
+
 
 function Addemptab() {
-      const [open, setOpen] = React.useState(false)
+    
+      const [dialogOpen, setDialogOpen] = React.useState(false);
+      const [dateOpen, setDateOpen] = React.useState(false);
       const [date, setDate] = React.useState<Date | undefined>(undefined)
+      const [formData, setFormData] = useState<addEmpReq>({
+        employeeId: "",
+        empName: "",
+        email: "",
+        phoneNumber: "",
+        position: "",
+        department: "",
+        gender: "",
+        dob: "",
+        emergencyNumber: "",
+        bloodGroup: "",
+        nationality: "",
+        religion: "",
+        maritalStatus: "",
+        qualification: "",
+        experience: "",
+        address: "",
+      });
+
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData({
+        ...formData,
+        [e.target.id]: e.target.value,
+        });
+      };
+
+      const handleSelectChange = (field: keyof addEmpReq, value: string) => {
+      setFormData({
+          ...formData,
+          [field]: value,
+      });
+      };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+     e.preventDefault();
+
+    try {
+    const payload = {
+      ...formData,
+      dob: date ? date.toISOString().split("T")[0] : "",
+    };
+    await postEmployees(payload);
+    console.log("Employee added successfully!");
+    setFormData({
+      employeeId: "",
+      empName: "",
+      email: "",
+      phoneNumber: "",
+      position: "",
+      department: "",
+      gender: "",
+      dob: "",
+      emergencyNumber: "",
+      bloodGroup: "",
+      nationality: "",
+      religion: "",
+      maritalStatus: "",
+      qualification: "",
+      experience: "",
+      address: "",
+    });
+    setDate(undefined);
+    setDialogOpen(false);
+  } catch (err) {
+    console.error("Error adding employee:", err);
+  }
+};
+
   return (
     <div>
-       <Dialog>
+       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
             <Button className="ml-auto">+ Add New</Button>
               </DialogTrigger>
@@ -24,7 +98,7 @@ function Addemptab() {
                 <DialogHeader>
                    <DialogTitle>Add Employee</DialogTitle>
                 </DialogHeader>
-              <form className="grid gap-10">
+              <form className="grid gap-10"  onSubmit={handleSubmit}>
               
                 <Tabs defaultValue="basic" className="w-full">
                    <TabsList className="grid w-full grid-cols-2 gap-4">
@@ -34,27 +108,40 @@ function Addemptab() {
                 <TabsContent value="basic" className="space-y-8 mt-5">
                    <div className="grid gap-2">
                        <Label htmlFor="employeeID">EmployeeId</Label>
-                        <Input id="employeeid" />
+                        <Input id="employeeId"  value={formData.employeeId} onChange={handleChange}  />
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="empName">Employee Name</Label>
-                        <Input id="empName" placeholder="Enter employee name" />
+                        <Input id="empName" placeholder="Enter employee name" value={formData.empName} onChange={handleChange} />
                   </div>
                   <div className="grid gap-2">
                        <Label htmlFor="email">Email</Label>
-                       <Input id="email" placeholder="@gmail.com" />
+                       <Input id="email" placeholder="@gmail.com" value={formData.email} onChange={handleChange}/>
                   </div>
                   <div className="grid gap-2">
-                       <Label htmlFor="phonenumber">Phone Number</Label>
-                       <Input id="phonenumber" placeholder="Enter Phone Number" />
+                       <Label htmlFor="phoneNumber">Phone Number</Label>
+                       <Input id="phoneNumber" placeholder="Enter Phone Number" value={formData.phoneNumber} onChange={handleChange} />
                   </div>
                 <div className="grid gap-2">
                      <Label htmlFor="position">Position</Label>
-                     <Input id="position" placeholder="Enter position" />
+                     <Select onValueChange={(val) => handleSelectChange("position", val)}>
+                        <SelectTrigger id="position" className="w-full h-10">
+                            <SelectValue placeholder="Select position" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="frontend developer">Frontend Developer</SelectItem>
+                            <SelectItem value="backend developer">Backend Developer</SelectItem>
+                            <SelectItem value="developer">Full stack developer</SelectItem>
+                            <SelectItem value="designer">Designer</SelectItem>
+                            <SelectItem value="teamlead">Team Lead</SelectItem>
+                            <SelectItem value="manager">Manager</SelectItem>
+                            <SelectItem value="HR">HR</SelectItem>
+                        </SelectContent>
+                    </Select> 
                 </div>
                 <div className="grid gap-2">
                      <Label htmlFor="department">Department</Label>
-                     <Select>
+                     <Select onValueChange={(val) => handleSelectChange("department", val)}>
                         <SelectTrigger id="department" className="w-full h-10">
                             <SelectValue placeholder="Select department" />
                         </SelectTrigger>
@@ -71,7 +158,7 @@ function Addemptab() {
               <TabsContent value="personal" className="space-y-8 mt-4">
                  <div className="grid gap-4">
                  <Label>Gender</Label>
-               <RadioGroup defaultValue="male" className="flex gap-6">
+               <RadioGroup defaultValue="male" className="flex gap-6" onValueChange={(val) => handleSelectChange("gender", val)}>
                 <div className="flex items-center space-x-2">
                 <RadioGroupItem value="male" id="male" />
                 <Label htmlFor="male">Male</Label>
@@ -90,7 +177,7 @@ function Addemptab() {
                   <Label htmlFor="date" className="px-1">
                     Date of birth
                   </Label>
-                  <Popover open={open} onOpenChange={setOpen}>
+                  <Popover open={dateOpen} onOpenChange={setDateOpen}>
                   <PopoverTrigger asChild>
                   <Button
                      variant="outline"
@@ -107,22 +194,18 @@ function Addemptab() {
                       captionLayout="dropdown"
                       onSelect={(date) => {
                       setDate(date)
-                      setOpen(false)
+                      setDialogOpen(false)
                       }}/>
                   </PopoverContent>
                   </Popover>
                 </div>
               <div className="grid gap-2">
-                <Label htmlFor="phone">Phone Number</Label>
-                <Input id="phone" type="tel" placeholder="Enter phone number" />
-              </div>
-              <div className="grid gap-2">
                 <Label htmlFor="emergencynumber">Emergency Contact Number</Label>
-                <Input id="emergencynumber" type="tel" placeholder="Enter phone number" />
+                <Input id="emergencynumber" type="tel" placeholder="Enter phone number"  value={formData.emergencyNumber} onChange={handleChange} />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="bloodgroup">Blood-Group</Label>
-                <Select>
+                <Select  onValueChange={(val) => handleSelectChange("bloodGroup", val)}>
                         <SelectTrigger id="bloodgroup" className="w-full h-10">
                             <SelectValue placeholder="Select Blood-Group" />
                         </SelectTrigger>
@@ -140,7 +223,7 @@ function Addemptab() {
               </div> 
               <div className="grid gap-2">
                 <Label htmlFor="nationality">Nationality</Label>
-                <Select>
+                <Select onValueChange={(val) => handleSelectChange("nationality", val)}>
                     <SelectTrigger id="nationality" className="w-full h-10">
                       <SelectValue placeholder="Select Nationality" />
                       </SelectTrigger>
@@ -152,7 +235,7 @@ function Addemptab() {
               </div> 
               <div className="grid gap-2">
                 <Label htmlFor="religion">Religion</Label>
-                 <Select>
+                 <Select onValueChange={(val) => handleSelectChange("religion", val)}>
                     <SelectTrigger id="religion" className="w-full h-10">
                       <SelectValue placeholder="Select Religion" />
                       </SelectTrigger>
@@ -166,8 +249,8 @@ function Addemptab() {
               </div> 
               <div className="grid gap-2">
                 <Label htmlFor="marital status">Marital status</Label>
-                <Select>
-                    <SelectTrigger id="marital status" className="w-full h-10">
+                <Select onValueChange={(val) => handleSelectChange("maritalStatus", val)}>
+                    <SelectTrigger id="maritalStatus" className="w-full h-10">
                       <SelectValue placeholder="Select status" />
                       </SelectTrigger>
                     <SelectContent>
@@ -178,15 +261,15 @@ function Addemptab() {
               </div> 
                <div className="grid gap-2">
                 <Label htmlFor="qualification">Educational Qualification</Label>
-                <Input id="qualifiction" />
+                <Input id="qualifiction" value={formData.qualification} onChange={handleChange}  />
               </div> 
               <div className="grid gap-2">
                 <Label htmlFor="experience">Work experience if any</Label>
-                <Input id="experience" type='number' />
+                <Input id="experience" type='number' value={formData.experience} onChange={handleChange}/>
               </div>
               <div className="grid gap-2">
                <Label htmlFor="address">Address</Label>
-               <Input id="address" placeholder="Enter address" />
+               <Input id="address" placeholder="Enter address"  value={formData.address} onChange={handleChange}/>
               </div>
              </TabsContent>
              </Tabs>
