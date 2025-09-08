@@ -246,17 +246,24 @@ export const columns: ColumnDef<Payment>[] = [
       <div className="capitalize">{row.getValue("status")}</div>
     ),
   },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original
+  // {
+  //   id: "actions",
+  //   enableHiding: false,
+  //   cell: ({ row }) => {
+  //     const payment = row.original
    
-      return (
-        <Edit />
-      )
-    },
+  //     return (
+  //       <Edit />
+  //     )
+  //   },
+  // },
+  {
+   id: "actions",
+   enableHiding: false,
+   cell: () => {
+     return <Edit />;
   },
+},
 ]
 export default function Projects() {
   const [sorting, setSorting] = React.useState<SortingState>([])

@@ -2,7 +2,6 @@ import { Card} from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { FileCheck2 } from 'lucide-react';
-import * as React from "react"
 import Dropdown from "../Projects/dropdown"
 
 export default function ProjectCard() {

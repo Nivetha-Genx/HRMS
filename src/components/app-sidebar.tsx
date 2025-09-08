@@ -1,5 +1,5 @@
 import * as React from "react"
-
+import logo from '../assets/logo.svg'
 import {
   IconCamera,
 
@@ -10,7 +10,7 @@ import {
   IconFileWord,
   IconFolder,
   IconHelp,
-  IconInnerShadowTop,
+  // IconInnerShadowTop,
   IconCalendar,IconUsers,
   IconReport,
  IconDoorExit,
@@ -34,14 +34,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-type NavItem = {
-  title: string
-  url: string
-  icon?: React.ComponentType<{ className?: string }>
-} 
-interface NavMainProps {
-  items: NavItem[]
-}
+
 const data = {
   user: {
     name: "Admin",
@@ -175,8 +168,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <a href="#">
-                <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+                {/* <IconInnerShadowTop className="!size-5" />
+                <span className="text-base font-semibold">Acme Inc.</span> */}
+                 <img
+                  src={logo}
+                  alt="Logo"
+                  className="h-8 w-auto"/>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

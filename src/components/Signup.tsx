@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { signupApi } from "@/Services/authservice"
+import logo from '../assets/logo.svg'
 
 
 export function Signup({
@@ -64,7 +65,11 @@ export function Signup({
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-col items-center space-y-4">
+            <img
+                  src={logo}
+                  alt="Logo"
+                  className="h-12 w-auto "/>
           <CardTitle className=" flex items-center justify-center">SignUp</CardTitle>
          
         </CardHeader>

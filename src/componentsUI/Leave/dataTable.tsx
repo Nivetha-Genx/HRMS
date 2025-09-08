@@ -1,6 +1,5 @@
 "use client"
 import * as React from "react"
-import { useState } from "react"
 import {flexRender,getCoreRowModel,getFilteredRowModel,getPaginationRowModel,getSortedRowModel,useReactTable,} from "@tanstack/react-table"
 import type{ColumnDef,ColumnFiltersState,SortingState,VisibilityState,} from "@tanstack/react-table"
 import {  ChevronDown } from "lucide-react"
@@ -154,16 +153,23 @@ export const columns: ColumnDef<Payment>[] = [
       <div className="capitalize">{row.getValue("numberofdays")}</div>
     ),
   },
+  // {
+  //   id: "actions",
+  //   enableHiding: false,
+  //   cell: ({ row }) => {
+  //     const payment = row.original
+  //     return (
+  //       <Edit />
+  //     )
+  //   },
+  // },
   {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original
-      return (
-        <Edit />
-      )
-    },
+   id: "actions",
+   enableHiding: false,
+   cell: () => {
+     return <Edit />;
   },
+},
 ]
 
 export default function DataTable() {
@@ -194,8 +200,6 @@ export default function DataTable() {
     },
   })
 
- const [leaveFilter, setLeaveFilter] = useState<string | undefined>(undefined);
-
   return (
     <div className="w-full max-w mx-auto px-5 ">
       <div className="flex items-center py-4">
@@ -220,25 +224,21 @@ export default function DataTable() {
                   <DropdownMenuItem
                       onClick={() => {
                               table.getColumn("leaveType")?.setFilterValue("Medical Leave")
-                              setLeaveFilter("Medical Leave")
                              }}
                              > Medical Leave</DropdownMenuItem>
                   <DropdownMenuItem
                       onClick={() => {
                               table.getColumn("leaveType")?.setFilterValue("Casual Leave")
-                              setLeaveFilter("Casual Leave")
                               }}
                               >Casual Leave</DropdownMenuItem>
                  <DropdownMenuItem
                      onClick={() => {
                               table.getColumn("leaveType")?.setFilterValue("Annual Leave")
-                              setLeaveFilter("Annual Leave")
                               }}
                               >Annual Leave</DropdownMenuItem>
                   <DropdownMenuItem
                       onClick={() => {
                               table.getColumn("leaveType")?.setFilterValue(undefined)
-                              setLeaveFilter(undefined)
                               }}
                               >Show All</DropdownMenuItem>
                   </DropdownMenuContent>

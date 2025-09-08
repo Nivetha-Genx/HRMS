@@ -135,9 +135,10 @@ function Edit() {
                 </div>
               <DialogFooter>
                   <DialogClose asChild>
-                      <Button variant="outline">Cancel</Button>
+                        <Button variant="outline">Cancel</Button>
                   </DialogClose>
-                     <Button type="submit">Save</Button>
+                         <Button type="submit">Approve</Button>
+                          <Button type="submit" className="bg-red-700">Reject</Button>
               </DialogFooter>
           </form>
         </DialogContent>

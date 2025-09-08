@@ -3,15 +3,10 @@ import { Button } from "@/components/ui/button"
 import { useNavigate , useLocation} from "react-router-dom"
 import { verifyOtpApi } from '../Services/authservice'
 import { useState } from "react"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import {Card,CardContent, CardDescription,CardHeader,CardTitle} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import logo from '../assets/logo.svg'
 
 export function OTP({
   className,
@@ -49,7 +44,11 @@ export function OTP({
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
-        <CardHeader>
+         <CardHeader className="flex flex-col items-center space-y-4">
+            <img
+                  src={logo}
+                  alt="Logo"
+                  className="h-12 w-auto "/>
           <CardTitle>Confirm OTP</CardTitle>
           <CardDescription>
             Enter the OTP we just sent you

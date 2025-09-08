@@ -254,16 +254,23 @@ export const columns: ColumnDef<Payment>[] = [
   },
 },
 
+  // {
+  //   id: "actions",
+  //   enableHiding: false,
+  //   cell: ({ row }) => {
+  //     const payment = row.original
+  //     return (
+  //       <Edit />
+  //     )
+  //   },
+  // },
   {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original
-      return (
-        <Edit />
-      )
-    },
+   id: "actions",
+   enableHiding: false,
+   cell: () => {
+     return <Edit />;
   },
+},
 ]
 
 export default function DataTableDemo() {

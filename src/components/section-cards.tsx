@@ -1,6 +1,6 @@
 import { IconTrendingDown, IconTrendingUp,IconUsers, IconBriefcase,IconUsersGroup,IconCashBanknoteEdit  } from "@tabler/icons-react"
-import type { dashboard } from "@/Services/type"
-import { getDashboard } from "@/Services/DashService"
+// import type { dashboard } from "@/Services/type"
+// import { getDashboard } from "@/Services/DashService"
 import { Badge } from "@/components/ui/badge"
 import {
   Card,
@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { useState,useEffect } from "react"
+// import { useState,useEffect } from "react"
 
 export function SectionCards() {
   //   const [stats, setStats] = useState<dashboard | null>(null);

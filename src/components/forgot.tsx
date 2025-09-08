@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { useNavigate} from "react-router-dom"
 import { useState } from "react"
 import { forgotPasswordApi } from "../Services/authservice"
-
+import logo from '../assets/logo.svg'
 import {
   Card,
   CardContent,
@@ -48,7 +48,11 @@ export function Forgot({
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-col items-center space-y-4">
+            <img
+                  src={logo}
+                  alt="Logo"
+                  className="h-12 w-auto "/>
           <CardTitle>Forgot Password ?</CardTitle>
           <CardDescription>
             You can reset your new password here
