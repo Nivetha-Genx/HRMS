@@ -240,12 +240,25 @@ export const columns: ColumnDef<Payment>[] = [
     ),
   },
   {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
-    ),
+   accessorKey: "status",
+   header: "Status",
+   cell: ({ row }) => {
+    const status = row.getValue("status") as string;
+    let textColor = "";
+
+    switch (status.toLowerCase()) {
+      case "active":
+        textColor = "text-green-700 font-semibold";
+        break;
+      case "inactive":
+        textColor = "text-red-700 font-semibold";
+        break;
+      default:
+        textColor = "text-gray-700";
+    }
+    return <div className={`capitalize ${textColor}`}>{status}</div>;
   },
+},
   // {
   //   id: "actions",
   //   enableHiding: false,

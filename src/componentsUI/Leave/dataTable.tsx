@@ -20,6 +20,7 @@ const data: Payment[] = [
     from:"30-8-2025",
     to: "5-9-2025",
     numberofdays:"7 Days",
+    status:"Approved"
   },
   {
     id: "lhcej53d",
@@ -29,6 +30,7 @@ const data: Payment[] = [
     from:"31-8-2025",
     to: "4-9-2025",
     numberofdays:"6 Days",
+    status:"Rejected"
   },
     {
     id: "m5gr84i9",
@@ -38,6 +40,7 @@ const data: Payment[] = [
     from:"25-8-2025",
     to: "29-8-2025",
     numberofdays:"5 Days",
+    status:"Approved"
   },
   {
     id: "3u1reuv4",
@@ -47,6 +50,7 @@ const data: Payment[] = [
     from:"6-9-2025",
     to: "8-9-2025",
     numberofdays:"3 Days",
+    status:"Rejected"
   },
   {
     id: "derv1ws0",
@@ -56,6 +60,7 @@ const data: Payment[] = [
     from:"7-8-2025",
     to: "8-9-2025",
     numberofdays:"2 Days",
+    status:"pending"
   },
   {
     id: "5kma53ae",
@@ -65,6 +70,7 @@ const data: Payment[] = [
     from:"10-9-2025",
     to: "15-9-2025",
     numberofdays:"6 Days",
+    status:"pending"
   },
   {
     id: "bhqecj4p",
@@ -74,6 +80,7 @@ const data: Payment[] = [
     from:"12-8-2025",
     to: "15-9-2025",
     numberofdays:"4 Days",
+    status:"Approved"
   },
 ]
 
@@ -85,6 +92,7 @@ export type Payment = {
   from: string
   to: string
   numberofdays:string
+  status:string
 }
 
 export const columns: ColumnDef<Payment>[] = [
@@ -153,6 +161,38 @@ export const columns: ColumnDef<Payment>[] = [
       <div className="capitalize">{row.getValue("numberofdays")}</div>
     ),
   },
+  // {
+  //   accessorKey: "status",
+  //   header: "Status",
+  //   cell: ({ row }) => (
+  //     <div className="capitalize">{row.getValue("status")}</div>
+  //   ),
+  // },
+  {
+  accessorKey: "status",
+  header: "Status",
+  cell: ({ row }) => {
+    const status = row.getValue("status") as string;
+    let textColor = "";
+
+    switch (status.toLowerCase()) {
+      case "approved":
+        textColor = "text-green-700 font-semibold";
+        break;
+      case "pending":
+        textColor = "text-yellow-700 font-semibold";
+        break;
+      case "rejected":
+        textColor = "text-red-700 font-semibold";
+        break;
+      default:
+        textColor = "text-gray-700";
+    }
+
+    return <div className={`capitalize ${textColor}`}>{status}</div>;
+  },
+},
+
   // {
   //   id: "actions",
   //   enableHiding: false,

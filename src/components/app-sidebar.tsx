@@ -10,7 +10,6 @@ import {
   IconFileWord,
   IconFolder,
   IconHelp,
-  // IconInnerShadowTop,
   IconCalendar,IconUsers,
   IconReport,
  IconDoorExit,
@@ -168,8 +167,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <a href="#">
-                {/* <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span> */}
                  <img
                   src={logo}
                   alt="Logo"

@@ -27,7 +27,7 @@ const data: Payment[] = [
     id: "lhcej53d",
     employeeId:"ET002",
     name:"Shivani Nachiyar",
-    status:"Prsent",
+    status:"Present",
     checkIn:"09.02 AM",
     checkOut:"06.12 PM",
     break: "20 Mins",
@@ -135,12 +135,25 @@ export const columns: ColumnDef<Payment>[] = [
     return <div className="text-left font-medium">{name}</div>
   },
 },
- {
-  accessorKey: "status",
-  header: () => <div className="text-left">Status</div>,
-  cell: ({ row }) => {
-    const status = row.getValue("status") as string
-    return <div className="text-left ">{status}</div>
+
+  {
+   accessorKey: "status",
+   header: "Status",
+   cell: ({ row }) => {
+    const status = row.getValue("status") as string;
+    let textColor = "";
+
+    switch (status.toLowerCase()) {
+      case "present":
+        textColor = "text-green-700 font-semibold";
+        break;
+      case "absent":
+        textColor = "text-red-700 font-semibold";
+        break;
+      default:
+        textColor = "text-gray-700";
+    }
+    return <div className={`capitalize ${textColor}`}>{status}</div>;
   },
 },
   {
