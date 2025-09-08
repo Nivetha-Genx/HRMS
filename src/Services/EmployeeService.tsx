@@ -7,6 +7,11 @@ export const getEmployees = async (): Promise<empData[]> => {
   const response = await api.get<empData[]>("/employees");
   return response.data;
 }
+/* get single employee by ID */
+export const getEmployee = async (id: string): Promise<addEmpReq> => {
+  const response = await api.get<addEmpReq>(`/employees/${id}`);
+  return response.data;
+};
 
 export const postEmployees = async (data: addEmpReq): Promise<addEmpReq> => {
   const response = await api.put<addEmpReq>("/employees", data);

@@ -3,8 +3,32 @@ import { IconUserCheck } from '@tabler/icons-react';
 import { IconUserExclamation } from '@tabler/icons-react';
 import { IconUserQuestion } from '@tabler/icons-react';
 import DataTable from "./dataTable";
+// import { useState,useEffect } from "react"
+// import { getLeave } from '@/Services/LeaveService';
+//  import type { leave} from "@/Services/type"
 
-export default function Leave() {
+ export default function Leave() {
+  // const [stats, setStats] = useState<leave| null>(null);
+
+  //  useEffect(() => {
+  //     const fetchData = async () => {
+  //     try {
+  //     const data = await getLeave();
+  //     setStats(data);
+  //     } catch (err) {
+  //     console.error("Error fetching dashboard:", err);
+  //   }
+  // };
+
+  // fetchData();
+  // }, []);
+
+  // if (!stats) {
+  //   return <div className="text-center">Loading...</div>;
+  // }
+
+
+
   return (
     <>
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card flex flex-cols-1 
@@ -18,7 +42,9 @@ export default function Leave() {
         <IconUserCheck className="text-white w-6 h-6" />
       </div>
       <div className="ml-28">
-        <p className="text-gray-500 text-sm">Total Present</p>
+        <p className="text-gray-500 text-sm">
+           {/* {stats.totalPresent} */}
+           Total Present</p>
         <p className="text-xl font-bold text-gray-800">
           180<span className="text-gray-400">/200</span>
         </p>
@@ -35,7 +61,9 @@ export default function Leave() {
         <IconUserEdit className="text-white w-6 h-6" />
       </div>
       <div className="ml-28">
-        <p className="text-gray-500 text-sm">Planned leaves</p>
+        <p className="text-gray-500 text-sm">
+           {/* {stats.plannedLeaves} */}
+           Planned leaves</p>
         <p className="text-xl font-bold text-gray-800">
           10
         </p>
@@ -52,7 +80,9 @@ export default function Leave() {
         <IconUserExclamation className="text-white w-6 h-6" />
       </div>
       <div className="ml-28">
-        <p className="text-gray-500 text-sm">Unplanned leaves</p>
+        <p className="text-gray-500 text-sm">
+           {/* {stats.unplannedLeaves} */}
+           Unplanned leaves</p>
         <p className="text-xl font-bold text-gray-800">
           10
         </p>
@@ -68,7 +98,9 @@ export default function Leave() {
         <IconUserQuestion className="text-white w-6 h-6" />
       </div>
       <div className="ml-28">
-        <p className="text-gray-500 text-sm">Pending request</p>
+        <p className="text-gray-500 text-sm">
+           {/* {stats.pendingRequest} */}
+           Pending request</p>
         <p className="text-xl font-bold text-gray-800">
           15
         </p>

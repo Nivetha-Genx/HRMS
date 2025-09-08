@@ -90,7 +90,17 @@ function Addemptab() {
 
   return (
     <div>
-       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+       <Dialog
+          open={dialogOpen}
+          onOpenChange={(isOpen) => {
+          setDialogOpen(isOpen);
+          if (!isOpen) {
+          setFormData({
+               employeeId: "",empName: "",email: "",phoneNumber: "",position: "",department: "",gender: "male",
+                  dob: "",emergencyNumber: "",bloodGroup: "",nationality: "",religion: "", maritalStatus: "",qualification: "",experience: "",address: "",});setDate(undefined);
+           }
+          }}>
+
           <DialogTrigger asChild>
             <Button className="ml-auto">+ Add New</Button>
               </DialogTrigger>
@@ -200,8 +210,8 @@ function Addemptab() {
                   </Popover>
                 </div>
               <div className="grid gap-2">
-                <Label htmlFor="emergencynumber">Emergency Contact Number</Label>
-                <Input id="emergencynumber" type="tel" placeholder="Enter phone number"  value={formData.emergencyNumber} onChange={handleChange} />
+                <Label htmlFor="emergencyNumber">Emergency Contact Number</Label>
+                <Input id="emergencyNumber" type="tel" placeholder="Enter phone number"  value={formData.emergencyNumber} onChange={handleChange} />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="bloodgroup">Blood-Group</Label>
@@ -261,7 +271,7 @@ function Addemptab() {
               </div> 
                <div className="grid gap-2">
                 <Label htmlFor="qualification">Educational Qualification</Label>
-                <Input id="qualifiction" value={formData.qualification} onChange={handleChange}  />
+                <Input id="qualification" value={formData.qualification} onChange={handleChange}  />
               </div> 
               <div className="grid gap-2">
                 <Label htmlFor="experience">Work experience if any</Label>

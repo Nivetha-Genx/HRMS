@@ -159,7 +159,6 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const payment = row.original
-  
       return (
         <Edit />
       )

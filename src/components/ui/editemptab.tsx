@@ -11,11 +11,92 @@ import { Button } from "@/components/ui/button"
 import {DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuLabel,DropdownMenuSeparator,DropdownMenuTrigger,} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select" 
+import { useState,useEffect } from 'react'
+import { getEmployee,putEmployee,deleteEmployee } from '@/Services/EmployeeService'
 
-function editemptab() {
-      const [open, setOpen] = React.useState(false)
-      const [date, setDate] = React.useState<Date | undefined>(undefined)
+function editemptab({ employeeId, onSuccess }: { employeeId: string, onSuccess?: () => void }) {
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [dateOpen, setDateOpen] = React.useState(false);
+  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [formData, setFormData] = useState<any>({
+    employeeId: "",
+    empName: "",
+    email: "",
+    phoneNumber: "",
+    position: "",
+    department: "",
+    gender: "male",
+    dob: "",
+    emergencyNumber: "",
+    bloodGroup: "",
+    nationality: "",
+    religion: "",
+    maritalStatus: "",
+    qualification: "",
+    experience: "",
+    address: "",
+  });
+
+   useEffect(() => {
+    if (!employeeId || !open) return;
+
+    getEmployee(employeeId)
+      .then((data) => {
+        setFormData({
+          employeeId: data.employeeId,
+          empName: data.empName,
+          email: data.email,
+          phoneNumber: data.phoneNumber,
+          position: data.position,
+          department: data.department,
+          gender: data.gender,
+          dob: data.dob ? new Date(data.dob) : undefined,
+          emergencyNumber: data.emergencyNumber,
+          bloodGroup: data.bloodGroup,
+          nationality: data.nationality,
+          religion: data.religion,
+          maritalStatus: data.maritalStatus,
+          qualification: data.qualification,
+          experience: data.experience,
+          address: data.address,
+        });
+        if (data.dob) setDate(new Date(data.dob));
+      })
+      .catch((err:any) => console.error(err));
+  }, [employeeId , open]);
+
+const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+ const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await putEmployee(employeeId, { ...formData, dob: date ? date.toISOString() : null });
+      console.log("Employee updated successfully!");
+      setDialogOpen(false);
+      if (onSuccess) onSuccess();
+    } catch (err) {
+      console.error(err);
+      console.log("Failed to update employee");
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!confirm("Are you sure you want to delete this employee?")) return;
+    try {
+      await deleteEmployee(employeeId);
+      console.log("Employee deleted successfully!");
+      setDialogOpen(false);
+      if (onSuccess) onSuccess();
+    } catch (err) {
+      console.error(err);
+      console.log("Failed to delete employee");
+    }
+  };
+
+
   return (
     <div>
        <DropdownMenu>
@@ -28,7 +109,16 @@ function editemptab() {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-          <Dialog>
+           <Dialog
+              open={dialogOpen}
+              onOpenChange={(isOpen) => {
+              setDialogOpen(isOpen);
+              if (!isOpen) {
+              setFormData({
+                employeeId: "",empName: "",email: "",phoneNumber: "",position: "",department: "",gender: "male",
+                dob: "",emergencyNumber: "",bloodGroup: "",nationality: "",religion: "", maritalStatus: "",qualification: "",experience: "",address: "",});setDate(undefined);
+              }
+            }}>
             <DialogTrigger asChild>
               <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
             </DialogTrigger>
@@ -36,7 +126,7 @@ function editemptab() {
               <DialogHeader>
                 <DialogTitle>Edit Employee</DialogTitle>
               </DialogHeader>
-              <form className="grid gap-4">
+              <form className="grid gap-4" onSubmit={handleUpdate}>
                <Tabs defaultValue="basic" className="w-full">
                   <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="basic">Basic Information</TabsTrigger>
@@ -45,34 +135,36 @@ function editemptab() {
                 <TabsContent value="basic" className="space-y-8 mt-4">
                  <div className="grid gap-2">
                     <Label htmlFor="employeeID">EmployeeId</Label>
-                    <Input id="employeeid" />
+                    <Input id="employeeId" value={formData.employeeId} onChange={handleChange} />
                  </div>
                   <div className="grid gap-2">
                      <Label htmlFor="empName">Employee Name</Label>
-                     <Input id="empName" placeholder="Enter employee name" />
+                     <Input id="empName" placeholder="Enter employee name" value={formData.empName} onChange={handleChange} />
                   </div>
                   <div className="grid gap-2">
                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" placeholder="@gmail.com" />
+                    <Input id="email" placeholder="@gmail.com"  value={formData.email} onChange={handleChange} />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="phonenumber">Phone Number</Label>
-                    <Input id="phonenumber" placeholder="Enter Phone Number" />
+                    <Label htmlFor="phoneNumber">Phone Number</Label>
+                    <Input id="phoneNumber" type='tel' placeholder="Enter Phone Number" value={formData.phoneNumber} onChange={handleChange} />
                   </div>
                 <div className="grid gap-2">
                   <Label htmlFor="position">Position</Label>
-                  <Input id="position" placeholder="Enter position" />
+                  <Input id="position" placeholder="Enter position"  value={formData.position} onChange={handleChange} />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="department">Department</Label>
-                  <Input id="department" placeholder="Enter department" />
+                  <Input id="department" placeholder="Enter department" value={formData.department} onChange={handleChange} />
                 </div>
             </TabsContent>
 
               <TabsContent value="personal" className="space-y-8 mt-4">
                  <div className="grid gap-4">
                    <Label>Gender</Label>
-                   <RadioGroup defaultValue="male" className="flex gap-6">
+                   <RadioGroup defaultValue="male" className="flex gap-6" 
+                    value={formData.gender} 
+                     onValueChange={(value) => setFormData({ ...formData, gender: value })}>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="male" id="male" />
                   <Label htmlFor="male">Male</Label>
@@ -91,7 +183,7 @@ function editemptab() {
                      <Label htmlFor="date" className="px-1">
                        Date of birth
                      </Label>
-                  <Popover open={open} onOpenChange={setOpen}>
+                  <Popover open={dateOpen} onOpenChange={setDateOpen}>
                   <PopoverTrigger asChild>
                   <Button
                      variant="outline"
@@ -108,22 +200,20 @@ function editemptab() {
                       captionLayout="dropdown"
                       onSelect={(date) => {
                       setDate(date)
-                      setOpen(false)
+                      setDateOpen(false)
                       }}/>
                   </PopoverContent>
                   </Popover>
                 </div>
               <div className="grid gap-2">
-                  <Label htmlFor="phone">Phone Number</Label>
-                  <Input id="phone" type="tel" placeholder="Enter phone number" />
-              </div>
-              <div className="grid gap-2">
-                  <Label htmlFor="emergencynumber">Emergency Contact Number</Label>
-                  <Input id="emergencynumber" type="tel" placeholder="Enter phone number" />
+                  <Label htmlFor="emergencyNumber">Emergency Contact Number</Label>
+                  <Input id="emergencyNumber" type="tel" placeholder="Enter phone number"  value={formData.emergencyNumber} onChange={handleChange} />
               </div>
               <div className="grid gap-2">
                   <Label htmlFor="bloodgroup">Blood-Group</Label>
-                    <Select>
+                    <Select 
+                        value={formData.bloodGroup}
+                        onValueChange={(value) => setFormData({ ...formData, bloodGroup: value })}>
                         <SelectTrigger id="bloodgroup" className="w-full h-10">
                             <SelectValue placeholder="Select Blood-Group" />
                         </SelectTrigger>
@@ -141,7 +231,8 @@ function editemptab() {
               </div> 
               <div className="grid gap-2">
                 <Label htmlFor="nationality">Nationality</Label>
-                <Select>
+                <Select value={formData.nationality}
+                        onValueChange={(value) => setFormData({ ...formData, nationality: value })}>
                     <SelectTrigger id="nationality" className="w-full h-10">
                       <SelectValue placeholder="Select Nationality" />
                       </SelectTrigger>
@@ -153,7 +244,9 @@ function editemptab() {
               </div> 
               <div className="grid gap-2">
                 <Label htmlFor="religion">Religion</Label>
-                 <Select>
+                 <Select 
+                        value={formData.religion}
+                        onValueChange={(value) => setFormData({ ...formData, religion: value })}>
                     <SelectTrigger id="religion" className="w-full h-10">
                       <SelectValue placeholder="Select Religion" />
                       </SelectTrigger>
@@ -167,8 +260,9 @@ function editemptab() {
               </div> 
               <div className="grid gap-2">
                 <Label htmlFor="marital status">Marital status</Label>
-                <Select>
-                    <SelectTrigger id="marital status" className="w-full h-10">
+                <Select  value={formData.maritalstatus}
+                        onValueChange={(value) => setFormData({ ...formData, maritalstatus: value })}>
+                    <SelectTrigger id="maritalstatus" className="w-full h-10">
                       <SelectValue placeholder="Select status" />
                       </SelectTrigger>
                     <SelectContent>
@@ -179,15 +273,15 @@ function editemptab() {
               </div> 
                <div className="grid gap-2">
                 <Label htmlFor="qualification">Educational Qualification</Label>
-                <Input id="qualifiction" />
+                <Input id="qualification"   value={formData.qualification} onChange={handleChange} />
               </div> 
               <div className="grid gap-2">
                 <Label htmlFor="experience">Work experience if any</Label>
-                <Input id="experience" type='number' />
+                <Input id="experience" type='number'  value={formData.experience} onChange={handleChange}/>
               </div>
               <div className="grid gap-2">
                <Label htmlFor="address">Address</Label>
-               <Input id="address" placeholder="Enter address" />
+               <Input id="address" placeholder="Enter address"  value={formData.address} onChange={handleChange}/>
               </div>
              </TabsContent>
              </Tabs>
@@ -200,7 +294,7 @@ function editemptab() {
           </form>
         </DialogContent>
       </Dialog>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem  onClick={handleDelete}>Delete</DropdownMenuItem>
           </DropdownMenuContent>
     </DropdownMenu>
     </div>

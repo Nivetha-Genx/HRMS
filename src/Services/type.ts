@@ -1,6 +1,7 @@
- /*AuthService*/
- export interface LoginRequest { email: string ,password: string
-}
+
+
+// AUTHSERVICE
+export interface LoginRequest { email: string ,password: string}
 export interface LoginResponse { 
  token: string
   user: {
@@ -30,7 +31,7 @@ export interface VerifyOtpResponse { message: string }
 
 export interface ResetPasswordRequest { email: string , newPassword: string }
 
-/*Dashboard */
+// Dashboard
 export interface dashboard { 
   totalEmployees:string
   jobApplications:string
@@ -52,7 +53,8 @@ export interface ChartResponse {
   chartData: ChartRecord[];
   pieData: PieRecord[];
 }
-/* employees*/
+
+// Employee
 export interface empData{
   id: string
   employeeId: string
@@ -82,3 +84,20 @@ export interface addEmpReq{
     experience: string
     address: string
 }
+
+// ATTENDANCE
+export interface attendance{
+  totalEmployee:string
+  present: string
+  unInformed:string
+  permission:string
+}
+
+// LEAVE
+export interface leave{
+  totalPresent:string
+  plannedLeaves:string
+  unplannedLeaves:string
+  pendingRequest:string
+}
+

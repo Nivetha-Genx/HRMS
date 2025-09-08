@@ -180,7 +180,7 @@ export const columns: ColumnDef<Payment>[] = [
       const payment = row.original
       
       return (
-        <Editemptab />
+        <Editemptab employeeId={payment.employeeId} onSuccess={() => window.location.reload()} />
       )
     },
   },
