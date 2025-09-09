@@ -12,6 +12,7 @@ import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "@/compo
 import axios from "axios"
 import Edit from '../Payroll/Edit'
 import Add from '../Payroll/Add'
+import { useNavigate } from "react-router-dom";
 
 const data: Payment[] = [
     {
@@ -220,32 +221,56 @@ export const columns: ColumnDef<Payment>[] = [
       <div className="capitalize">{row.getValue("salary")}</div>
     ),
   },
-  {
+//   {
+//   accessorKey: "payslip",
+//   header: "Payslip",
+//   cell: ({ row }) => {
+//     const employee = row.original;
+
+//     const handleGeneratePayslip = async () => {
+//       try {
+//         const res = await axios.post(
+//           "http://localhost:5000/api/payslip/generate",
+//           { employeeId: employee.employeeId }, 
+//           { responseType: "blob" }
+//         );
+
+//         const blob = new Blob([res.data], { type: "application/pdf" });
+//         const url = window.URL.createObjectURL(blob);
+//         window.open(url);
+//         setTimeout(() => window.URL.revokeObjectURL(url), 10000);
+//       } catch (err) {
+//         console.error(err);
+//       }
+//     };
+
+//     return (
+//       <button
+//         onClick={handleGeneratePayslip}
+//         className="px-3 py-1 bg-[#3E8EDF] text-white rounded hover:bg-[#0b78e6]"
+//       >
+//         Generate Payslip
+//       </button>
+//     );
+//   },
+// },
+
+
+{
   accessorKey: "payslip",
   header: "Payslip",
   cell: ({ row }) => {
     const employee = row.original;
+    const navigate = useNavigate();
 
-    const handleGeneratePayslip = async () => {
-      try {
-        const res = await axios.post(
-          "http://localhost:5000/api/payslip/generate",
-          { employeeId: employee.employeeId }, 
-          { responseType: "blob" }
-        );
-
-        const blob = new Blob([res.data], { type: "application/pdf" });
-        const url = window.URL.createObjectURL(blob);
-        window.open(url);
-        setTimeout(() => window.URL.revokeObjectURL(url), 10000);
-      } catch (err) {
-        console.error(err);
-      }
+    const handlePreviewPayslip = () => {
+      navigate("/payslip", { state: { employee } });
     };
+    // const handlePreview = () => navigate("/payslip", { state: { employeeId: row.original.employeeId } });
 
     return (
       <button
-        onClick={handleGeneratePayslip}
+        onClick={handlePreviewPayslip}
         className="px-3 py-1 bg-[#3E8EDF] text-white rounded hover:bg-[#0b78e6]"
       >
         Generate Payslip

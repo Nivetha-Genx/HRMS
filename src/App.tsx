@@ -14,6 +14,7 @@ import Leave from './componentsUI/Leave/Leave'
 import Projects from './componentsUI/Projects/Projects'
 import PayRoll from './componentsUI/Payroll/PayRoll'
 import MasterLayout from './MasterLayout.tsx/MaterLayout'
+import Payslip from './componentsUI/Payroll/Payslip'
 
 function App() {
 
@@ -36,9 +37,9 @@ function App() {
               <Route path="attendance" element={<Attendance/>} />
                <Route path="leave" element={<Leave/>} />
               <Route path="projects" element={<Projects/>} />
-              <Route path="payroll" element={<PayRoll/>} />
-              
+              <Route path="payroll" element={<PayRoll/>} /> 
             </Route>
+             <Route path="payslip" element={<Payslip/>} />
           </Routes>
        </BrowserRouter> 
       <Toaster position="top-right" richColors />

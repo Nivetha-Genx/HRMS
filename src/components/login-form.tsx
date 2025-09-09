@@ -1,19 +1,11 @@
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
-import { loginApi } from "../Services/authservice"
-import { toast } from "sonner"
+// import { loginApi } from "../Services/authservice"
+// import { toast } from "sonner"
 import logo from '../assets/logo.svg'
-
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import {Card,CardContent,CardDescription,CardHeader,CardTitle} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
@@ -22,41 +14,46 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
 
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState("admin@example.com")
+  const [password, setPassword] = useState("password")
+  // const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const navigate=useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
-    setLoading(true)
+  e.preventDefault()
+  setError("") 
 
-    try {
-      const res = await loginApi({ email, password })
-      localStorage.setItem("token", res.token) 
-      localStorage.setItem("user", JSON.stringify(res.user))
-      toast.success("Login successfull");
-
-      window.location.href = "/dashboard"
-    } catch (err: any) {
-
-      if (err.response?.status === 401) {
-        setError("Invalid email or password")
-        toast.error("Login failed");
-      } else {
-        setError("Login failed. Try again later.")
-      }
-    } finally {
-      setLoading(false)
-    }
+  // Hardcoded check (for now)
+  if (email === "admin@example.com" && password === "password") {
+    navigate("/masterLayout")
+  } else {
+    setError("Invalid email or password")
   }
 
-  
+
+    // try {
+    //   const res = await loginApi({ email, password })
+    //   localStorage.setItem("token", res.token) 
+    //   localStorage.setItem("user", JSON.stringify(res.user))
+    //   toast.success("Login successfull");
+
+    //   window.location.href = "/dashboard"
+    // } catch (err: any) {
+
+    //   if (err.response?.status === 401) {
+    //     setError("Invalid email or password")
+    //     toast.error("Login failed");
+    //   } else {
+    //     setError("Login failed. Try again later.")
+    //   }
+    // } finally {
+    //   setLoading(false)
+    // }
+  }
    
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      
+    <div className={cn("flex flex-col gap-6", className)} {...props}>  
       <Card>
         <CardHeader className="flex flex-col items-center space-y-4">
             <img
@@ -101,8 +98,8 @@ export function LoginForm({
 
                 <div className="flex flex-col gap-3">
                       {error && <p className="text-red-700 text-sm">{error}</p>}
-                  <Button type="submit" className="w-full">
-                      {loading ? "Logging in..." : "Login"}
+                  <Button type="submit" className="w-full">Login
+                      {/* {loading ? "Logging in..." : "Login"} */}
                    
                   </Button>
                   <Button variant="outline" className="w-full">
