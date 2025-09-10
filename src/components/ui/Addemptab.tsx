@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useState} from 'react'
 import type { addEmpReq } from '@/Services/type'
 import { postEmployees } from '@/Services/EmployeeService'
+import { Textarea } from "@/components/ui/textarea"
 
 
 function Addemptab() {
@@ -39,7 +40,7 @@ function Addemptab() {
         address: "",
       });
 
-      const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement  | HTMLTextAreaElement>) => {
       setFormData({
         ...formData,
         [e.target.id]: e.target.value,
@@ -84,7 +85,7 @@ function Addemptab() {
     setDate(undefined);
     setDialogOpen(false);
   } catch (err) {
-    console.error("Error adding employee:", err);
+    console.log("Error adding employee:", err);
   }
 };
 
@@ -97,7 +98,8 @@ function Addemptab() {
           if (!isOpen) {
           setFormData({
                employeeId: "",empName: "",email: "",phoneNumber: "",position: "",department: "",gender: "male",
-                  dob: "",emergencyNumber: "",bloodGroup: "",nationality: "",religion: "", maritalStatus: "",qualification: "",experience: "",address: "",});setDate(undefined);
+                  dob: "",emergencyNumber: "",bloodGroup: "",nationality: "",religion: "", maritalStatus: "",qualification: "",experience: "",address: "",});
+                  setDate(undefined);
            }
           }}>
 
@@ -279,7 +281,7 @@ function Addemptab() {
               </div>
               <div className="grid gap-2">
                <Label htmlFor="address">Address</Label>
-               <Input id="address" placeholder="Enter address"  value={formData.address} onChange={handleChange}/>
+               <Textarea id="address" placeholder="Enter your address here"  value={formData.address} onChange={handleChange}/>
               </div>
              </TabsContent>
              </Tabs>

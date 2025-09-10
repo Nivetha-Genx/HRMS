@@ -33,7 +33,7 @@ export default function Payslip() {
           }
 
         .logo img {
-          width: 150px;
+          width: 180px;
           height: auto;
           object-fit: contain;
         }
@@ -155,7 +155,7 @@ export default function Payslip() {
                 <img src="/logo.svg" alt="Company Logo" />
               </td>
               <td className="payslip-month">
-                <h3>Payslip For the Month</h3>
+                <h6>Payslip For the Month</h6>
                 <p>September 2025</p>
               </td>
             </tr>

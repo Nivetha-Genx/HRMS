@@ -1,7 +1,11 @@
 import api from './ApiService';
-import type { addEmpReq, empData } from './type';
+import type {cardemp, addEmpReq, empData } from './type';
 
 
+export const getcardemp = async (): Promise<cardemp> => {
+  const response = await api.get<cardemp>("/employee");
+  return response.data;
+};
 
 export const getEmployees = async (): Promise<empData[]> => {
   const response = await api.get<empData[]>("/employees");
@@ -14,7 +18,7 @@ export const getEmployee = async (id: string): Promise<addEmpReq> => {
 };
 
 export const postEmployees = async (data: addEmpReq): Promise<addEmpReq> => {
-  const response = await api.put<addEmpReq>("/employees", data);
+  const response = await api.post<addEmpReq>("/employees", data);
   return response.data;
 }
 

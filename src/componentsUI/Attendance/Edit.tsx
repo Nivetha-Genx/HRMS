@@ -32,7 +32,6 @@ import { Input } from "@/components/ui/input"
 
 
 function Edit() {
-      
       const [hour, setHour] = useState("09");
       const [minute, setMinute] = useState("00");
       const [ampm, setAmPm] = useState("AM");
@@ -59,9 +58,9 @@ function Edit() {
             </DialogHeader>
             <form className="grid gap-5">
                 <div className="grid gap-2">
-                     <Label htmlFor="date" className="px-1">
-                    Date of birth
-                  </Label>
+                    <Label htmlFor="date" className="px-1">
+                        Date of birth
+                    </Label>
                   <Popover open={open} onOpenChange={setOpen}>
                   <PopoverTrigger asChild>
                   <Button

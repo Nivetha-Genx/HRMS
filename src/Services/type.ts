@@ -55,6 +55,13 @@ export interface ChartResponse {
 }
 
 // Employee
+export interface cardemp{
+  totalEmployee:number
+  active:number
+  inactive:number
+  newJoiners:number
+}
+
 export interface empData{
   id: string
   employeeId: string
@@ -100,4 +107,23 @@ export interface leave{
   unplannedLeaves:string
   pendingRequest:string
 }
-
+export interface addleave{
+  employeeId:string
+  employeeName:string
+  leaveType:string
+  fromDate:string | null
+  toDate:string | null
+  numberofdays:string
+  reason:string
+}
+// PROJECTS
+export interface project{
+  projectId:string
+  projectName:string
+  leader:string
+  team:string
+  deadLine:string | null
+  priority:string
+  status:string
+  description:string
+}

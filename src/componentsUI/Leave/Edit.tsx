@@ -10,12 +10,81 @@ import { MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuLabel,DropdownMenuSeparator,DropdownMenuTrigger,} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
+import { useState,useEffect } from "react"
+import { getLeave, putLeave, deleteLeave } from "@/Services/LeaveService"
+import type { addleave } from "@/Services/type"
+import { Textarea } from "@/components/ui/textarea"
 
-function Edit() {
-        const [fromDate, setFromDate] = React.useState<Date | undefined>(undefined)
-        const [toDate, setToDate] = React.useState<Date | undefined>(undefined)
-        const [openFrom, setOpenFrom] = React.useState(false)
-        const [openTo, setOpenTo] = React.useState(false)
+
+type EditProps = {
+  employeeId: string
+  onSuccess?: () => void
+}
+
+function Edit({ employeeId, onSuccess }: EditProps) {
+   const [fromDate, setFromDate] = React.useState<Date | undefined>(undefined)
+   const [toDate, setToDate] = React.useState<Date | undefined>(undefined)
+   const [openFrom, setOpenFrom] = React.useState(false)
+   const [openTo, setOpenTo] = React.useState(false)
+   const [dialogOpen, setDialogOpen] = React.useState(false);
+   const [formData, setFormData] = useState<addleave>({
+      employeeId:"",
+      employeeName:"",
+      leaveType:"",
+      fromDate:"",
+      toDate:"",
+      numberofdays:"",
+      reason:"",
+   });
+
+   useEffect(() => {
+      if (!employeeId || !dialogOpen) return;
+
+    getLeave(employeeId)
+        .then((data) => {
+        setFormData({
+          employeeId: data.employeeId,
+          employeeName: data.employeeName,
+          leaveType:data.leaveType,
+          fromDate:data.fromDate,
+          toDate:data.toDate,
+          numberofdays:data.numberofdays,
+          reason:data.reason,    
+      });
+         if (data.fromDate) setFromDate(new Date(data.fromDate))
+         if (data.toDate) setToDate(new Date(data.toDate))
+      })
+        .catch((err:any) => console.error(err));
+      }, [employeeId , dialogOpen]);
+
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement| HTMLTextAreaElement>) => {
+      const { id, value } = e.target;
+        setFormData({ ...formData, [id]: value });
+      };
+      const handleUpdate = async (status: "Approved" | "Rejected") => {
+             try {
+             await putLeave(employeeId, { ...formData, fromDate: fromDate ? fromDate.toISOString() : null,  toDate: toDate ? toDate.toISOString() : null});
+            console.log(`Leave ${status} successfully!`)
+             setDialogOpen(false);
+             if (onSuccess) onSuccess();
+           } catch (err) {
+             console.error(err);
+             console.log("Failed to update leave");
+           }
+         };
+         const handleDelete = async () => {
+             if (!confirm("Are you sure you want to delete this leave?")) return;
+             try {
+               await deleteLeave(employeeId);
+               console.log("leave deleted successfully!");
+               setDialogOpen(false);
+               if (onSuccess) onSuccess();
+             } catch (err) {
+               console.error(err);
+               console.log("Failed to delete employee");
+             }
+           };
+
   return (
     <div>
       <DropdownMenu>
@@ -28,7 +97,22 @@ function Edit() {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-          <Dialog>
+          <Dialog 
+          open={dialogOpen}
+              onOpenChange={(isOpen) => {
+              setDialogOpen(isOpen);
+              if (!isOpen) {
+              setFormData({ 
+                  employeeId:"",
+                  employeeName:"",
+                  leaveType:"",
+                  fromDate:"",
+                  toDate:"",
+                  numberofdays:"",
+                  reason:""
+              });
+            }
+            }}>
             <DialogTrigger asChild>
               <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
             </DialogTrigger>
@@ -40,44 +124,36 @@ function Edit() {
                   </DialogDescription>
               </DialogHeader>
               <form className="grid gap-8">
-                <div className="grid gap-2">
-                  <Label htmlFor="employeeName">Employee Name</Label>
-                      <Select>
-                         <SelectTrigger id="employeeName" className="w-full h-10" >
-                          <SelectValue placeholder="Select Employee Name" />
-                         </SelectTrigger>
-                         <SelectContent>
-                            <SelectItem value="name">Shivaji</SelectItem>
-                            <SelectItem value="name">Shivani</SelectItem>
-                            <SelectItem value="name">jayashree</SelectItem>
-                            <SelectItem value="name">Akila Sri</SelectItem>
-                            <SelectItem value="name">Pavithra</SelectItem>
-                            <SelectItem value="name">Nisha</SelectItem>
-                            <SelectItem value="name">Sagana</SelectItem>
-                         </SelectContent>
-                    </Select>  
-                </div>
+                 <div className="grid gap-2">
+                     <Label htmlFor="employeeID">EmployeeId</Label>
+                      <Input id="employeeId"  value={formData.employeeId} onChange={handleChange}  />
+                                    </div>
+                 <div className="grid gap-2">
+                    <Label htmlFor="employeeName">Employee Name</Label>
+                     <Input id="employeeName" placeholder="Enter employee name" value={formData.employeeName} onChange={handleChange} />
+                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="leaveType">Leave Type</Label>
-                      <Select>
+                      <Select  value={formData.leaveType}
+                        onValueChange={(value) => setFormData({ ...formData, leaveType: value })}>
                          <SelectTrigger id="leaveType" className="w-full h-10">
                           <SelectValue placeholder="Select Leave Type" />
                           </SelectTrigger>
                          <SelectContent>
-                            <SelectItem value="leaveType">Medical Leave</SelectItem>
-                            <SelectItem value="leaveType">Casual Leave</SelectItem>  
+                            <SelectItem value="medicalLeave">Medical Leave</SelectItem>
+                            <SelectItem value="casualLeave">Casual Leave</SelectItem>  
                          </SelectContent>
                     </Select>  
                 </div>
                 <div className="grid gap-2">
-                   <Label htmlFor="from-date" className="px-1">
+                   <Label htmlFor="fromDate" className="px-1">
                     From Date
                   </Label>
                   <Popover open={openFrom} onOpenChange={setOpenFrom}>
                   <PopoverTrigger asChild>
                   <Button
                       variant="outline"
-                      id="from-date"
+                      id="fromDate"
                       className="justify-between font-normal">
                       {fromDate ? fromDate.toLocaleDateString() : "Select date"}
                     <ChevronDownIcon />
@@ -89,7 +165,7 @@ function Edit() {
                     selected={fromDate}
                     captionLayout="dropdown"
                     onSelect={(date) => {
-                    setFromDate(date)
+                    setFormData({ ...formData, fromDate: date?.toISOString() ?? "" })
                     setOpenFrom(false)
                     }}
                     />
@@ -97,14 +173,14 @@ function Edit() {
                   </Popover>
                 </div>
                 <div className="grid gap-2">
-                   <Label htmlFor="date" className="px-1">
+                   <Label htmlFor="ToDate" className="px-1">
                      To Date
                     </Label>
                     <Popover open={openTo} onOpenChange={setOpenTo}>
                     <PopoverTrigger asChild>
                     <Button
                        variant="outline"
-                       id="date"
+                       id="toDate"
                        className="justify-between font-normal">
                        {toDate ? toDate.toLocaleDateString() : "Select date"}
                         <ChevronDownIcon />
@@ -116,7 +192,7 @@ function Edit() {
                     selected={toDate}
                     captionLayout="dropdown"
                     onSelect={(date) => {
-                    setToDate(date)
+                    setFormData({ ...formData, toDate: date?.toISOString() ?? "" })
                     setOpenTo(false)
                     }}
                     />
@@ -125,25 +201,23 @@ function Edit() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="numberofdays">No of Days</Label>
-                      <Input id="numberofdays" type="number" />
+                      <Input id="numberofdays" type="number"  value={formData.numberofdays} onChange={handleChange} />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="to-date" className="px-1">
-                     Reason
-                  </Label>
-                  <Input id="reason" />
+                  <Label htmlFor="reason" className="px-1">Reason</Label>
+                  <Textarea id="reason" placeholder="Enter your reason here"  value={formData.reason} onChange={handleChange}/>
                 </div>
               <DialogFooter>
                   <DialogClose asChild>
                         <Button variant="outline">Cancel</Button>
                   </DialogClose>
-                         <Button type="submit">Approve</Button>
-                          <Button type="submit" className="bg-red-700">Reject</Button>
+                         <Button type="button" onClick={() => handleUpdate("Approved")}>Approve</Button>
+                          <Button type="button" onClick={() => handleUpdate("Rejected")} className="bg-red-700">Reject</Button>
               </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
     </div>

@@ -7,14 +7,69 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Dialog,DialogClose,  DialogContent,DialogDescription,DialogFooter,DialogHeader,DialogTitle,DialogTrigger,} from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import type { project } from '@/Services/type'
+import { postProject } from '@/Services/projectService' 
+import { useState } from 'react'
+import { Textarea } from "@/components/ui/textarea"
 
 
-function Add() {
+const Add = () => {
      const [open, setOpen] = React.useState(false)
      const [date, setDate] = React.useState<Date | undefined>(undefined)
+     const [dialogOpen, setDialogOpen] = React.useState(false);
+     const [formData, setFormData] = useState<project>({
+        projectId: '',
+        projectName: '',
+        leader: '',
+        team: '',
+        deadLine: '',
+        priority: '',
+        status: '',
+        description: ''
+    })
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setFormData({...formData,[e.target.id]: e.target.value, });
+    };
+
+    const handleSelectChange = (field: keyof project, value: string) => {
+      setFormData({...formData,[field]: value,});
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+
+       try {
+          await postProject(formData);
+          console.log('Project added successfully');
+          setFormData({
+            projectId: '',
+            projectName: '',
+            leader: '',
+            team: '',
+            deadLine: '',
+            priority: '',
+            status: '',
+            description: ''
+        });
+          setOpen(false);
+        } catch (error) {
+          console.log('Error adding project:', error);
+        }   
+      }
   return (
+
     <div>
-       <Dialog>
+           <Dialog
+              open={dialogOpen}
+              onOpenChange={(isOpen) => {
+              setDialogOpen(isOpen);
+              if (!isOpen) {
+              setFormData({
+                 projectId: '',projectName: '', leader: '',team: '',  deadLine: '', priority: '' , status: '',description: ''
+             });
+              setDate(undefined);
+            }
+            }}>
               <DialogTrigger asChild>
                 <Button className="ml-auto">+ Add New</Button>
               </DialogTrigger>
@@ -25,18 +80,18 @@ function Add() {
                            Fill in project details and click save.
                       </DialogDescription>
                 </DialogHeader>
-                   <form className="grid gap-8">
+                   <form className="grid gap-8" onSubmit={handleSubmit}>
                 <div className="grid gap-2">
                   <Label htmlFor="projectID">ProjectId</Label>
-                     <Input id="projectid" />
+                     <Input id="projectid"   value={formData.projectId} onChange={handleChange}  />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="projectName">ProjectName</Label>
-                      <Input id="projectName" />
+                      <Input id="projectName" value={formData.projectName} onChange={handleChange}  />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="leader">Team Leader</Label>
-                      <Select>
+                      <Select onValueChange={(value) => handleSelectChange('leader', value)}>
                          <SelectTrigger id="leader" className="w-full h-10">
                             <SelectValue placeholder="Select Team leader" />
                          </SelectTrigger>
@@ -53,7 +108,7 @@ function Add() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="team">Team</Label>
-                     <Select>
+                     <Select onValueChange={(value) => handleSelectChange('team', value)}>
                         <SelectTrigger id="team" className="w-full h-10">
                              <SelectValue placeholder="Select Team members" />
                         </SelectTrigger>
@@ -97,7 +152,7 @@ function Add() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="priority">Priority</Label>
-                     <Select>
+                     <Select onValueChange={(value) => handleSelectChange('status', value)}>
                         <SelectTrigger id="priority" className="w-full h-10">
                             <SelectValue placeholder="Select priority" />
                         </SelectTrigger>
@@ -110,7 +165,7 @@ function Add() {
                 </div>
                 <div className="grid gap-2">
                     <Label htmlFor="status">Status</Label>
-                        <Select>
+                        <Select onValueChange={(value) => handleSelectChange('status', value)}>
                          <SelectTrigger id="status" className="w-full h-10">
                              <SelectValue placeholder="Select status" />
                         </SelectTrigger>
@@ -120,6 +175,10 @@ function Add() {
                         </SelectContent>
                         </Select>
                 </div>
+                 <div className="grid gap-2">
+                 <Label htmlFor="description">Description</Label>
+                 <Textarea placeholder="Type your message here." id="description" value={formData.description} onChange={handleChange} />
+                 </div>
                 
               <DialogFooter>
                   <DialogClose asChild>

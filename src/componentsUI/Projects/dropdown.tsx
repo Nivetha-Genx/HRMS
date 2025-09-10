@@ -10,10 +10,76 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
 import { ChevronDownIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
+import type { project } from '@/Services/type'
+import { getProject,putProject,deleteProject } from '@/Services/projectService'
+import { useState,useEffect } from 'react'   
+import { Textarea } from "@/components/ui/textarea"
 
-function dropdown() {
+
+function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => void}) {
     const [open, setOpen] = React.useState(false)
+     const [dialogOpen, setDialogOpen] = React.useState(false);
     const [date, setDate] = React.useState<Date | undefined>(undefined)
+    const [formData, setFormData] = useState<project>({
+               projectId: '',
+               projectName: '',
+               leader: '',
+               team: '',
+               deadLine: '',
+               priority: '',
+               status: '',
+               description: ''
+           })
+    useEffect(() => {
+              if (!projectId || !open) return;
+           
+               getProject(projectId)
+                 .then((data) => {
+                   setFormData({
+                      projectId: data.projectId,
+                      projectName: data.projectName,
+                      leader: data.leader,
+                      team: data.team,
+                      deadLine: data.deadLine,
+                      priority: data.priority,
+                      status: data.status,
+                      description: data.description
+                   });
+                if (data.deadLine) setDate(new Date(data.deadLine));
+                 })
+                 .catch((err:any) => console.error(err));
+             }, [projectId , open]);
+    
+             const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+              const { id, value } = e.target;
+              setFormData({ ...formData, [id]: value });
+            };
+    
+             const handleUpdate = async (e: React.FormEvent) => {
+                e.preventDefault();
+                try {
+                  await putProject(projectId, { ...formData, deadLine: date ? date.toISOString() : null });
+                  console.log("Project updated successfully!");
+                  setDialogOpen(false);
+                  if (onSuccess) onSuccess();
+                } catch (err) {
+                  console.error(err);
+                  console.log("Failed to update project");
+                }
+              };
+              const handleDelete = async () => {
+                  if (!confirm("Are you sure you want to delete this project?")) return;
+                  try {
+                    await deleteProject(projectId);
+                    console.log("Project deleted successfully!");
+                    setDialogOpen(false);
+                    if (onSuccess) onSuccess();
+                  } catch (err) {
+                    console.error(err);
+                    console.log("Failed to delete Project");
+                  }
+                };
+    
   return (
     <div>
       <DropdownMenu>
@@ -26,7 +92,16 @@ function dropdown() {
           <DropdownMenuContent align="end">
              <DropdownMenuLabel>Actions</DropdownMenuLabel>
                <DropdownMenuSeparator />
-          <Dialog>
+            <Dialog
+                open={dialogOpen}
+                onOpenChange={(isOpen) => {
+                setDialogOpen(isOpen);
+                if (!isOpen) {
+                setFormData({
+                  projectId: '',projectName: '', leader: '',team: '',  deadLine: '',priority:'', status: '',description: ''});
+                  setDate(undefined);
+                 }
+                }}>
             <DialogTrigger asChild>
               <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
             </DialogTrigger>
@@ -37,18 +112,19 @@ function dropdown() {
                       Edit Project details and click save
                   </DialogDescription>
               </DialogHeader>
-              <form className="grid gap-8">
+              <form className="grid gap-8"  onSubmit={handleUpdate}>
                 <div className="grid gap-2">
                   <Label htmlFor="projectID">ProjectId</Label>
-                     <Input id="projectid" />
+                     <Input id="projectid"  value={formData.projectId} onChange={handleChange}/>
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="projectName">ProjectName</Label>
-                      <Input id="projectName" />
+                      <Input id="projectName" value={formData.projectName} onChange={handleChange} />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="leader">Leader</Label>
-                      <Select>
+                      <Select value={formData.leader}
+                          onValueChange={(value) => setFormData({ ...formData, leader: value })}>
                          <SelectTrigger id="leader" className="w-full h-10">
                           <SelectValue placeholder="Select Team leader" />
                          </SelectTrigger>
@@ -65,7 +141,8 @@ function dropdown() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="team">Team</Label>
-                     <Select>
+                     <Select value={formData.team}
+                        onValueChange={(value) => setFormData({ ...formData, team: value })}>
                         <SelectTrigger id="team" className="w-full h-10">
                         <SelectValue placeholder="Select Team members" />
                         </SelectTrigger>
@@ -106,7 +183,8 @@ function dropdown() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="priority">Priority</Label>
-                     <Select>
+                     <Select value={formData.priority}
+                        onValueChange={(value) => setFormData({ ...formData, priority: value })}>
                         <SelectTrigger id="priority" className="w-full h-10">
                             <SelectValue placeholder="Select priority" />
                         </SelectTrigger>
@@ -119,7 +197,8 @@ function dropdown() {
                 </div>
                 <div className="grid gap-2">
                     <Label htmlFor="status">Status</Label>
-                      <Select>
+                      <Select  value={formData.status}
+                        onValueChange={(value) => setFormData({ ...formData, status: value })}>
                          <SelectTrigger id="status" className="w-full h-10">
                           <SelectValue placeholder="Select status" />
                         </SelectTrigger>
@@ -129,6 +208,10 @@ function dropdown() {
                         </SelectContent>
                       </Select>
                 </div>
+                <div className="grid gap-2">
+                 <Label htmlFor="description">Description</Label>
+                 <Textarea placeholder="Type your message here." id="description" value={formData.description} onChange={handleChange} />
+                 </div>
                 
               <DialogFooter>
                   <DialogClose asChild>
@@ -139,7 +222,7 @@ function dropdown() {
           </form>
         </DialogContent>
       </Dialog>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
     </div>

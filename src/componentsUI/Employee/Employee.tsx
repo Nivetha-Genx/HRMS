@@ -3,9 +3,23 @@ import {DataTableDemo} from "@/components/ui/emptab"
 import {IconUsersGroup } from "@tabler/icons-react"
 import { Badge } from "@/components/ui/badge"
 import {Card,} from "@/components/ui/card"
+// import { useState,useEffect } from "react"
+// import type { cardemp } from "@/Services/type"
+// import { getcardemp } from "@/Services/EmployeeService"
 
 
 export default function Employee() {
+//   const [stats, setStats] = useState<cardemp | null>(null);
+
+//    useEffect(() => {
+//      getcardemp()
+//      .then((data) => setStats(data))
+//       .catch((err) => console.error("Error fetching dashboard:", err));
+//    }, []);
+
+//  if (!stats) {
+//     return <div className="text-center">Loading...</div>;
+//   }
   return (
     <>
     <div className="flex flex-col mb-5">
@@ -20,7 +34,10 @@ export default function Employee() {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Total Employee</p>
-                  <p className="text-2xl font-bold text-gray-900">250</p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {/* {stats.totalEmployee} */}
+                    250
+                    </p>
                 </div>
                 <div><Badge className="bg-pink-300 text-pink-500 font-medium ml-30">+19.01%</Badge></div>
               </div>
@@ -33,7 +50,10 @@ export default function Employee() {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Active</p>
-                   <p className="text-2xl font-bold text-gray-900">210</p>
+                   <p className="text-2xl font-bold text-gray-900">
+                    {/* {stats.active} */}
+                    210
+                    </p>
                 </div>
                 <div><Badge className="bg-orange-300 text-orange-500 font-medium ml-43">+19.01%</Badge></div> 
               </div>
@@ -46,7 +66,10 @@ export default function Employee() {
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">InActive</p>
-                    <p className="text-2xl font-bold text-gray-900">10</p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {/* {stats.inactive} */}
+                      10
+                      </p>
                   </div>
                   <div><Badge className="bg-gray-300 text-gray-500 font-medium ml-42">+19.01%</Badge></div> 
                 </div>
@@ -59,7 +82,10 @@ export default function Employee() {
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">New Joiners</p>
-                    <p className="text-2xl font-bold text-gray-900">30</p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {/* {stats.newJoiners} */}
+                      30
+                      </p>
                   </div>
                 <div><Badge className="bg-blue-300 text-blue-500 font-medium ml-36">+19.01%</Badge></div>
                 </div>

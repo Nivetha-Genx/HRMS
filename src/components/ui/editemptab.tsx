@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select" 
 import { useState,useEffect } from 'react'
 import { getEmployee,putEmployee,deleteEmployee } from '@/Services/EmployeeService'
+import { Textarea } from "@/components/ui/textarea"
 
 function editemptab({ employeeId, onSuccess }: { employeeId: string, onSuccess?: () => void }) {
   const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -66,7 +67,7 @@ function editemptab({ employeeId, onSuccess }: { employeeId: string, onSuccess?:
       .catch((err:any) => console.error(err));
   }, [employeeId , open]);
 
-const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
@@ -116,7 +117,8 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
               if (!isOpen) {
               setFormData({
                 employeeId: "",empName: "",email: "",phoneNumber: "",position: "",department: "",gender: "male",
-                dob: "",emergencyNumber: "",bloodGroup: "",nationality: "",religion: "", maritalStatus: "",qualification: "",experience: "",address: "",});setDate(undefined);
+                dob: "",emergencyNumber: "",bloodGroup: "",nationality: "",religion: "", maritalStatus: "",qualification: "",experience: "",address: "",});
+                setDate(undefined);
               }
             }}>
             <DialogTrigger asChild>
@@ -281,7 +283,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
               </div>
               <div className="grid gap-2">
                <Label htmlFor="address">Address</Label>
-               <Input id="address" placeholder="Enter address"  value={formData.address} onChange={handleChange}/>
+               <Textarea id="address" placeholder="Enter your address here"  value={formData.address} onChange={handleChange}/>
               </div>
              </TabsContent>
              </Tabs>

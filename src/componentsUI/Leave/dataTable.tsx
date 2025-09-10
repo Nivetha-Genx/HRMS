@@ -192,24 +192,15 @@ export const columns: ColumnDef<Payment>[] = [
     return <div className={`capitalize ${textColor}`}>{status}</div>;
   },
 },
-
-  // {
-  //   id: "actions",
-  //   enableHiding: false,
-  //   cell: ({ row }) => {
-  //     const payment = row.original
-  //     return (
-  //       <Edit />
-  //     )
-  //   },
-  // },
-  {
-   id: "actions",
-   enableHiding: false,
-   cell: () => {
-     return <Edit />;
+{
+  id: "actions",
+  enableHiding: false,
+  cell: ({ row }) => {
+    const emp = row.original
+    return <Edit employeeId={emp.employeeId} onSuccess={() => window.location.reload()} />
   },
 },
+
 ]
 
 export default function DataTable() {
