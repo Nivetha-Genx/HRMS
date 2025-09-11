@@ -235,23 +235,23 @@ export function DataTableDemo() {
 
   return (
     <div className="w-full max-w mx-auto px-5 ">
-      <div className="flex gap-5 items-center py-4">
+      <div className="flex flex-wrap items-center gap-4 py-4">
         <Input
           placeholder="Filter names..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm "
+          className="w-full sm:max-w-sm"
         />
-        <div className="flex items-center gap-2">
+        <div className="flex gap-4 items-center">
           <Day table={table}  />
         </div>
-        <div className="flex items-center gap-2 ml-auto">
+        <div className="flex items-center ml-auto">
           <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown />
+            <Button variant="outline" className="flex items-center gap-1">
+              Columns <ChevronDown className="w-4 h-4"/>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

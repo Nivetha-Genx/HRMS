@@ -12,6 +12,8 @@ import { useState,useEffect} from "react"
 import type { addleave } from "@/Services/type"
 import { postLeave } from "@/Services/LeaveService"
 import { Textarea } from "@/components/ui/textarea"
+import { toast } from "react-toastify"
+
 
 function Add() {
       const [fromDate, setFromDate] = React.useState<Date | undefined>(undefined)
@@ -49,6 +51,7 @@ function Add() {
 
       await postLeave(payload);
       console.log("Leave added successfully!")
+      toast.success("Leave added successfully!")
       setFormData({
           employeeId: "",
           employeeName: "",
@@ -63,6 +66,7 @@ function Add() {
       setDialogOpen(false);
   } catch (err) {
       console.log("Error adding leave", err);
+      toast.error("Failed to add leave");
   }
 };
 
@@ -101,7 +105,7 @@ function Add() {
         <DialogTrigger asChild>
           <Button className="ml-auto">+ Add Leave</Button>
         </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] gap-6">
+            <DialogContent className="sm:max-w-[500px] gap-6">
               <DialogHeader>
                  <DialogTitle>Add Leave</DialogTitle>
                     <DialogDescription>

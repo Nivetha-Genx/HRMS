@@ -1,14 +1,14 @@
 import React from "react"
 import { Outlet } from "react-router-dom"
 import { AppSidebar } from "@/components/app-sidebar"
-import { SiteHeader } from "@/components/site-header"
+// import { SiteHeader } from "@/components/site-header"
 import {
   SidebarInset,
   SidebarProvider,
 } from "@/components/ui/sidebar"
 
 
-export default function MasterLayout() {
+export default function MasterLayout() { 
   return (
     <SidebarProvider
       style={
@@ -20,11 +20,10 @@ export default function MasterLayout() {
     >
       <AppSidebar variant="inset" />
       <SidebarInset>
-        <SiteHeader />
-    
+        {/* Header is placed here, but dynamic */}
         <Outlet />
-     
       </SidebarInset>
     </SidebarProvider>
   )
 }
+

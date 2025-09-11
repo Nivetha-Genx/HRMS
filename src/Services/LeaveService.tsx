@@ -1,10 +1,11 @@
 import api from './ApiService';
 import type  {leave,addleave} from "./type";
 
-export const getLeaves = async (): Promise<leave> => {
-  const response = await api.get<leave>("/leave");
+export const getLeaves = async (): Promise<addleave[]> => {
+  const response = await api.get<addleave[]>("/leave");
   return response.data;
 };
+
 export const getLeave = async (employeeId: string): Promise<addleave> => {
   const response = await api.get<addleave>(`/leave/${employeeId}`);
   return response.data;

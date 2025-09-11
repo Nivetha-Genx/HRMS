@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useState,useEffect } from 'react'
 import { getEmployee,putEmployee,deleteEmployee } from '@/Services/EmployeeService'
 import { Textarea } from "@/components/ui/textarea"
+import { toast } from "react-toastify"
 
 function editemptab({ employeeId, onSuccess }: { employeeId: string, onSuccess?: () => void }) {
   const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -76,11 +77,13 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
     try {
       await putEmployee(employeeId, { ...formData, dob: date ? date.toISOString() : null });
       console.log("Employee updated successfully!");
+      toast.success("Employee updated successfully!")
       setDialogOpen(false);
       if (onSuccess) onSuccess();
     } catch (err) {
       console.error(err);
       console.log("Failed to update employee");
+      toast.error("Failed to update employee. Please try again.");
     }
   };
 
@@ -89,14 +92,15 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
     try {
       await deleteEmployee(employeeId);
       console.log("Employee deleted successfully!");
+      toast.success("Employee deleted successfully!") 
       setDialogOpen(false);
       if (onSuccess) onSuccess();
     } catch (err) {
       console.error(err);
       console.log("Failed to delete employee");
+      toast.error("Failed to delete employee. Please try again.");
     }
   };
-
 
   return (
     <div>
@@ -124,7 +128,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
             <DialogTrigger asChild>
               <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] max-h-[80vh] overflow-y-auto">
+            <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Edit Employee</DialogTitle>
               </DialogHeader>

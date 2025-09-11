@@ -52,7 +52,7 @@ function Edit() {
             <DialogTrigger asChild>
               <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[500px]">
             <DialogHeader>
                 <DialogTitle className="mb-3">Add Attendance</DialogTitle>
             </DialogHeader>

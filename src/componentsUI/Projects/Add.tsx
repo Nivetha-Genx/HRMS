@@ -11,7 +11,7 @@ import type { project } from '@/Services/type'
 import { postProject } from '@/Services/projectService' 
 import { useState } from 'react'
 import { Textarea } from "@/components/ui/textarea"
-
+import { toast } from "react-toastify"
 
 const Add = () => {
      const [open, setOpen] = React.useState(false)
@@ -51,9 +51,11 @@ const Add = () => {
             status: '',
             description: ''
         });
+          toast.success("Project added successfully");
           setOpen(false);
         } catch (error) {
           console.log('Error adding project:', error);
+          toast.error("Failed to add project");
         }   
       }
   return (
@@ -73,7 +75,7 @@ const Add = () => {
               <DialogTrigger asChild>
                 <Button className="ml-auto">+ Add New</Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px] gap-8">
+              <DialogContent className="sm:max-w-[500px] gap-8">
                 <DialogHeader>
                    <DialogTitle>Add Project</DialogTitle>
                       <DialogDescription>

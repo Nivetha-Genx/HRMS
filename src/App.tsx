@@ -6,7 +6,6 @@ import OTP from './Pages/OTP'
 import Resetpassword from './Pages/Resetpassword'
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import  Forgot from './Pages/Forgot';
-import { Toaster } from "sonner"
 import Dashboard1 from './componentsUI/Dashboard/Dashboard1'
 import Employee from './componentsUI/Employee/Employee'
 import Attendance from './componentsUI/Attendance/Attendance'
@@ -15,6 +14,9 @@ import Projects from './componentsUI/Projects/Projects'
 import PayRoll from './componentsUI/Payroll/PayRoll'
 import MasterLayout from './MasterLayout.tsx/MaterLayout'
 import Payslip from './componentsUI/Payroll/Payslip'
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 
 function App() {
 
@@ -42,7 +44,7 @@ function App() {
              <Route path="payslip" element={<Payslip/>} />
           </Routes>
        </BrowserRouter> 
-      <Toaster position="top-right" richColors />
+      <ToastContainer />
     </>
   )
 }

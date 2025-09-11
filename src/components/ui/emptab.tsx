@@ -10,6 +10,10 @@ import { Input } from "@/components/ui/input"
 import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "@/components/ui/table"
 import Editemptab from '../ui/editemptab'
 import Addemptab from '../ui/Addemptab'
+// import { getEmployees } from "@/Services/EmployeeService"
+// import type { empData } from "@/Services/type"
+// import { useState,useEffect } from "react"
+// import { toast } from "react-toastify"
 
 const data: Payment[] = [
     {
@@ -200,13 +204,30 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ]
 export function DataTableDemo() {
+  // const [data, setData] = React.useState<empData[]>([])
+  // const [loading, setLoading] = React.useState(true)
+
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] =React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+
+  //useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const employees = await getEmployees()
+  //       setData(employees)
+  //       toast.success("Employees data loaded successfully")
+  //     } catch (error) {
+  //       console.error(" Failed to fetch employees:", error)
+  //       toast.error("Failed to load employees data")  
+  //     } finally {
+  //       setLoading(false)
+  //     }
+  //   }
+  //   fetchData()
+  // }, [])
+
   const table = useReactTable({
     data,
     columns,
@@ -225,6 +246,10 @@ export function DataTableDemo() {
       rowSelection,
     },
   })
+  //  if (loading) {
+  //   return <div className="text-center py-6">Loading employees...</div>
+  // }
+
 
   return (
     <div className="w-full max-w mx-auto px-5 ">

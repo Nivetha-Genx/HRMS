@@ -13,6 +13,7 @@ import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "@/compo
 import Edit from '../Payroll/Edit'
 import Add from '../Payroll/Add'
 import { useNavigate } from "react-router-dom";
+import { SiteHeader } from "@/components/site-header"
 
 const data: Payment[] = [
     {
@@ -327,6 +328,8 @@ export default function DataTableDemo() {
   })
 
   return (
+     <div className="flex flex-col mb-5">
+        <SiteHeader title="Payroll" />
     <div className="w-full max-w mx-auto px-5 ">
       <div className="flex items-center py-4">
         <Input
@@ -441,6 +444,7 @@ export default function DataTableDemo() {
           </Button>
         </div>
       </div>
+    </div>
     </div>
   )
 }

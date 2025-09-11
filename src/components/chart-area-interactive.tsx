@@ -4,9 +4,11 @@ import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from "recha
 import {Card,CardContent,CardDescription,  CardHeader,CardTitle,} from "@/components/ui/card"
 import {ChartContainer,ChartTooltip,ChartTooltipContent} from "@/components/ui/chart"
 import type  {ChartConfig,} from "@/components/ui/chart"
+import { toast } from "react-toastify"
 // import { useState,useEffect } from "react"
 // import type { ChartRecord } from "@/Services/type"
 // import { getChartData } from "@/Services/DashService"
+// import { toast } from "react-toastify"
 
 export const description = "An interactive area chart"
 const chartData = [
@@ -65,6 +67,7 @@ const chartConfig = {
 //         setPieData(res.pieData);
 //       })
 //       .catch((err) => console.error("Error fetching chart data:", err))
+          // toast.error("Failed to load chart data")
 //       .finally(() => setLoading(false));
 //   }, []);
 
@@ -81,6 +84,7 @@ const chartConfig = {
 //       setPieData(res.pieData || []);
 //     } catch (err) {
 //       console.error("Error fetching chart data:", err);
+//       toast.error("Failed to load chart data");
 //     } finally {
 //       setLoading(false);
 //     }

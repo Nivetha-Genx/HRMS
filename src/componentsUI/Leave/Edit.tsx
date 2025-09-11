@@ -14,6 +14,8 @@ import { useState,useEffect } from "react"
 import { getLeave, putLeave, deleteLeave } from "@/Services/LeaveService"
 import type { addleave } from "@/Services/type"
 import { Textarea } from "@/components/ui/textarea"
+import { toast } from "sonner"
+// import { toast } from "react-toastify"
 
 
 type EditProps = {
@@ -65,11 +67,13 @@ function Edit({ employeeId, onSuccess }: EditProps) {
              try {
              await putLeave(employeeId, { ...formData, fromDate: fromDate ? fromDate.toISOString() : null,  toDate: toDate ? toDate.toISOString() : null});
             console.log(`Leave ${status} successfully!`)
+            toast.success(`Leave ${status} successfully!`)
              setDialogOpen(false);
              if (onSuccess) onSuccess();
            } catch (err) {
              console.error(err);
              console.log("Failed to update leave");
+              toast.error("Failed to update leave");  
            }
          };
          const handleDelete = async () => {
@@ -77,11 +81,13 @@ function Edit({ employeeId, onSuccess }: EditProps) {
              try {
                await deleteLeave(employeeId);
                console.log("leave deleted successfully!");
+               toast.success("Leave deleted successfully!");
                setDialogOpen(false);
                if (onSuccess) onSuccess();
              } catch (err) {
                console.error(err);
                console.log("Failed to delete employee");
+               toast.error("Failed to delete leave");
              }
            };
 
@@ -116,7 +122,7 @@ function Edit({ employeeId, onSuccess }: EditProps) {
             <DialogTrigger asChild>
               <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] gap-8">
+            <DialogContent className="sm:max-w-[500px] gap-8">
               <DialogHeader>
                 <DialogTitle>Edit Leave</DialogTitle>
                   <DialogDescription>

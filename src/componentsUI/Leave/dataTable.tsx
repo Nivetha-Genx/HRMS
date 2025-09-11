@@ -10,6 +10,11 @@ import { Input } from "@/components/ui/input"
 import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "@/components/ui/table"
 import Edit from '../Leave/Edit'
 import Add from '../Leave/Add'
+// import type { addleave } from "@/Services/type"
+// import { getLeaves } from "@/Services/LeaveService"
+// import { useEffect } from "react"
+// import { toast } from "react-toastify"
+// import { se } from "date-fns/locale"
 
 const data: Payment[] = [
     {
@@ -204,13 +209,28 @@ export const columns: ColumnDef<Payment>[] = [
 ]
 
 export default function DataTable() {
+  //   const [data, setData] = React.useState<addleave[]>([])
+  // const [loading, setLoading] = React.useState(true)
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] =React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try { 
+  //      const leaves = await getLeaves(); 
+  //      setData(leaves);
+  //       toast.success("Employees data loaded successfully")
+  //     } catch (error) {
+  //       console.error(" Failed to fetch employees:", error)
+  //       toast.error("Failed to load employees data")  
+  //     } finally {
+  //       setLoading(false)
+  //     }
+  //   }
+  //   fetchData()
+  // }, [])
 
   const table = useReactTable({
     data,
@@ -230,28 +250,31 @@ export default function DataTable() {
       rowSelection,
     },
   })
+  //  if (loading) {
+  //   return <div className="text-center py-6">Loading leave data...</div>
+  // }
 
   return (
     <div className="w-full max-w mx-auto px-5 ">
-      <div className="flex items-center py-4">
+      <div className="flex flex-wrap items-center gap-4 py-4">
         <Input
           placeholder="Filter names..."
           value={(table.getColumn("employeeName")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("employeeName")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="w-full sm:max-w-sm"
         />
          <div className="flex items-center gap-2 ml-auto">
             <Add />
-              <div className="flex items-center gap-2">
+             
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline">
-                    Leave Type <ChevronDown />
+                    <Button variant="outline"  className="flex items-center gap-1">
+                    Leave Type <ChevronDown className="w-4 h-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent align="end" >
                   <DropdownMenuItem
                       onClick={() => {
                               table.getColumn("leaveType")?.setFilterValue("Medical Leave")
@@ -274,11 +297,11 @@ export default function DataTable() {
                               >Show All</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              </div>
+              
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="ml-auto">
-                    Columns <ChevronDown />
+                  <Button variant="outline"className="flex items-center gap-1">
+                    Columns <ChevronDown className="w-4 h-4"/>
                   </Button>
                 </DropdownMenuTrigger>
                <DropdownMenuContent align="end">

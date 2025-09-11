@@ -160,18 +160,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
-        <SidebarMenu>
+        <img
+            src={logo}
+            alt="Logo"
+            className="h-auto w-45"/>
+        <SidebarMenu>     
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
-                 <img
-                  src={logo}
-                  alt="Logo"
-                  className="h-8 w-auto"/>
-              </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

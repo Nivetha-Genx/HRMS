@@ -13,6 +13,7 @@ import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow} from "@/compon
 import ProjectCard from "./projectGrid"
 import Edit from '../Projects/Edit'
 import Add from '../Projects/Add'
+import { SiteHeader } from "@/components/site-header"
 
 const data: Payment[] = [
     {
@@ -294,6 +295,8 @@ export default function Projects() {
   })
 
   return (
+    <div className="flex flex-col mb-5">
+      <SiteHeader title="Projects" />
     <div className="w-full max-w mx-auto px-5 ">
       <div className="flex items-center py-4">
         <Input
@@ -410,6 +413,7 @@ export default function Projects() {
         </div>
       </div>
       <div><ProjectCard /></div>
+    </div>
     </div>
   )
 }

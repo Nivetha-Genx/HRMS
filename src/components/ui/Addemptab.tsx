@@ -14,7 +14,7 @@ import { useState} from 'react'
 import type { addEmpReq } from '@/Services/type'
 import { postEmployees } from '@/Services/EmployeeService'
 import { Textarea } from "@/components/ui/textarea"
-
+import { toast } from "react-toastify"
 
 function Addemptab() {
     
@@ -64,6 +64,7 @@ function Addemptab() {
     };
     await postEmployees(payload);
     console.log("Employee added successfully!");
+    toast.success("Employee added successfully!")
     setFormData({
       employeeId: "",
       empName: "",
@@ -86,6 +87,7 @@ function Addemptab() {
     setDialogOpen(false);
   } catch (err) {
     console.log("Error adding employee:", err);
+    toast.error("Failed to add employee. Please try again.");
   }
 };
 
@@ -106,7 +108,7 @@ function Addemptab() {
           <DialogTrigger asChild>
             <Button className="ml-auto">+ Add New</Button>
               </DialogTrigger>
-               <DialogContent className="sm:max-w-[425px] max-h-[80vh] overflow-y-auto">
+               <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
                 <DialogHeader>
                    <DialogTitle>Add Employee</DialogTitle>
                 </DialogHeader>

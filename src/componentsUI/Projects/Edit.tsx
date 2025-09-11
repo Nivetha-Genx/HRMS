@@ -13,7 +13,8 @@ import { Input } from "@/components/ui/input"
 import type { project } from '@/Services/type'
 import { getProject,putProject,deleteProject } from '@/Services/projectService'
 import { useState,useEffect } from 'react' 
-import { Textarea } from "@/components/ui/textarea"   
+import { Textarea } from "@/components/ui/textarea"
+import { toast } from "react-toastify"  
 
 function Edit({projectId,onSuccess}: {projectId: string,onSuccess?: () => void}) {
        const [open, setOpen] = React.useState(false)
@@ -59,11 +60,13 @@ function Edit({projectId,onSuccess}: {projectId: string,onSuccess?: () => void})
             try {
               await putProject(projectId, { ...formData, deadLine: date ? date.toISOString() : null });
               console.log("Project updated successfully!");
+               toast
               setDialogOpen(false);
               if (onSuccess) onSuccess();
             } catch (err) {
               console.error(err);
               console.log("Failed to update project");
+              toast.error("Failed to update project");
             }
           };
           const handleDelete = async () => {
@@ -71,11 +74,13 @@ function Edit({projectId,onSuccess}: {projectId: string,onSuccess?: () => void})
               try {
                 await deleteProject(projectId);
                 console.log("Project deleted successfully!");
+                toast.success("Project deleted successfully!");
                 setDialogOpen(false);
                 if (onSuccess) onSuccess();
               } catch (err) {
                 console.error(err);
                 console.log("Failed to delete Project");
+                toast.error("Failed to delete project");
               }
             };
 
@@ -104,7 +109,7 @@ function Edit({projectId,onSuccess}: {projectId: string,onSuccess?: () => void})
             <DialogTrigger asChild>
                <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] gap-8">
+            <DialogContent className="sm:max-w-[500px] gap-8">
               <DialogHeader>
                 <DialogTitle>Edit Project</DialogTitle>
                   <DialogDescription>

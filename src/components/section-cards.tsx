@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 // import { useState,useEffect } from "react"
+// import { toast } from "react-toastify"
 
 export function SectionCards() {
   //   const [stats, setStats] = useState<dashboard | null>(null);
@@ -18,6 +19,8 @@ export function SectionCards() {
   //   useEffect(() => {
   //   getDashboard()
   //     .then((data) => setStats(data))
+  //     .then(() => toast.success("Dashboard data loaded successfully"))
+  //     .catch(() => toast.error("Failed to load dashboard data")) 
   //     .catch((err) => console.error("Error fetching dashboard:", err));
   // }, []);
 

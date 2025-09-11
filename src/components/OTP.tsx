@@ -7,6 +7,7 @@ import {Card,CardContent, CardDescription,CardHeader,CardTitle} from "@/componen
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import logo from '../assets/logo.svg'
+import { toast } from "react-toastify"
 
 export function OTP({
   className,
@@ -33,8 +34,10 @@ export function OTP({
     } catch (err: any) {
       if (err.response?.status === 400) {
         setError("Invalid or expired OTP")
+        toast("Invalid or expired OTP", { type: "error" })
       } else {
         setError("Failed to verify OTP. Try again.")
+        toast("Failed to verify OTP. Try again.", { type: "error" })
       }
     } finally {
       setLoading(false)
