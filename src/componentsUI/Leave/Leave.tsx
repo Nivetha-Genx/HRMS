@@ -36,7 +36,7 @@ import { toast } from 'react-toastify';
 
   return (
     <>
-    <div className="flex flex-col mb-5">
+    <div className="flex flex-col mt-5">
       <SiteHeader title="Leave" />
        <div className="grid grid-cols-1 gap-4 px-4 my-5 
                   sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

@@ -199,13 +199,25 @@ export default function Payslip() {
             <tr>
               <td>Basic</td>
               <td className="amount">0</td>
-              <td>Income Tax</td>
+              <td>Employee State Insurance</td>
               <td className="amount">0</td>
             </tr>
             <tr>
-              <td>House Rent Allowance</td>
+              <td>Conveyance</td>
+              <td className="amount">0</td>
+              <td>Labour Welfare</td>
+              <td className="amount">0</td>
+            </tr>
+            <tr>
+              <td>Medical Allowance</td>
               <td className="amount">0</td>
               <td>Provident Fund</td>
+              <td className="amount">0</td>
+            </tr>
+             <tr>
+              <td>Others</td>
+              <td className="amount">0</td>
+              <td>Others</td>
               <td className="amount">0</td>
             </tr>
             <tr className="pay">

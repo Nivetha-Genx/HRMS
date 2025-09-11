@@ -115,9 +115,10 @@ function Addemptab() {
               <form className="grid gap-10"  onSubmit={handleSubmit}>
               
                 <Tabs defaultValue="basic" className="w-full">
-                   <TabsList className="grid w-full grid-cols-2 gap-4">
+                   <TabsList className="grid w-full grid-cols-3 gap-4">
                     <TabsTrigger value="basic">Basic Information</TabsTrigger>
                     <TabsTrigger value="personal">Advance Information</TabsTrigger>
+                    <TabsTrigger value="job">Salary Information</TabsTrigger>
                    </TabsList>
                 <TabsContent value="basic" className="space-y-8 mt-5">
                    <div className="grid gap-2">
@@ -286,6 +287,82 @@ function Addemptab() {
                <Textarea id="address" placeholder="Enter your address here"  value={formData.address} onChange={handleChange}/>
               </div>
              </TabsContent>
+
+              <TabsContent value="job" className="space-y-8 mt-5">
+                <div className="flex gap-5">
+                   <div className="grid gap-2">
+                     <Label htmlFor="employeename">EmployeeName</Label>
+                       <Select>
+                         <SelectTrigger id="leader" className="w-full h-10">
+                         <SelectValue placeholder="Select Team leader" />
+                         </SelectTrigger>
+                         <SelectContent>
+                            <SelectItem value="name">Shivaji</SelectItem>
+                            <SelectItem value="name">Shivani</SelectItem>
+                            <SelectItem value="name">jayashree</SelectItem>
+                            <SelectItem value="name">Akila Sri</SelectItem>
+                            <SelectItem value="name">Pavithra</SelectItem>
+                            <SelectItem value="name">Nisha</SelectItem>
+                            <SelectItem value="name">Sagana</SelectItem>
+                         </SelectContent>
+                      </Select>  
+                    </div>
+                    <div className="grid gap-2">
+                       <Label htmlFor="netsalary">Net Salary</Label>
+                        <Input id="netsalary" />
+                    </div>
+                  </div>
+                  
+                   <h3 className="font-medium mb-4">Earnings</h3>
+                    <div className="flex gap-5">
+                      <div className="grid gap-2">
+                        <Label htmlFor="basic">Basic</Label>
+                         <Input id="basic" />
+                      </div>
+                      <div className="grid gap-2">
+                        <Label htmlFor="conveyance">Conveyance</Label>
+                        <Input id="conveyance" />
+                      </div>
+                    </div>
+
+                   <div className="flex gap-5">
+                       <div className="grid gap-2">
+                         <Label htmlFor="medicalallowance">Medical Allowance</Label>
+                         <Input id="" />
+                       </div>
+                       <div className="grid gap-2">
+                         <Label htmlFor="others"> Others</Label>
+                         <Input id="" />
+                       </div>
+                    </div>
+
+                    <h3 className="font-medium mb-4">Deductions</h3>
+                    <div className="flex gap-5">
+                        <div className="grid gap-2">
+                          <Label htmlFor="ESI">ESI</Label>
+                          <Input id="ESI" />
+                        </div>
+                        <div className="grid gap-2">
+                          <Label htmlFor="PF">PF</Label>
+                          <Input id="PF" />
+                        </div>
+                        {/* <div className="grid gap-2">
+                          <Label htmlFor="leave">Leave</Label>
+                          <Input id="leave" />
+                        </div> */}
+                    </div>
+
+                    <div className="flex gap-5">
+                      <div className="grid gap-2">
+                         <Label htmlFor="labourwelfare">Labour Welfare</Label>
+                         <Input id="labourwelfare" />
+                      </div>
+                      <div className="grid gap-2">
+                        <Label htmlFor="others">Others</Label>
+                        <Input id="others" />
+                      </div>
+                    </div>
+              </TabsContent>
              </Tabs>
               <DialogFooter>
                   <DialogClose asChild>

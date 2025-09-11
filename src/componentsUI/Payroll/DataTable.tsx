@@ -10,13 +10,11 @@ import {DropdownMenu, DropdownMenuCheckboxItem,DropdownMenuContent,DropdownMenuT
 import { Input } from "@/components/ui/input"
 import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "@/components/ui/table"
 // import axios from "axios"
-import Edit from '../Payroll/Edit'
-import Add from '../Payroll/Add'
 import { useNavigate } from "react-router-dom";
 import { SiteHeader } from "@/components/site-header"
 
 const data: Payment[] = [
-    {
+  {
     id: "ghqej43k",
     employeeId:"ET001",
     name:{
@@ -279,24 +277,6 @@ export const columns: ColumnDef<Payment>[] = [
     );
   },
 },
-
-  // {
-  //   id: "actions",
-  //   enableHiding: false,
-  //   cell: ({ row }) => {
-  //     const payment = row.original
-  //     return (
-  //       <Edit />
-  //     )
-  //   },
-  // },
-  {
-   id: "actions",
-   enableHiding: false,
-   cell: () => {
-     return <Edit />;
-  },
-},
 ]
 
 export default function DataTableDemo() {
@@ -341,7 +321,6 @@ export default function DataTableDemo() {
           className="max-w-sm"
         />
           <div className="flex items-center gap-2 ml-auto">
-            <Add />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto">
