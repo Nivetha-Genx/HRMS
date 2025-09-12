@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useState,useEffect } from 'react'
 import { getEmployee,putEmployee,deleteEmployee } from '@/Services/EmployeeService'
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "react-toastify"
+import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 
 function editemptab({ employeeId, onSuccess }: { employeeId: string, onSuccess?: () => void }) {
   const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -47,7 +47,7 @@ function editemptab({ employeeId, onSuccess }: { employeeId: string, onSuccess?:
       .then((data) => {
         setFormData({
           employeeId: data.employeeId,
-          empName: data.empName,
+          employeeName: data.employeeName,
           email: data.email,
           phoneNumber: data.phoneNumber,
           position: data.position,
@@ -77,13 +77,13 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
     try {
       await putEmployee(employeeId, { ...formData, dob: date ? date.toISOString() : null });
       console.log("Employee updated successfully!");
-      toast.success("Employee updated successfully!")
+      successToast("Employee updated successfully!", "The employee details have been updated.")
       setDialogOpen(false);
       if (onSuccess) onSuccess();
     } catch (err) {
       console.error(err);
       console.log("Failed to update employee");
-      toast.error("Failed to update employee. Please try again.");
+      errorToast("Failed to update employee", "Please try again.")
     }
   };
 
@@ -92,13 +92,13 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
     try {
       await deleteEmployee(employeeId);
       console.log("Employee deleted successfully!");
-      toast.success("Employee deleted successfully!") 
+      successToast("Employee deleted successfully!", "The employee has been removed.")
       setDialogOpen(false);
       if (onSuccess) onSuccess();
     } catch (err) {
       console.error(err);
       console.log("Failed to delete employee");
-      toast.error("Failed to delete employee. Please try again.");
+      errorToast("Failed to delete employee", "Please try again.")
     }
   };
 

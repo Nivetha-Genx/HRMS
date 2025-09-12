@@ -15,8 +15,7 @@ import PayRoll from './componentsUI/Payroll/PayRoll'
 import MasterLayout from './MasterLayout.tsx/MaterLayout'
 import Payslip from './componentsUI/Payroll/Payslip'
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
-
+import { Toaster } from './components/ui/sonner';
 
 function App() {
 
@@ -44,7 +43,7 @@ function App() {
              <Route path="payslip" element={<Payslip/>} />
           </Routes>
        </BrowserRouter> 
-      <ToastContainer />
+      <Toaster />
     </>
   )
 }

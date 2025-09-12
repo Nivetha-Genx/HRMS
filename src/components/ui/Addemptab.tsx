@@ -10,69 +10,31 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useState} from 'react'
 import type { addEmpReq } from '@/Services/type'
 import { postEmployees } from '@/Services/EmployeeService'
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "react-toastify"
+import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import { useForm } from "react-hook-form"
+import type { SubmitHandler } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { employeeSchema } from "@/lib/Schema"
+import * as yup from "yup"
+import { Controller } from "react-hook-form"
+
+type EmployeeFormValues = yup.InferType<typeof employeeSchema>;
 
 function Addemptab() {
-    
-      const [dialogOpen, setDialogOpen] = React.useState(false);
-      const [dateOpen, setDateOpen] = React.useState(false);
-      const [date, setDate] = React.useState<Date | undefined>(undefined)
-      const [formData, setFormData] = useState<addEmpReq>({
-        employeeId: "",
-        empName: "",
-        email: "",
-        phoneNumber: "",
-        position: "",
-        department: "",
-        gender: "",
-        dob: "",
-        emergencyNumber: "",
-        bloodGroup: "",
-        nationality: "",
-        religion: "",
-        maritalStatus: "",
-        qualification: "",
-        experience: "",
-        address: "",
-      });
-
-      const handleChange = (e: React.ChangeEvent<HTMLInputElement  | HTMLTextAreaElement>) => {
-      setFormData({
-        ...formData,
-        [e.target.id]: e.target.value,
-        });
-      };
-
-      const handleSelectChange = (field: keyof addEmpReq, value: string) => {
-      setFormData({
-          ...formData,
-          [field]: value,
-      });
-      };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-     e.preventDefault();
-
-    try {
-    const payload = {
-      ...formData,
-      dob: date ? date.toISOString().split("T")[0] : "",
-    };
-    await postEmployees(payload);
-    console.log("Employee added successfully!");
-    toast.success("Employee added successfully!")
-    setFormData({
+       const { register, handleSubmit, control, reset, formState: { errors } } =
+  useForm<EmployeeFormValues>({
+    resolver: yupResolver(employeeSchema),
+    defaultValues: {
       employeeId: "",
-      empName: "",
+      employeeName: "",
       email: "",
       phoneNumber: "",
       position: "",
       department: "",
-      gender: "",
+      gender: "male",
       dob: "",
       emergencyNumber: "",
       bloodGroup: "",
@@ -82,12 +44,50 @@ function Addemptab() {
       qualification: "",
       experience: "",
       address: "",
-    });
-    setDate(undefined);
-    setDialogOpen(false);
+      netSalary: 0,
+      basic: 0,
+      conveyance: 0,
+      medicalAllowance: 0,
+      ESI: 0,
+      PF: 0,
+      laborWelfare: 0,
+    }
+  });
+      const [dialogOpen, setDialogOpen] = React.useState(false);
+      const [dateOpen, setDateOpen] = React.useState(false);
+      const [date, setDate] = React.useState<Date | undefined>(undefined);
+    const onSubmit: SubmitHandler<EmployeeFormValues> = async (data) => {
+     try {
+    const payload: addEmpReq = {
+  employeeId: data.employeeId,
+  employeeName: data.employeeName,
+  email: data.email,
+  phoneNumber: data.phoneNumber,
+  position: data.position,
+  department: data.department,
+  gender: data.gender,
+  dob: date ? date.toISOString().split("T")[0] : "", 
+  emergencyNumber: data.emergencyNumber || "",
+  bloodGroup: data.bloodGroup || "",
+  nationality: data.nationality,
+  religion: data.religion,
+  maritalStatus: data.maritalStatus || "",
+  qualification: data.qualification,
+  experience: data.experience || "",
+  address: data.address,
+  netSalary: data.netSalary,
+  basic: data.basic,
+  conveyance: data.conveyance,
+  medicalAllowance: data.medicalAllowance,
+  ESI: data.ESI,
+  PF: data.PF,
+  laborWelfare: data.laborWelfare,
+};
+    await postEmployees(payload);
+    successToast("Employee added successfully!", "The new employee has been added.");
+    reset();
   } catch (err) {
-    console.log("Error adding employee:", err);
-    toast.error("Failed to add employee. Please try again.");
+    errorToast("Error adding employee", "There was an issue adding the new employee.");
   }
 };
 
@@ -98,10 +98,8 @@ function Addemptab() {
           onOpenChange={(isOpen) => {
           setDialogOpen(isOpen);
           if (!isOpen) {
-          setFormData({
-               employeeId: "",empName: "",email: "",phoneNumber: "",position: "",department: "",gender: "male",
-                  dob: "",emergencyNumber: "",bloodGroup: "",nationality: "",religion: "", maritalStatus: "",qualification: "",experience: "",address: "",});
-                  setDate(undefined);
+          reset();
+          setDate(undefined);
            }
           }}>
 
@@ -112,7 +110,7 @@ function Addemptab() {
                 <DialogHeader>
                    <DialogTitle>Add Employee</DialogTitle>
                 </DialogHeader>
-              <form className="grid gap-10"  onSubmit={handleSubmit}>
+              <form className="grid gap-10"  onSubmit={handleSubmit(onSubmit)}>
               
                 <Tabs defaultValue="basic" className="w-full">
                    <TabsList className="grid w-full grid-cols-3 gap-4">
@@ -121,25 +119,34 @@ function Addemptab() {
                     <TabsTrigger value="job">Salary Information</TabsTrigger>
                    </TabsList>
                 <TabsContent value="basic" className="space-y-8 mt-5">
-                   <div className="grid gap-2">
-                       <Label htmlFor="employeeID">EmployeeId</Label>
-                        <Input id="employeeId"  value={formData.employeeId} onChange={handleChange}  />
-                    </div>
-                    <div className="grid gap-2">
-                        <Label htmlFor="empName">Employee Name</Label>
-                        <Input id="empName" placeholder="Enter employee name" value={formData.empName} onChange={handleChange} />
+                  <div className="grid gap-2">
+                    <Label htmlFor="employeeId">Employee ID</Label>
+                      <Input id="employeeId" {...register("employeeId")} />
+                        <p className="text-red-700 text-sm">{errors.employeeId?.message}</p>
+                  </div>
+
+                  <div className="grid gap-2">
+                     <Label htmlFor="empName">Employee Name</Label>
+                        <Input id="empName"{...register("employeeName")} placeholder="Enter employee name"/>
+                          <p className="text-red-700 text-sm">{errors.employeeName?.message}</p>
                   </div>
                   <div className="grid gap-2">
-                       <Label htmlFor="email">Email</Label>
-                       <Input id="email" placeholder="@gmail.com" value={formData.email} onChange={handleChange}/>
+                      <Label htmlFor="email">Email</Label>
+                       <Input id="email" placeholder="@gmail.com" {...register("email")}/>
+                         <p className="text-red-700 text-sm">{errors.email?.message}</p>
                   </div>
                   <div className="grid gap-2">
                        <Label htmlFor="phoneNumber">Phone Number</Label>
-                       <Input id="phoneNumber" placeholder="Enter Phone Number" value={formData.phoneNumber} onChange={handleChange} />
+                       <Input id="phoneNumber" placeholder="Enter Phone Number" {...register("phoneNumber")} />
+                         <p className="text-red-700 text-sm">{errors.phoneNumber?.message}</p>
                   </div>
                 <div className="grid gap-2">
                      <Label htmlFor="position">Position</Label>
-                     <Select onValueChange={(val) => handleSelectChange("position", val)}>
+                    <Controller
+                          control={control}
+                        name="position"
+                        render={({ field }) => (
+                        <Select onValueChange={field.onChange} value={field.value}>
                         <SelectTrigger id="position" className="w-full h-10">
                             <SelectValue placeholder="Select position" />
                         </SelectTrigger>
@@ -153,74 +160,115 @@ function Addemptab() {
                             <SelectItem value="HR">HR</SelectItem>
                         </SelectContent>
                     </Select> 
+                   )}  />
+                  <p className="text-red-700 text-sm">{errors.position?.message}</p>
                 </div>
                 <div className="grid gap-2">
-                     <Label htmlFor="department">Department</Label>
-                     <Select onValueChange={(val) => handleSelectChange("department", val)}>
-                        <SelectTrigger id="department" className="w-full h-10">
-                            <SelectValue placeholder="Select department" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="research and development">Research and development</SelectItem>
-                            <SelectItem value="UI/UX">UI/UX</SelectItem>
-                            <SelectItem value="human resource">Human Resource</SelectItem>
-                            <SelectItem value="administration">Administration</SelectItem>
-                        </SelectContent>
-                    </Select> 
+                <Controller
+                  name="department"
+                  control={control}
+                  render={({ field }) => (
+                  <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger id="department" className="w-full h-10">
+                  <SelectValue placeholder="Select department" />
+                 </SelectTrigger>
+                  <SelectContent>
+                     <SelectItem value="research and development">Research and Development</SelectItem>
+                      <SelectItem value="UI/UX">UI/UX</SelectItem>
+                      <SelectItem value="human resource">Human Resource</SelectItem>
+                     <SelectItem value="administration">Administration</SelectItem>
+                  </SelectContent>
+                  </Select>
+                  )}
+                />
+                <p className="text-red-700 text-sm">{errors.department?.message}</p>
                 </div>
             </TabsContent>
         
               <TabsContent value="personal" className="space-y-8 mt-4">
                  <div className="grid gap-4">
-                 <Label>Gender</Label>
-               <RadioGroup defaultValue="male" className="flex gap-6" onValueChange={(val) => handleSelectChange("gender", val)}>
-                <div className="flex items-center space-x-2">
+                 <Controller
+                    name="gender"
+                    control={control}
+                    defaultValue="male"
+                    render={({ field }) => (
+                 <div className="grid gap-4">
+                  <Label>Gender</Label>
+                <RadioGroup
+                   className="flex gap-6"
+                    value={field.value}
+                    onValueChange={field.onChange}>
+              <div className="flex items-center space-x-2">
                 <RadioGroupItem value="male" id="male" />
-                <Label htmlFor="male">Male</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                <RadioGroupItem value="female" id="female" />
-                <Label htmlFor="female">Female</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                <RadioGroupItem value="other" id="other" />
-                <Label htmlFor="other">Other</Label>
-                </div>
-                </RadioGroup>
-                 </div>
-                  <div className="grid gap-2">
-                  <Label htmlFor="date" className="px-1">
-                    Date of birth
-                  </Label>
-                  <Popover open={dateOpen} onOpenChange={setDateOpen}>
-                  <PopoverTrigger asChild>
-                  <Button
-                     variant="outline"
-                      id="date"
-                      className=" justify-between font-normal" >
-                      {date ? date.toLocaleDateString() : "Select date"}
-                  <ChevronDownIcon />
-                  </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-                  <Calendar
-                      mode="single"
-                      selected={date}
-                      captionLayout="dropdown"
-                      onSelect={(date) => {
-                      setDate(date)
-                      setDialogOpen(false)
-                      }}/>
-                  </PopoverContent>
-                  </Popover>
-                </div>
-              <div className="grid gap-2">
-                <Label htmlFor="emergencyNumber">Emergency Contact Number</Label>
-                <Input id="emergencyNumber" type="tel" placeholder="Enter phone number"  value={formData.emergencyNumber} onChange={handleChange} />
+                    <Label htmlFor="male">Male</Label>
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="bloodgroup">Blood-Group</Label>
-                <Select  onValueChange={(val) => handleSelectChange("bloodGroup", val)}>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="female" id="female" />
+                  <Label htmlFor="female">Female</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="other" id="other" />
+                  <Label htmlFor="other">Other</Label>
+              </div>
+              </RadioGroup>
+              {errors.gender && (
+                <p className="text-red-700 text-sm">{errors.gender.message}</p>
+             )}
+            </div>
+          )}
+          />
+          </div>
+            <div className="grid gap-2">
+          <Label htmlFor="dob" className="px-1">Date of Birth</Label>
+        <Controller
+           name="dob"
+           control={control}
+            render={({ field }) => (
+        <Popover open={dateOpen} onOpenChange={setDateOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            id="dob"
+            className="justify-between font-normal"
+          >
+            {field.value ? new Date(field.value).toLocaleDateString() : "Select date"}
+            <ChevronDownIcon />
+          </Button>
+        </PopoverTrigger>
+
+        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+          <Calendar
+            mode="single"
+            selected={field.value ? new Date(field.value) : undefined}
+            captionLayout="dropdown"
+            onSelect={(date) => {
+              if (date) {
+                field.onChange(date ? date.toLocaleDateString("en-CA") : "");
+              }
+              setDateOpen(false)
+            }}
+          />
+          </PopoverContent>
+          </Popover>
+        )}
+        />
+        {errors.dob && (
+         <p className="text-red-700 text-sm">{errors.dob.message}</p>
+          )}
+      </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="emergencyNumber">Emergency Contact Number</Label>
+              <Input id="emergencyNumber" type="tel" placeholder="Enter phone number" {...register("emergencyNumber")}/>
+               <p className="text-red-700 text-sm">{errors.emergencyNumber?.message}</p>
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="bloodgroup">Blood-Group</Label>
+              <Controller
+                  control={control}
+                  name="bloodGroup"
+                  render={({ field }) => (
+                <Select onValueChange={field.onChange} value={field.value}>
                         <SelectTrigger id="bloodgroup" className="w-full h-10">
                             <SelectValue placeholder="Select Blood-Group" />
                         </SelectTrigger>
@@ -235,10 +283,16 @@ function Addemptab() {
                             <SelectItem value="O-">O-</SelectItem>
                         </SelectContent>
                         </Select> 
+                    )}  />
+                    <p className="text-red-700 text-sm">{errors.bloodGroup?.message}</p>
               </div> 
               <div className="grid gap-2">
                 <Label htmlFor="nationality">Nationality</Label>
-                <Select onValueChange={(val) => handleSelectChange("nationality", val)}>
+                <Controller
+                    control={control}
+                    name="nationality"
+                    render={({ field }) => (
+                    <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger id="nationality" className="w-full h-10">
                       <SelectValue placeholder="Select Nationality" />
                       </SelectTrigger>
@@ -247,10 +301,16 @@ function Addemptab() {
                         <SelectItem value="others">Others</SelectItem>
                        </SelectContent>
                       </Select> 
+                  )}  />
+                  <p className="text-red-700 text-sm">{errors.nationality?.message}</p>
               </div> 
               <div className="grid gap-2">
                 <Label htmlFor="religion">Religion</Label>
-                 <Select onValueChange={(val) => handleSelectChange("religion", val)}>
+                <Controller
+                    control={control}
+                    name="religion"
+                    render={({ field }) => (
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger id="religion" className="w-full h-10">
                       <SelectValue placeholder="Select Religion" />
                       </SelectTrigger>
@@ -261,10 +321,16 @@ function Addemptab() {
                       <SelectItem value="others">Others</SelectItem>
                     </SelectContent>
                   </Select> 
+                )}  />
+                <p className="text-red-700 text-sm">{errors.religion?.message}</p>
               </div> 
               <div className="grid gap-2">
                 <Label htmlFor="marital status">Marital status</Label>
-                <Select onValueChange={(val) => handleSelectChange("maritalStatus", val)}>
+               <Controller
+                    control={control}
+                    name="maritalStatus"
+                     render={({ field }) => (
+                    <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger id="maritalStatus" className="w-full h-10">
                       <SelectValue placeholder="Select status" />
                       </SelectTrigger>
@@ -273,18 +339,23 @@ function Addemptab() {
                       <SelectItem value="unmarried">Unmarried</SelectItem>
                     </SelectContent>
                   </Select> 
+                )}  />
+                <p className="text-red-700 text-sm">{errors.maritalStatus?.message}</p>
               </div> 
                <div className="grid gap-2">
                 <Label htmlFor="qualification">Educational Qualification</Label>
-                <Input id="qualification" value={formData.qualification} onChange={handleChange}  />
+                <Input id="qualification" {...register("qualification")} />
+                  <p className="text-red-700 text-sm">{errors.qualification?.message}</p>
               </div> 
               <div className="grid gap-2">
                 <Label htmlFor="experience">Work experience if any</Label>
-                <Input id="experience" type='number' value={formData.experience} onChange={handleChange}/>
+                <Input id="experience" type='number'{...register("experience")}/>
+                  <p className="text-red-700 text-sm">{errors.experience?.message}</p>
               </div>
               <div className="grid gap-2">
                <Label htmlFor="address">Address</Label>
-               <Textarea id="address" placeholder="Enter your address here"  value={formData.address} onChange={handleChange}/>
+               <Textarea id="address" placeholder="Enter your address here" {...register("address")}/>
+                  <p className="text-red-700 text-sm">{errors.address?.message}</p>
               </div>
              </TabsContent>
 
@@ -292,7 +363,11 @@ function Addemptab() {
                 <div className="flex gap-5">
                    <div className="grid gap-2">
                      <Label htmlFor="employeename">EmployeeName</Label>
-                       <Select>
+                        <Controller
+                          control={control}
+                          name="employeeName"
+                          render={({ field }) => (
+                          <Select onValueChange={field.onChange} value={field.value}>
                          <SelectTrigger id="leader" className="w-full h-10">
                          <SelectValue placeholder="Select Team leader" />
                          </SelectTrigger>
@@ -306,10 +381,12 @@ function Addemptab() {
                             <SelectItem value="name">Sagana</SelectItem>
                          </SelectContent>
                       </Select>  
+                      )}  />
                     </div>
                     <div className="grid gap-2">
                        <Label htmlFor="netsalary">Net Salary</Label>
-                        <Input id="netsalary" />
+                        <Input type="number" id="netsalary" {...register("netSalary")} />
+                          <p className="text-red-700 text-sm">{errors.netSalary?.message}</p>
                     </div>
                   </div>
                   
@@ -317,49 +394,43 @@ function Addemptab() {
                     <div className="flex gap-5">
                       <div className="grid gap-2">
                         <Label htmlFor="basic">Basic</Label>
-                         <Input id="basic" />
+                         <Input type="number" id="basic" {...register("basic")}/>
+                          <p className="text-red-700 text-sm">{errors.basic?.message}</p>
                       </div>
                       <div className="grid gap-2">
                         <Label htmlFor="conveyance">Conveyance</Label>
-                        <Input id="conveyance" />
+                        <Input type="number" id="conveyance" {...register("conveyance")}/>
+                        <p className="text-red-700 text-sm">{errors.conveyance?.message}</p>
                       </div>
                     </div>
 
                    <div className="flex gap-5">
                        <div className="grid gap-2">
                          <Label htmlFor="medicalallowance">Medical Allowance</Label>
-                         <Input id="" />
-                       </div>
-                       <div className="grid gap-2">
-                         <Label htmlFor="others"> Others</Label>
-                         <Input id="" />
+                         <Input type="number" id="medicalallowance" {...register("medicalAllowance")}/>
+                          <p className="text-red-700 text-sm">{errors.medicalAllowance?.message}</p>
                        </div>
                     </div>
-
+                      
                     <h3 className="font-medium mb-4">Deductions</h3>
                     <div className="flex gap-5">
                         <div className="grid gap-2">
                           <Label htmlFor="ESI">ESI</Label>
-                          <Input id="ESI" />
+                          <Input type="number" id="ESI" {...register("ESI")}/>
+                        <p className="text-red-700 text-sm">{errors.ESI?.message}</p>
                         </div>
                         <div className="grid gap-2">
                           <Label htmlFor="PF">PF</Label>
-                          <Input id="PF" />
+                          <Input type="number" id="PF" {...register("PF")}/>
+                        <p className="text-red-700 text-sm">{errors.PF?.message}</p>
                         </div>
-                        {/* <div className="grid gap-2">
-                          <Label htmlFor="leave">Leave</Label>
-                          <Input id="leave" />
-                        </div> */}
                     </div>
 
                     <div className="flex gap-5">
                       <div className="grid gap-2">
                          <Label htmlFor="labourwelfare">Labour Welfare</Label>
-                         <Input id="labourwelfare" />
-                      </div>
-                      <div className="grid gap-2">
-                        <Label htmlFor="others">Others</Label>
-                        <Input id="others" />
+                         <Input type="number" id="labourwelfare" {...register("laborWelfare")} />
+                        <p className="text-red-700 text-sm">{errors.laborWelfare?.message}</p>
                       </div>
                     </div>
               </TabsContent>

@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 // import { loginApi } from "../Services/authservice"
-// import { toast } from "sonner"
 import logo from '../assets/logo.svg'
 import {Card,CardContent,CardDescription,CardHeader,CardTitle} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 
 export function LoginForm({
   className,
@@ -24,26 +24,25 @@ export function LoginForm({
   e.preventDefault()
   setError("") 
 
-  // Hardcoded check (for now)
+  // Hardcoded check 
   if (email === "admin@example.com" && password === "password") {
-    navigate("/masterLayout")
+    navigate("/masterLayout/dashboard1")
   } else {
     setError("Invalid email or password")
   }
-
 
     // try {
     //   const res = await loginApi({ email, password })
     //   localStorage.setItem("token", res.token) 
     //   localStorage.setItem("user", JSON.stringify(res.user))
-    //   toast.success("Login successfull");
+         successToast("Login successful", "Welcome back!")
 
     //   window.location.href = "/dashboard"
     // } catch (err: any) {
 
     //   if (err.response?.status === 401) {
     //     setError("Invalid email or password")
-    //     toast.error("Login failed");
+          errorToast("Login failed", "Invalid email or password")
     //   } else {
     //     setError("Login failed. Try again later.")
     //   }

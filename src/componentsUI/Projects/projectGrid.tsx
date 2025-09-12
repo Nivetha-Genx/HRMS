@@ -6,7 +6,7 @@ import Dropdown from "../Projects/dropdown"
 import type { project } from "@/Services/type"
 // import { useState,useEffect } from "react"
 // import { getProjects } from "@/Services/projectService"
-  // import { toast } from "react-toastify"
+import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 
 const projects: project[] = [
   {
@@ -99,11 +99,14 @@ export default function ProjectCard() {
   //       setLoading(true)
   //       const data = await getProjects() 
   //       setProjects(data)
-  //       // toast.success("Projects data loaded successfully")
+  //       successToast("Projects data loaded successfully", "")
+  //       infoToast("Info", "Projects data is up to date")
+  //       warningToast("Warning", "Check your project settings") 
+  //       setError(null) 
   //     } catch (err) {
   //       setError("Failed to fetch projects")
   //       console.error(err)
-  //       // toast.error("Failed to load projects data")
+  //       errorToast("Failed to load projects data", "")
   //     } finally {
   //       setLoading(false)
   //     }

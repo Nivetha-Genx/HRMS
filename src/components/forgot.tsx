@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { toast } from "react-toastify"
+import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 
 export function Forgot({
   className,
@@ -34,15 +34,16 @@ export function Forgot({
      try {
       const res = await forgotPasswordApi({ email })
       setMessage(res.message || "Check your email for OTP.")
-      toast.success("OTP sent to your email")
+      successToast("OTP sent", "Check your email for OTP.")
+
       navigate("/otp")
     } catch (err: any) {
       if (err.response?.status === 404) {
         setError("Email not found")
-        toast("Email not found", { type: "error" })
+        warningToast("Email not found", "The provided email does not exist.")
       } else {
         setError("Failed to send OTP. Try again later.")
-        toast("Failed to send OTP. Try again later.", { type: "error" })
+        errorToast("Failed to send OTP", "Try again later.")  
       }
     } finally {
       setLoading(false)

@@ -11,7 +11,7 @@ import type { project } from '@/Services/type'
 import { postProject } from '@/Services/projectService' 
 import { useState } from 'react'
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "react-toastify"
+import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 
 const Add = () => {
      const [open, setOpen] = React.useState(false)
@@ -51,11 +51,11 @@ const Add = () => {
             status: '',
             description: ''
         });
-          toast.success("Project added successfully");
+          successToast("Project added successfully", "")
           setOpen(false);
         } catch (error) {
           console.log('Error adding project:', error);
-          toast.error("Failed to add project");
+          errorToast("Error adding project", "")
         }   
       }
   return (

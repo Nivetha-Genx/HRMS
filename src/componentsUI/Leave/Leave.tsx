@@ -4,11 +4,11 @@ import { IconUserExclamation } from '@tabler/icons-react';
 import { IconUserQuestion } from '@tabler/icons-react';
 import DataTable from "./dataTable";
 import { SiteHeader } from "@/components/site-header"
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 // import { useState,useEffect } from "react"
 // import { getLeave } from '@/Services/LeaveService';
 //  import type { leave} from "@/Services/type"
-// import { toast } from "react-toastify"
+import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 
  export default function Leave() {
   // const [stats, setStats] = useState<leave| null>(null);
@@ -18,10 +18,12 @@ import { toast } from 'react-toastify';
   //     try {
   //     const data = await getLeave();
   //     setStats(data);
-        // toast.success("Leave data loaded successfully")  
+  //       successToast("Leave data loaded successfully", "")
+  //       infoToast("Info", "Leave data is up to date")
+  //       warningToast("Warning", "Check your leave settings")
   //     } catch (err) {
   //     console.error("Error fetching dashboard:", err);
-  //     toast.error("Failed to load leave data");
+  //    errorToast("Failed to load leave data", "")
   //   }
   // };
 

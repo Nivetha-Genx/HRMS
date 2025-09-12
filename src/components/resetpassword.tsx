@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {resetPasswordApi } from '../Services/authservice'
-import { toast } from "react-toastify"
+import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 
 export function Resetpassword({
   className,
@@ -38,7 +38,7 @@ export function Resetpassword({
 
     if (newPassword !== confirmPassword) {
       setError("Passwords do not match")
-      toast("Passwords do not match", { type: "error" })
+      errorToast("Passwords do not match", "Please ensure both passwords are the same.")
       setLoading(false)
       return
     }
@@ -46,13 +46,12 @@ export function Resetpassword({
     try {
       await resetPasswordApi({ email, newPassword })
       setMessage("Password reset successful. You can now log in.")
-      toast.success("Password reset successful")
+      successToast("Password reset successful", "You can now log in.")
       navigate("/")
       setTimeout(() => navigate("/login"), 2000)
     } catch (err: any) {
       setError("Failed to reset password. Try again.")
-      toast("Failed to reset password. Try again.", { type: "error" })
-    } finally {
+      errorToast("Failed to reset password", "Try again.")
       setLoading(false)
     }
   }

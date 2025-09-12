@@ -13,7 +13,7 @@ import Add from '../Leave/Add'
 // import type { addleave } from "@/Services/type"
 // import { getLeaves } from "@/Services/LeaveService"
 // import { useEffect } from "react"
-// import { toast } from "react-toastify"
+import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 // import { se } from "date-fns/locale"
 
 const data: Payment[] = [
@@ -221,10 +221,12 @@ export default function DataTable() {
   //     try { 
   //      const leaves = await getLeaves(); 
   //      setData(leaves);
-  //       toast.success("Employees data loaded successfully")
+  //       successToast("Leave data loaded successfully", "")
+  //       infoToast("Info", "Leave data is up to date")
+  //       warningToast("Warning", "Check your leave settings")
   //     } catch (error) {
   //       console.error(" Failed to fetch employees:", error)
-  //       toast.error("Failed to load employees data")  
+  //       errorToast("Failed to load leave data", "")
   //     } finally {
   //       setLoading(false)
   //     }

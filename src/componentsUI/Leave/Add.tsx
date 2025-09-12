@@ -8,12 +8,20 @@ import { Calendar } from "@/components/ui/calendar"
 import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { useState,useEffect} from "react"
+import { useEffect} from "react"
 import type { addleave } from "@/Services/type"
 import { postLeave } from "@/Services/LeaveService"
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "react-toastify"
+import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import { useForm } from "react-hook-form"
+import type { SubmitHandler } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { leaveSchema } from "@/lib/Schema"
+import * as yup from "yup"
+import { Controller } from "react-hook-form"
 
+
+type LeaveFormValues = yup.InferType<typeof leaveSchema>;
 
 function Add() {
       const [fromDate, setFromDate] = React.useState<Date | undefined>(undefined)
@@ -21,69 +29,53 @@ function Add() {
       const [openFrom, setOpenFrom] = React.useState(false)
       const [openTo, setOpenTo] = React.useState(false)
       const [dialogOpen, setDialogOpen] = React.useState(false);
-      const [formData, setFormData] = useState<addleave>({
-          employeeId:"",
-          employeeName:"",
-          leaveType:"",
-          fromDate:"",
-          toDate:"",
-          numberofdays:"",
-          reason:"",
-       });
 
-      const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setFormData({...formData,[e.target.id]: e.target.value,});
-      };
-       
-      const handleSelectChange = (field: keyof addleave, value: string) => {
-         setFormData({...formData,[field]: value, });
-      };
-       
-      const handleSubmit = async (e: React.FormEvent) => {
-         e.preventDefault();
-      
-      try {
-        const payload = {
-          ...formData,
-          fromDate: fromDate ? fromDate.toISOString().split("T")[0] : "",
-          toDate: toDate ? toDate.toISOString().split("T")[0] : "",
-        };
-
-      await postLeave(payload);
-      console.log("Leave added successfully!")
-      toast.success("Leave added successfully!")
-      setFormData({
-          employeeId: "",
+      const {
+        register,handleSubmit,control,reset,setValue,   
+         formState: { errors },
+          } = useForm<LeaveFormValues>({ resolver: yupResolver(leaveSchema),
+         defaultValues: {
+         employeeId: "",
           employeeName: "",
           leaveType: "",
           fromDate: "",
           toDate: "",
-          numberofdays: "",
+          numberofdays: 0,
           reason: "",
-    });
-      setFromDate(undefined);
-      setToDate(undefined);
-      setDialogOpen(false);
-  } catch (err) {
-      console.log("Error adding leave", err);
-      toast.error("Failed to add leave");
-  }
-};
-
-   useEffect(() => {
-     if (fromDate && toDate) {
-       const diff = Math.ceil((toDate.getTime() - fromDate.getTime()) / (1000 * 60 * 60 * 24)) + 1; 
-       setFormData((prev) => ({
-       ...prev,
-       numberofdays: diff.toString(),
-    }));
-  } else {
-    setFormData((prev) => ({
-      ...prev,
-      numberofdays: "",
-    }));
-  }
-}, [fromDate, toDate]);
+  },
+});
+    const onSubmit : SubmitHandler<LeaveFormValues> = async (data) => {
+        try {
+          const payload : addleave = { 
+            employeeId: data.employeeId,
+            employeeName: data.employeeName,
+            leaveType: data.leaveType,  
+            fromDate: fromDate ? fromDate.toISOString().split("T")[0] : "",
+            toDate: toDate ? toDate.toISOString().split("T")[0] : "",
+            numberofdays: data.numberofdays,  
+            reason: data.reason,
+          };
+          await postLeave(payload); 
+          console.log("Leave added successfully!")
+          successToast("Leave added successfully", "The leave has been recorded.")
+          reset();    
+          setFromDate(undefined);
+          setToDate(undefined);
+          setDialogOpen(false);
+        } catch (err) {
+          console.log("Error adding leave", err);
+          errorToast("Error adding leave", "Please try again.")
+        } 
+      };
+      useEffect(() => {
+          if (fromDate && toDate) {
+          const diff =
+             Math.ceil((toDate.getTime() - fromDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+          setValue("numberofdays", diff);
+          } else {
+          setValue("numberofdays", 0);
+          }
+          }, [fromDate, toDate, setValue]);
 
   return (
     <div>
@@ -92,14 +84,9 @@ function Add() {
             onOpenChange={(isOpen) => {
             setDialogOpen(isOpen);
             if (!isOpen) {
-            setFormData({employeeId:"",
-            employeeName:"",
-            leaveType:"",
-            fromDate:"",
-            toDate:"",
-            numberofdays:""  ,
-            reason:"",
-          });
+              reset();    
+              setFromDate(undefined);
+              setToDate(undefined);
          }
       }}>
         <DialogTrigger asChild>
@@ -112,14 +99,19 @@ function Add() {
                        Fill in leave details and click add leave.
                     </DialogDescription>
               </DialogHeader>
-               <form className="grid gap-8"  onSubmit={handleSubmit}>
+               <form className="grid gap-8"   onSubmit={handleSubmit(onSubmit)}>
                  <div className="grid gap-2">
                    <Label htmlFor="employeeId">EmployeeId</Label>
-                     <Input id="employeeId" value={formData.employeeId} onChange={handleChange} />
+                     <Input id="employeeId" {...register("employeeId")} />
+                      {errors.employeeId && <p className="text-sm text-red-700">{errors.employeeId.message}</p>}
                  </div>
                  <div className="grid gap-2">
                    <Label htmlFor="employeeName">Employee Name</Label>
-                      <Select  onValueChange={(val) => handleSelectChange("employeeName", val)}>
+                      <Controller
+                          control={control}
+                          name="employeeName"
+                          render={({ field }) => (
+                          <Select {...field} onValueChange={(value) => field.onChange(value)} value={field.value}>
                          <SelectTrigger id="employeeName" className="w-full h-10">
                            <SelectValue placeholder="Select Employee Name" />
                          </SelectTrigger>
@@ -133,10 +125,16 @@ function Add() {
                             <SelectItem value="Sagana">Sagana</SelectItem>
                          </SelectContent>
                       </Select>  
+                )}/>
+                {errors.employeeName && <p className="text-sm text-red-700">{errors.employeeName.message}</p>}
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="leaveType">Leave Type</Label>
-                      <Select  onValueChange={(val) => handleSelectChange("leaveType", val)}>
+                       <Controller
+                            control={control}
+                             name="leaveType"
+                              render={({ field }) => (
+                              <Select {...field} onValueChange={(value) => field.onChange(value)} value={field.value}>
                          <SelectTrigger id="leaveType" className="w-full h-10">
                            <SelectValue placeholder="Select Leave Type" />
                          </SelectTrigger>
@@ -145,68 +143,84 @@ function Add() {
                             <SelectItem value="CasualLeave">Casual Leave</SelectItem>  
                          </SelectContent>
                      </Select>  
+                )}/>
+                {errors.leaveType && <p className="text-sm text-red-700">{errors.leaveType.message}</p>}
                 </div>
                 <div className="grid gap-2">
-                   <Label htmlFor="from-date" className="px-1">
+                   <Label htmlFor="fromDate" className="px-1">
                       From Date
                     </Label>
+                     <Controller
+                          name="fromDate"
+                          control={control}
+                          render={({ field }) => (
                      <Popover open={openFrom} onOpenChange={setOpenFrom}>
                        <PopoverTrigger asChild>
                         <Button
                           variant="outline"
-                          id="from-date"
+                          id="fromDate"
                           className="justify-between font-normal">
-                          {fromDate ? fromDate.toLocaleDateString() : "Select date"}
+                           {field.value ? new Date(field.value).toLocaleDateString() : "Select date"}
                           <ChevronDownIcon />
                         </Button>
                        </PopoverTrigger>
                        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-                         <Calendar
-                           mode="single"
-                           selected={fromDate}
-                           captionLayout="dropdown"
-                           onSelect={(date) => {
-                           setFromDate(date)
-                           setOpenFrom(false)
-                           }}
-                         />
+                          <Calendar
+                              mode="single"
+                              selected={fromDate}
+                              onSelect={(date) => {
+                              setFromDate(date || undefined);
+                             field.onChange(date ? date.toLocaleDateString("en-CA") : "");
+                              setOpenFrom(false);   
+                    }}/>
+
                        </PopoverContent>
                      </Popover>
+                      )}/>
+                      {errors.fromDate && <p className="text-sm text-red-700">{errors.fromDate.message}</p>}
                 </div>
                 <div className="grid gap-2">
                    <Label htmlFor="to-date" className="px-1">
                      To Date
                    </Label>
+                    <Controller
+                        name="toDate"
+                        control={control}
+                        render={({ field }) => (
                      <Popover open={openTo} onOpenChange={setOpenTo}>
                        <PopoverTrigger asChild>
                          <Button
                            variant="outline"
-                           id="to-date"
+                           id="toDate"
                            className="justify-between font-normal">
-                            {toDate ? toDate.toLocaleDateString() : "Select date"}
+                            {field.value ? new Date(field.value).toLocaleDateString() : "Select date"}
                            <ChevronDownIcon />
                          </Button>
                        </PopoverTrigger>
                        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-                        <Calendar
-                           mode="single"
-                           selected={toDate}
-                           captionLayout="dropdown"
-                           onSelect={(date) => {
-                           setToDate(date)
-                           setOpenTo(false)
-                          }}
-                         />
+                      <Calendar
+                        mode="single"
+                        selected={toDate}
+                        onSelect={(date) => {
+                        setToDate(date || undefined); 
+                        field.onChange(date ? date.toLocaleDateString("en-CA") : "");
+                        setOpenTo(false);          
+                     }}/>
+
                         </PopoverContent>
                      </Popover>
+                      )}/>
+                      {errors.toDate && <p className="text-sm text-red-700">{errors.toDate.message}</p>}
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="numberofdays">No of Days</Label>
-                      <Input id="numberofdays" type="number" value={formData.numberofdays} readOnly />
+                      <Input id="numberofdays" type="number" {...register("numberofdays")} />
+                      {errors.numberofdays && <p className="text-sm text-red-700">{errors.numberofdays.message}</p>}
                 </div>
                 <div className="grid gap-2">
                     <Label htmlFor="reason" className="px-1">Reason</Label>
-                    <Textarea id="reason" placeholder="Enter your reason here"  value={formData.reason} onChange={handleChange}/>
+                    <Textarea id="reason" placeholder="Enter your reason here"  {...register("reason")}/>
+                    {errors.reason && <p className="text-sm text-red-700">{errors.reason.message}</p>}
                 </div>
               <DialogFooter>
                   <DialogClose asChild>

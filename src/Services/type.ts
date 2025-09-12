@@ -75,21 +75,28 @@ export interface empData{
  
 export interface addEmpReq{
     employeeId: string 
-    empName: string
+    employeeName: string
     email: string
     phoneNumber: string
     position: string
     department: string
     gender: string
-    dob: string
+    dob : string
     emergencyNumber: string
-    bloodGroup: string
+    bloodGroup?: string
     nationality: string
     religion: string
-    maritalStatus: string
+    maritalStatus?: string
     qualification: string
-    experience: string
+    experience?: string
     address: string
+    netSalary: number
+    basic: number
+    conveyance: number
+    medicalAllowance: number
+    ESI: number
+    PF: number
+    laborWelfare: number
 }
 
 // ATTENDANCE
@@ -113,7 +120,7 @@ export interface addleave{
   leaveType:string
   fromDate:string | null
   toDate:string | null
-  numberofdays:string
+  numberofdays:number
   reason:string
 }
 // PROJECTS

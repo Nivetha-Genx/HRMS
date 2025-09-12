@@ -13,7 +13,7 @@ import Addemptab from '../ui/Addemptab'
 // import { getEmployees } from "@/Services/EmployeeService"
 // import type { empData } from "@/Services/type"
 // import { useState,useEffect } from "react"
-// import { toast } from "react-toastify"
+import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 
 const data: Payment[] = [
     {
@@ -217,10 +217,10 @@ export function DataTableDemo() {
   //     try {
   //       const employees = await getEmployees()
   //       setData(employees)
-  //       toast.success("Employees data loaded successfully")
+  //      successToast("Employees data loaded", "")
   //     } catch (error) {
   //       console.error(" Failed to fetch employees:", error)
-  //       toast.error("Failed to load employees data")  
+  //      errorToast("Failed to fetch employees", "")
   //     } finally {
   //       setLoading(false)
   //     }

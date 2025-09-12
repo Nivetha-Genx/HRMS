@@ -7,6 +7,7 @@ import { SiteHeader } from "@/components/site-header"
 // import { useState,useEffect } from "react"
 // import type { cardemp } from "@/Services/type"
 // import { getcardemp } from "@/Services/EmployeeService"
+import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 
 
 export default function Employee() {
@@ -15,6 +16,11 @@ export default function Employee() {
 //    useEffect(() => {
 //      getcardemp()
 //      .then((data) => setStats(data))
+//      .then(() => successToast("Employee data loaded", ""))
+//      .then(() => infoToast("Info", "Employee data is up to date"))
+//      .then(() => warningToast("Warning", "Check your employee settings"))
+//      .catch(() => errorToast("Error", "Failed to load employee data"))
+//      .then((data) => console.log("Dashboard data:", data))
 //       .catch((err) => console.error("Error fetching dashboard:", err));
 //    }, []);
 

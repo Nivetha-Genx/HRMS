@@ -14,8 +14,8 @@ import { useState,useEffect } from "react"
 import { getLeave, putLeave, deleteLeave } from "@/Services/LeaveService"
 import type { addleave } from "@/Services/type"
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "sonner"
-// import { toast } from "react-toastify"
+import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+
 
 
 type EditProps = {
@@ -67,13 +67,13 @@ function Edit({ employeeId, onSuccess }: EditProps) {
              try {
              await putLeave(employeeId, { ...formData, fromDate: fromDate ? fromDate.toISOString() : null,  toDate: toDate ? toDate.toISOString() : null});
             console.log(`Leave ${status} successfully!`)
-            toast.success(`Leave ${status} successfully!`)
+            successToast(`Leave ${status} successfully!`, "")
              setDialogOpen(false);
              if (onSuccess) onSuccess();
            } catch (err) {
              console.error(err);
              console.log("Failed to update leave");
-              toast.error("Failed to update leave");  
+              errorToast("Failed to update leave", "")
            }
          };
          const handleDelete = async () => {
@@ -81,13 +81,13 @@ function Edit({ employeeId, onSuccess }: EditProps) {
              try {
                await deleteLeave(employeeId);
                console.log("leave deleted successfully!");
-               toast.success("Leave deleted successfully!");
+                successToast("Leave deleted successfully!", "")
                setDialogOpen(false);
                if (onSuccess) onSuccess();
              } catch (err) {
                console.error(err);
                console.log("Failed to delete employee");
-               toast.error("Failed to delete leave");
+                errorToast("Failed to delete leave", "")
              }
            };
 

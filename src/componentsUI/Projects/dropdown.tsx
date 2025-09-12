@@ -14,7 +14,7 @@ import type { project } from '@/Services/type'
 import { getProject,putProject,deleteProject } from '@/Services/projectService'
 import { useState,useEffect } from 'react'   
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "react-toastify"
+import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 
 
 function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => void}) {
@@ -61,13 +61,13 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
                 try {
                   await putProject(projectId, { ...formData, deadLine: date ? date.toISOString() : null });
                   console.log("Project updated successfully!");
-                  toast.success("Project updated successfully!");
+                  successToast("Project updated successfully!", "")
                   setDialogOpen(false);
                   if (onSuccess) onSuccess();
                 } catch (err) {
                   console.error(err);
                   console.log("Failed to update project");
-                  toast.error("Failed to update project");
+                  errorToast("Failed to update project", "")
                 }
               };
               const handleDelete = async () => {
@@ -75,13 +75,13 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
                   try {
                     await deleteProject(projectId);
                     console.log("Project deleted successfully!");
-                    toast.success("Project deleted successfully!");
+                    successToast("Project deleted successfully!", "")
                     setDialogOpen(false);
                     if (onSuccess) onSuccess();
                   } catch (err) {
                     console.error(err);
                     console.log("Failed to delete Project");
-                    toast.error("Failed to delete project");
+                    errorToast("Failed to delete project", "")
                   }
                 };
     

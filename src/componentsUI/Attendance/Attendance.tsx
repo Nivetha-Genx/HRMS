@@ -6,7 +6,7 @@ import { SiteHeader } from "@/components/site-header"
 // import { useState,useEffect } from "react"
 // import { getAttendance } from "@/Services/AttendanceService"
 // import type { attendance } from "@/Services/type"
-  // import { toast } from "react-toastify"
+import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 
 export default function Attendance(){
   // const [stats, setStats] = useState<attendance| null>(null);
@@ -15,11 +15,13 @@ export default function Attendance(){
   //     const fetchData = async () => {
   //     try {
   // //     const data = await getAttendance();
-  //        toast.success("Attendance data loaded successfully")  
+  //       successToast("Attendance data loaded successfully", "")
+  //       infoToast("Info", "Attendance data is up to date")
+  //       warningToast("Warning", "Check your attendance settings") 
   //     setStats(data);
   //     } catch (err) {
   //     console.error("Error fetching dashboard:", err);
-  //     toast.error("Failed to load attendance data"); 
+  //     errorToast("Failed to load attendance data", "")
   //   }
   // };
 

@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { signupApi } from "@/Services/authservice"
 import logo from '../assets/logo.svg'
-import { toast } from "react-toastify"
+import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 
 export function Signup({
   className,
@@ -37,7 +37,7 @@ export function Signup({
 
     if (password !== confirmPassword) {
       setError("Passwords do not match")
-      toast("Passwords do not match", { type: "error" })
+      errorToast("Passwords do not match", "Please ensure both passwords are the same.")
       setLoading(false)
       return
     }
@@ -52,15 +52,15 @@ export function Signup({
         password,
       })
       setMessage(res.message || "Signup successful!")
-      toast.success("Signup successful!") 
+      successToast("Signup successful", "You can now log in.")
       navigate("/")
     } catch (err: any) {
       if (err.response?.data?.message) {
         setError(err.response.data.message)
-        toast(err.response.data.message, { type: "error" })
+        errorToast("Signup failed", err.response.data.message)
       } else {
         setError("Signup failed. Try again.")
-        toast("Signup failed. Try again.", { type: "error" })
+        errorToast("Signup failed", "Try again.")
       }
     } finally {
       setLoading(false)
