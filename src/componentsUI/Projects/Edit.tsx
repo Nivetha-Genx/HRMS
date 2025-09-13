@@ -14,7 +14,7 @@ import type { project } from '@/Services/type'
 import { getProject,putProject,deleteProject } from '@/Services/projectService'
 import { useState,useEffect } from 'react' 
 import { Textarea } from "@/components/ui/textarea"
-import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import { successToast,errorToast } from "@/lib/toast"
 
 function Edit({projectId,onSuccess}: {projectId: string,onSuccess?: () => void}) {
        const [open, setOpen] = React.useState(false)
@@ -24,12 +24,13 @@ function Edit({projectId,onSuccess}: {projectId: string,onSuccess?: () => void})
            projectId: '',
            projectName: '',
            leader: '',
-           team: '',
+           team: [],
            deadLine: '',
            priority: '',
            status: '',
            description: ''
        })
+       
     useEffect(() => {
           if (!projectId || !open) return;
        
@@ -102,7 +103,7 @@ function Edit({projectId,onSuccess}: {projectId: string,onSuccess?: () => void})
                setDialogOpen(isOpen);
                if (!isOpen) {
                 setFormData({
-                   projectId: '',projectName: '', leader: '',team: '',  deadLine: '',priority:'', status: '', description: ''});
+                   projectId: '',projectName: '', leader: '',team: [],  deadLine: '',priority:'', status: '', description: ''});
                 setDate(undefined);
                  }
               }}>
@@ -133,31 +134,31 @@ function Edit({projectId,onSuccess}: {projectId: string,onSuccess?: () => void})
                             <SelectValue placeholder="Select Team leader" />
                          </SelectTrigger>
                          <SelectContent>
-                            <SelectItem value="name">Shivaji</SelectItem>
-                            <SelectItem value="name">Shivani</SelectItem>
-                            <SelectItem value="name">jayashree</SelectItem>
-                            <SelectItem value="name">Akila Sri</SelectItem>
-                            <SelectItem value="name">Pavithra</SelectItem>
-                            <SelectItem value="name">Nisha</SelectItem>
-                            <SelectItem value="name">Sagana</SelectItem>
+                            <SelectItem value="shivaji">Shivaji</SelectItem>
+                            <SelectItem value="shivani">Shivani</SelectItem>
+                            <SelectItem value="jayashree">jayashree</SelectItem>
+                            <SelectItem value="akilasri">Akila Sri</SelectItem>
+                            <SelectItem value="pavithra">Pavithra</SelectItem>
+                            <SelectItem value="nisha">Nisha</SelectItem>
+                            <SelectItem value="sagana">Sagana</SelectItem>
                          </SelectContent>
                     </Select>  
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="team">Team</Label>
-                     <Select  value={formData.team}
-                        onValueChange={(value) => setFormData({ ...formData, team: value })}>
+                     <Select value={formData.team[0] ?? ""}  
+                         onValueChange={(value) => setFormData({ ...formData, team: [value] })}>
                         <SelectTrigger id="team" className="w-full h-10">
                         <SelectValue placeholder="Select Team members" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="name">Shivaji</SelectItem>
-                             <SelectItem value="name">Shivani</SelectItem>
-                             <SelectItem value="name">jayashree</SelectItem>
-                             <SelectItem value="name">Akila Sri</SelectItem>
-                            <SelectItem value="name">Pavithra</SelectItem>
-                            <SelectItem value="name">Nisha</SelectItem>
-                             <SelectItem value="name">Sagana</SelectItem>
+                            <SelectItem value="shivaji">Shivaji</SelectItem>
+                             <SelectItem value="shivani">Shivani</SelectItem>
+                             <SelectItem value="jayashree">jayashree</SelectItem>
+                             <SelectItem value="akilasri">Akila Sri</SelectItem>
+                            <SelectItem value="pavithra">Pavithra</SelectItem>
+                            <SelectItem value="nisha">Nisha</SelectItem>
+                             <SelectItem value="sagana">Sagana</SelectItem>
                         </SelectContent>
                     </Select>  
                 </div>

@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useState,useEffect } from 'react'
 import { getEmployee,putEmployee,deleteEmployee } from '@/Services/EmployeeService'
 import { Textarea } from "@/components/ui/textarea"
-import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import { successToast,errorToast} from "@/lib/toast"
 
 function editemptab({ employeeId, onSuccess }: { employeeId: string, onSuccess?: () => void }) {
   const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -294,23 +294,6 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
 
              <TabsContent value="job" className="space-y-8 mt-5">
               <div className="flex gap-5">
-                  <div className="grid gap-2">
-                    <Label htmlFor="employeename">EmployeeName</Label>
-                       <Select>
-                         <SelectTrigger id="leader" className="w-full h-10">
-                         <SelectValue placeholder="Select Team leader" />
-                         </SelectTrigger>
-                         <SelectContent>
-                            <SelectItem value="name">Shivaji</SelectItem>
-                            <SelectItem value="name">Shivani</SelectItem>
-                            <SelectItem value="name">jayashree</SelectItem>
-                            <SelectItem value="name">Akila Sri</SelectItem>
-                            <SelectItem value="name">Pavithra</SelectItem>
-                            <SelectItem value="name">Nisha</SelectItem>
-                            <SelectItem value="name">Sagana</SelectItem>
-                         </SelectContent>
-                    </Select>  
-                  </div>
                   <div className="grid gap-2">
                      <Label htmlFor="netsalary">Net Salary</Label>
                         <Input id="netsalary" />

@@ -35,7 +35,7 @@ function Edit({ employeeId, onSuccess }: EditProps) {
       leaveType:"",
       fromDate:"",
       toDate:"",
-      numberofdays:"",
+      numberofdays:0,
       reason:"",
    });
 
@@ -114,7 +114,7 @@ function Edit({ employeeId, onSuccess }: EditProps) {
                   leaveType:"",
                   fromDate:"",
                   toDate:"",
-                  numberofdays:"",
+                  numberofdays:0,
                   reason:""
               });
             }

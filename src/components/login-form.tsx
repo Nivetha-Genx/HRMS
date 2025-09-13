@@ -7,49 +7,66 @@ import logo from '../assets/logo.svg'
 import {Card,CardContent,CardDescription,CardHeader,CardTitle} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import { successToast,errorToast } from "@/lib/toast"
+import { useForm } from "react-hook-form"
+import type { SubmitHandler } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { loginSchema } from "@/lib/Schema"
+import * as yup from "yup"
+import type { LoginRequest } from "@/Services/type"
+
+type loginFormValues = yup.InferType<typeof loginSchema>
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
 
-  const [email, setEmail] = useState("admin@example.com")
-  const [password, setPassword] = useState("password")
-  // const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const navigate=useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault()
-  setError("") 
+      const { register, handleSubmit, formState: { errors } } = useForm<loginFormValues>({
+        resolver: yupResolver(loginSchema),
+        defaultValues: {  
+         email:"",
+         password:""
+        }
+      });
+    
+  const onSubmit: SubmitHandler<loginFormValues> = async (data) => {
+           try {
+             const payload : LoginRequest = {
+               email: data.email,
+               password: data.password,
+             };
+    
+           
 
   // Hardcoded check 
-  if (email === "admin@example.com" && password === "password") {
-    navigate("/masterLayout/dashboard1")
-  } else {
-    setError("Invalid email or password")
-  }
+   if (data.email === "admin@example.com" && data.password === "password@123") {
+        successToast("Login successful", "Welcome back!");
+        navigate("/masterLayout/dashboard1");
+      } else {
+        setError("Invalid email or password");
+      }
 
-    // try {
-    //   const res = await loginApi({ email, password })
+
+    //   const res = await loginApi({ payload})
+      // successToast("Login successful", "Welcome back!")
     //   localStorage.setItem("token", res.token) 
     //   localStorage.setItem("user", JSON.stringify(res.user))
-         successToast("Login successful", "Welcome back!")
+    //    navigate("/dashboard");
+    } catch (err: any) {
 
-    //   window.location.href = "/dashboard"
-    // } catch (err: any) {
-
-    //   if (err.response?.status === 401) {
-    //     setError("Invalid email or password")
-          errorToast("Login failed", "Invalid email or password")
-    //   } else {
-    //     setError("Login failed. Try again later.")
-    //   }
-    // } finally {
-    //   setLoading(false)
-    // }
-  }
+      if (err.response?.status === 401) {
+        setError("Invalid email or password")
+       errorToast("Login failed", "Invalid email or password")
+      } else {
+        setError("Login failed. Try again later.")
+      }
+    
+    }
+  };
    
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>  
@@ -66,17 +83,16 @@ export function LoginForm({
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleSubmit} >
+          <form onSubmit={handleSubmit(onSubmit)} >
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
-                    type="email"
                     placeholder="m@example.com"
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
+                     {...register("email")} 
                   />
+                   {errors.email && <p className="text-sm text-red-700">{errors.email.message}</p>} 
               </div>
 
               <div className="grid gap-3">
@@ -90,9 +106,9 @@ export function LoginForm({
                 </div>
                   <Input 
                     id="password" 
-                    type="password"
-                    onChange={(e) => setPassword(e.target.value)} 
+                     {...register("password")} 
                     required />
+                     {errors.password && <p className="text-sm text-red-700">{errors.password.message}</p>} 
                 </div>
 
                 <div className="flex flex-col gap-3">

@@ -13,7 +13,7 @@ import Add from '../Leave/Add'
 // import type { addleave } from "@/Services/type"
 // import { getLeaves } from "@/Services/LeaveService"
 // import { useEffect } from "react"
-import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+// import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 // import { se } from "date-fns/locale"
 
 const data: Payment[] = [
@@ -78,7 +78,7 @@ const data: Payment[] = [
     status:"pending"
   },
   {
-    id: "bhqecj4p",
+    id: "bhqecj4p", 
     employeeId:"ET007",
     employeeName:"Sagana",
     leaveType:"Casual Leave",

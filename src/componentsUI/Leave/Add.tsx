@@ -12,14 +12,13 @@ import { useEffect} from "react"
 import type { addleave } from "@/Services/type"
 import { postLeave } from "@/Services/LeaveService"
 import { Textarea } from "@/components/ui/textarea"
-import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import { successToast,errorToast} from "@/lib/toast"
 import { useForm } from "react-hook-form"
 import type { SubmitHandler } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { leaveSchema } from "@/lib/Schema"
 import * as yup from "yup"
 import { Controller } from "react-hook-form"
-
 
 type LeaveFormValues = yup.InferType<typeof leaveSchema>;
 
@@ -234,5 +233,4 @@ function Add() {
     </div>
   )
 }
-
 export default Add

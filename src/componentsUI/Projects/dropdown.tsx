@@ -14,7 +14,7 @@ import type { project } from '@/Services/type'
 import { getProject,putProject,deleteProject } from '@/Services/projectService'
 import { useState,useEffect } from 'react'   
 import { Textarea } from "@/components/ui/textarea"
-import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import { successToast,errorToast} from "@/lib/toast"
 
 
 function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => void}) {
@@ -25,7 +25,7 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
                projectId: '',
                projectName: '',
                leader: '',
-               team: '',
+               team: [],
                deadLine: '',
                priority: '',
                status: '',
@@ -103,7 +103,7 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
                 setDialogOpen(isOpen);
                 if (!isOpen) {
                 setFormData({
-                  projectId: '',projectName: '', leader: '',team: '',  deadLine: '',priority:'', status: '',description: ''});
+                  projectId: '',projectName: '', leader: '',team: [],  deadLine: '',priority:'', status: '',description: ''});
                   setDate(undefined);
                  }
                 }}>
@@ -146,8 +146,8 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="team">Team</Label>
-                     <Select value={formData.team}
-                        onValueChange={(value) => setFormData({ ...formData, team: value })}>
+                     <Select value={formData.team[0] ??""}
+                        onValueChange={(value) => setFormData({ ...formData, team: [value] })}>
                         <SelectTrigger id="team" className="w-full h-10">
                         <SelectValue placeholder="Select Team members" />
                         </SelectTrigger>

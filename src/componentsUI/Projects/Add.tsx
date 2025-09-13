@@ -9,66 +9,67 @@ import { Dialog,DialogClose,  DialogContent,DialogDescription,DialogFooter,Dialo
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import type { project } from '@/Services/type'
 import { postProject } from '@/Services/projectService' 
-import { useState } from 'react'
 import { Textarea } from "@/components/ui/textarea"
-import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import { successToast,errorToast} from "@/lib/toast"
+import { useForm } from "react-hook-form"
+import type { SubmitHandler } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { projectSchema } from "@/lib/Schema"
+import * as yup from "yup"
+import { Controller } from "react-hook-form"
+import ReactSelect from "react-select";
+
+type ProjectFormValues = yup.InferType<typeof projectSchema>;
 
 const Add = () => {
      const [open, setOpen] = React.useState(false)
      const [date, setDate] = React.useState<Date | undefined>(undefined)
      const [dialogOpen, setDialogOpen] = React.useState(false);
-     const [formData, setFormData] = useState<project>({
+
+    const { register, handleSubmit, control,reset, formState: { errors } } = useForm<ProjectFormValues>({
+      resolver: yupResolver(projectSchema),
+      defaultValues: {  
         projectId: '',
         projectName: '',
-        leader: '',
-        team: '',
+        leader: '', 
+        team: [],
         deadLine: '',
         priority: '',
         status: '',
         description: ''
-    })
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setFormData({...formData,[e.target.id]: e.target.value, });
-    };
-
-    const handleSelectChange = (field: keyof project, value: string) => {
-      setFormData({...formData,[field]: value,});
-    };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-
-       try {
-          await postProject(formData);
-          console.log('Project added successfully');
-          setFormData({
-            projectId: '',
-            projectName: '',
-            leader: '',
-            team: '',
-            deadLine: '',
-            priority: '',
-            status: '',
-            description: ''
-        });
-          successToast("Project added successfully", "")
-          setOpen(false);
-        } catch (error) {
-          console.log('Error adding project:', error);
-          errorToast("Error adding project", "")
-        }   
       }
+    });
+    const onSubmit: SubmitHandler<ProjectFormValues> = async (data) => {
+      try {
+        const payload : project = {
+          projectId: data.projectId,
+          projectName: data.projectName,
+          leader: data.leader,
+          team: data.team,
+          deadLine: data.deadLine,
+          priority: data.priority,
+          status: data.status,
+          description: data.description
+        };
+        await postProject(payload);
+        console.log('Project added successfully');
+        successToast("Project added successfully", "")
+        reset();
+        setDialogOpen(false);
+      } catch (error) {
+        console.log('Error adding project:', error);
+        errorToast("Error adding project", "")
+      } 
+    };
+       
   return (
-
     <div>
            <Dialog
               open={dialogOpen}
               onOpenChange={(isOpen) => {
               setDialogOpen(isOpen);
               if (!isOpen) {
-              setFormData({
-                 projectId: '',projectName: '', leader: '',team: '',  deadLine: '', priority: '' , status: '',description: ''
-             });
+              reset();
               setDate(undefined);
             }
             }}>
@@ -82,51 +83,73 @@ const Add = () => {
                            Fill in project details and click save.
                       </DialogDescription>
                 </DialogHeader>
-                   <form className="grid gap-8" onSubmit={handleSubmit}>
+                   <form className="grid gap-8" onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid gap-2">
                   <Label htmlFor="projectID">ProjectId</Label>
-                     <Input id="projectid"   value={formData.projectId} onChange={handleChange}  />
+                     <Input id="projectId" {...register("projectId")}   />
+                       {errors.projectId && <p className="text-sm text-red-700">{errors.projectId.message}</p>} 
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="projectName">ProjectName</Label>
-                      <Input id="projectName" value={formData.projectName} onChange={handleChange}  />
+                      <Input id="projectName" {...register("projectName")}   />
+                       {errors.projectName && <p className="text-sm text-red-700">{errors.projectName.message}</p>} 
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="leader">Team Leader</Label>
-                      <Select onValueChange={(value) => handleSelectChange('leader', value)}>
+                      <Controller
+                          control={control}
+                          name="leader"
+                          render={({ field }) => (
+                          <Select {...field} onValueChange={(value) => field.onChange(value)} value={field.value}>
                          <SelectTrigger id="leader" className="w-full h-10">
-                            <SelectValue placeholder="Select Team leader" />
+                          <SelectValue placeholder="Select Team leader" />
                          </SelectTrigger>
                          <SelectContent>
-                            <SelectItem value="name">Shivaji</SelectItem>
-                            <SelectItem value="name">Shivani</SelectItem>
-                            <SelectItem value="name">jayashree</SelectItem>
-                            <SelectItem value="name">Akila Sri</SelectItem>
-                            <SelectItem value="name">Pavithra</SelectItem>
-                            <SelectItem value="name">Nisha</SelectItem>
-                            <SelectItem value="name">Sagana</SelectItem>
+                            <SelectItem value="shivaji">Shivaji</SelectItem>
+                            <SelectItem value="shivani">Shivani</SelectItem>
+                            <SelectItem value="jayashree">jayashree</SelectItem>
+                            <SelectItem value="akilasri">Akila Sri</SelectItem>
+                            <SelectItem value="pavithra">Pavithra</SelectItem>
+                            <SelectItem value="nisha">Nisha</SelectItem>
+                            <SelectItem value="sagana">Sagana</SelectItem>
                          </SelectContent>
-                    </Select>  
+                    </Select> 
+                          )}
+                      />
+                 {errors.leader && <p className="text-sm text-red-700">{errors.leader.message}</p>} 
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="team">Team</Label>
-                     <Select onValueChange={(value) => handleSelectChange('team', value)}>
-                        <SelectTrigger id="team" className="w-full h-10">
-                             <SelectValue placeholder="Select Team members" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="name">Shivaji</SelectItem>
-                             <SelectItem value="name">Shivani</SelectItem>
-                             <SelectItem value="name">jayashree</SelectItem>
-                             <SelectItem value="name">Akila Sri</SelectItem>
-                            <SelectItem value="name">Pavithra</SelectItem>
-                            <SelectItem value="name">Nisha</SelectItem>
-                             <SelectItem value="name">Sagana</SelectItem>
-                        </SelectContent>
-                    </Select>  
+                   <Label htmlFor="team">Select Team Members</Label>
+                     <Controller
+                        name="team"
+                        control={control}
+                        render={({ field }) => (
+                      <ReactSelect
+                        isMulti
+                        options={[
+                            { value: "shivaji", label: "Shivaji" },
+                            { value: "shivani", label: "Shivani" },
+                            { value: "jayashree", label: "Jayashree" },
+                            { value: "akilasri", label: "Akila Sri" },
+                            { value: "pavithra", label: "Pavithra" },
+                            { value: "nisha", label: "Nisha" },
+                            { value: "sagana", label: "Sagana" },
+                          ]}
+                        className="w-full"
+                        onChange={(selected) =>
+                        field.onChange(selected ? selected.map((s) => s.value) : [])
+                    }
+                  value={(field.value as string[] | undefined)?.map((val) => ({
+                  value: val,
+                  label: val,
+                  })) || []}
+                />
+              )}
+              />
+                {errors.team && <p className="text-sm text-red-700">{errors.team.message}</p>}
                 </div>
                 <div className="grid gap-2">
-                      <Label htmlFor="date" className="px-1">
+                  <Label htmlFor="date" className="px-1">
                     DeadLine
                   </Label>
                   <Popover open={open} onOpenChange={setOpen}>
@@ -149,12 +172,17 @@ const Add = () => {
                     setOpen(false)
                     }}
                     />
+                     {errors.deadLine && <p className="text-sm text-red-700">{errors.deadLine.message}</p>} 
                   </PopoverContent>
                   </Popover>
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="priority">Priority</Label>
-                     <Select onValueChange={(value) => handleSelectChange('status', value)}>
+                     <Controller
+                        control={control}
+                        name="priority"
+                        render={({ field }) => (
+                    <Select {...field} onValueChange={(value) => field.onChange(value)} value={field.value}>
                         <SelectTrigger id="priority" className="w-full h-10">
                             <SelectValue placeholder="Select priority" />
                         </SelectTrigger>
@@ -164,22 +192,34 @@ const Add = () => {
                              <SelectItem value="Low">Low</SelectItem>
                         </SelectContent>
                     </Select> 
+                        )}
+                      />
+                  {errors.priority && <p className="text-sm text-red-700">{errors.priority.message}</p>}
                 </div>
                 <div className="grid gap-2">
-                    <Label htmlFor="status">Status</Label>
-                        <Select onValueChange={(value) => handleSelectChange('status', value)}>
-                         <SelectTrigger id="status" className="w-full h-10">
-                             <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="Active">Active</SelectItem>
-                            <SelectItem value="Inactive">Inactive</SelectItem>
-                        </SelectContent>
-                        </Select>
-                </div>
-                 <div className="grid gap-2">
-                 <Label htmlFor="description">Description</Label>
-                 <Textarea placeholder="Type your message here." id="description" value={formData.description} onChange={handleChange} />
+                  <Label htmlFor="status">Status</Label>
+                    <Controller
+                        control={control}
+                        name="status"
+                        render={({ field }) => (
+                    <Select {...field} onValueChange={(value) => field.onChange(value)} value={field.value}>
+                    <SelectTrigger id="status" className="w-full h-10">
+                    <SelectValue placeholder="Select status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Active">Active</SelectItem>
+                      <SelectItem value="Inactive">Inactive</SelectItem>
+                    </SelectContent>
+                  </Select>
+               )}
+                 />
+              {errors.status && <p className="text-sm text-red-700">{errors.status.message}</p>}
+              </div>
+                      
+              <div className="grid gap-2">
+                <Label htmlFor="description">Description</Label>
+                 <Textarea placeholder="Type your message here." id="description"  {...register("description")} />
+                   {errors.description && <p className="text-sm text-red-700">{errors.description.message}</p>}
                  </div>
                 
               <DialogFooter>

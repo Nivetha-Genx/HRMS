@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import type { addEmpReq } from '@/Services/type'
 import { postEmployees } from '@/Services/EmployeeService'
 import { Textarea } from "@/components/ui/textarea"
-import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import { successToast,errorToast } from "@/lib/toast"
 import { useForm } from "react-hook-form"
 import type { SubmitHandler } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -56,32 +56,32 @@ function Addemptab() {
       const [dialogOpen, setDialogOpen] = React.useState(false);
       const [dateOpen, setDateOpen] = React.useState(false);
       const [date, setDate] = React.useState<Date | undefined>(undefined);
-    const onSubmit: SubmitHandler<EmployeeFormValues> = async (data) => {
-     try {
+      const onSubmit: SubmitHandler<EmployeeFormValues> = async (data) => {
+    try {
     const payload: addEmpReq = {
-  employeeId: data.employeeId,
-  employeeName: data.employeeName,
-  email: data.email,
-  phoneNumber: data.phoneNumber,
-  position: data.position,
-  department: data.department,
-  gender: data.gender,
-  dob: date ? date.toISOString().split("T")[0] : "", 
-  emergencyNumber: data.emergencyNumber || "",
-  bloodGroup: data.bloodGroup || "",
-  nationality: data.nationality,
-  religion: data.religion,
-  maritalStatus: data.maritalStatus || "",
-  qualification: data.qualification,
-  experience: data.experience || "",
-  address: data.address,
-  netSalary: data.netSalary,
-  basic: data.basic,
-  conveyance: data.conveyance,
-  medicalAllowance: data.medicalAllowance,
-  ESI: data.ESI,
-  PF: data.PF,
-  laborWelfare: data.laborWelfare,
+      employeeId: data.employeeId,
+      employeeName: data.employeeName,
+      email: data.email,
+      phoneNumber: data.phoneNumber,
+      position: data.position,
+      department: data.department,
+      gender: data.gender,
+      dob: date ? date.toISOString().split("T")[0] : "", 
+      emergencyNumber: data.emergencyNumber || "",
+      bloodGroup: data.bloodGroup || "",
+      nationality: data.nationality,
+      religion: data.religion,
+      maritalStatus: data.maritalStatus || "",
+      qualification: data.qualification,
+      experience: data.experience || "",
+      address: data.address,
+      netSalary: data.netSalary,
+      basic: data.basic,
+      conveyance: data.conveyance,
+      medicalAllowance: data.medicalAllowance,
+      ESI: data.ESI,
+      PF: data.PF,
+      laborWelfare: data.laborWelfare,
 };
     await postEmployees(payload);
     successToast("Employee added successfully!", "The new employee has been added.");
@@ -361,35 +361,12 @@ function Addemptab() {
 
               <TabsContent value="job" className="space-y-8 mt-5">
                 <div className="flex gap-5">
-                   <div className="grid gap-2">
-                     <Label htmlFor="employeename">EmployeeName</Label>
-                        <Controller
-                          control={control}
-                          name="employeeName"
-                          render={({ field }) => (
-                          <Select onValueChange={field.onChange} value={field.value}>
-                         <SelectTrigger id="leader" className="w-full h-10">
-                         <SelectValue placeholder="Select Team leader" />
-                         </SelectTrigger>
-                         <SelectContent>
-                            <SelectItem value="name">Shivaji</SelectItem>
-                            <SelectItem value="name">Shivani</SelectItem>
-                            <SelectItem value="name">jayashree</SelectItem>
-                            <SelectItem value="name">Akila Sri</SelectItem>
-                            <SelectItem value="name">Pavithra</SelectItem>
-                            <SelectItem value="name">Nisha</SelectItem>
-                            <SelectItem value="name">Sagana</SelectItem>
-                         </SelectContent>
-                      </Select>  
-                      )}  />
-                    </div>
                     <div className="grid gap-2">
                        <Label htmlFor="netsalary">Net Salary</Label>
                         <Input type="number" id="netsalary" {...register("netSalary")} />
                           <p className="text-red-700 text-sm">{errors.netSalary?.message}</p>
                     </div>
                   </div>
-                  
                    <h3 className="font-medium mb-4">Earnings</h3>
                     <div className="flex gap-5">
                       <div className="grid gap-2">

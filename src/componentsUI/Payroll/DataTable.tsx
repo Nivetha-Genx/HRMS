@@ -12,11 +12,15 @@ import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "@/compo
 // import axios from "axios"
 import { useNavigate } from "react-router-dom";
 import { SiteHeader } from "@/components/site-header"
+// import type { payroll } from "@/Services/type"
+// import {getpayroll} from '@/Services/PayrollService'
+// import { useEffect } from "react"
+// import { errorToast, successToast, warningToast,infoToast } from "@/lib/toast"
 
 const data: Payment[] = [
   {
     id: "ghqej43k",
-    employeeId:"ET001",
+    employeeId:"ET001",  
     name:{
       empname:"Shivaji Maharaj",
       avatar:"https://i.pravatar.cc/150?img=12"
@@ -254,7 +258,6 @@ export const columns: ColumnDef<Payment>[] = [
 //   },
 // },
 
-
 {
   accessorKey: "payslip",
   header: "Payslip",
@@ -280,13 +283,31 @@ export const columns: ColumnDef<Payment>[] = [
 ]
 
 export default function DataTableDemo() {
+  // const [data, setData] = React.useState<payroll[]>([])
+  // const [loading, setLoading] = React.useState(true)
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] =React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try{
+  //       const pay= await getpayroll();
+  //       setData(pay);
+  //       successToast("Payroll data loaded successfully" ,"")
+  //       infoToast("Info", "payroll data is up to date")
+  //       warningToast("Warning", "Check your payroll settings")
+  //     }catch(error) {
+  //       console.error("failed to fetch payroll data:",error)
+  //       errorToast("Failed to load payroll data","")
+  //     } finally {
+  //       setLoading(false)
+  //     }
+  //     }
+  //    fetchData()
+  //   },[])
+
 
   const table = useReactTable({
     data,
@@ -306,6 +327,10 @@ export default function DataTableDemo() {
       rowSelection,
     },
   })
+   //  if (loading) {
+  //   return <div className="text-center py-6">Loading leave data...</div>
+  // }
+
 
   return (
      <div className="flex flex-col mb-5">

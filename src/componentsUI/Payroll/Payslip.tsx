@@ -214,12 +214,12 @@ export default function Payslip() {
               <td>Provident Fund</td>
               <td className="amount">0</td>
             </tr>
-             <tr>
+             {/* <tr>
               <td>Others</td>
               <td className="amount">0</td>
               <td>Others</td>
               <td className="amount">0</td>
-            </tr>
+            </tr> */}
             <tr className="pay">
               <td>Gross Earnings</td>
               <td>0</td>

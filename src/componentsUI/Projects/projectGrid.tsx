@@ -6,14 +6,14 @@ import Dropdown from "../Projects/dropdown"
 import type { project } from "@/Services/type"
 // import { useState,useEffect } from "react"
 // import { getProjects } from "@/Services/projectService"
-import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+// import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 
 const projects: project[] = [
   {
     projectId: "1",
     projectName: "Office Management",
     leader: "Shivaji Maharaj",
-    team: "Team A",
+    team: ["Team A"],
     deadLine: "29 sep 2025",
     priority: "High",
     status: "In Progress",
@@ -24,7 +24,7 @@ const projects: project[] = [
     projectId: "2",
     projectName: "Clinic Management",
     leader: "Shivani Nachiyar",
-    team: "Team B",
+    team: ["Team B"],
     deadLine: "20 dec 2025",
     priority: "Medium",
     status: "Pending",
@@ -35,7 +35,7 @@ const projects: project[] = [
     projectId: "3",
     projectName: "Educational Platform",
     leader: "Jayashree",
-    team: "Team C",
+    team: ["Team C"],
     deadLine: "20 oct 2025",
     priority: "High",
     status: "In Progress",
@@ -46,7 +46,7 @@ const projects: project[] = [
     projectId: "4",
     projectName: "Travel Planning Website",
     leader: "Sagana",
-    team: "Team D",
+    team: ["Team D"],
     deadLine: "30 sep 2025",
     priority: "Low",
     status: "Completed",
@@ -57,7 +57,7 @@ const projects: project[] = [
     projectId: "5",
     projectName: "Hotel Booking App",
     leader: "Pavithra",
-    team: "Team E",
+    team: ["Team E"],
     deadLine: "20 dec 2025",
     priority: "High",
     status: "In Progress",
@@ -68,7 +68,7 @@ const projects: project[] = [
     projectId: "6",
     projectName: "Food Order App",
     leader: "Nisha Danasegaran",
-    team: "Team F",
+    team: ["Team F"],
     deadLine: "20 nov 2025",
     priority: "Medium",
     status: "In Progress",  
@@ -79,7 +79,7 @@ const projects: project[] = [
     projectId: "7",
     projectName: "Service Booking Software",
     leader: "Akila Sri",
-    team: "Team G",
+    team: ["Team G"],
     deadLine: "20 feb 2026",
     priority: "High",
     status: "Pending",  

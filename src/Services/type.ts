@@ -1,5 +1,4 @@
 
-
 // AUTHSERVICE
 export interface LoginRequest { email: string ,password: string}
 export interface LoginResponse { 
@@ -10,9 +9,9 @@ export interface LoginResponse {
   }
 }
 
-export interface SignupRequest {
+export interface signupRequest {
   firstName: string
-  lastName: string
+  lastName: string 
   email: string
   dob: string
   phoneNumber: string
@@ -123,14 +122,30 @@ export interface addleave{
   numberofdays:number
   reason:string
 }
+
 // PROJECTS
 export interface project{
   projectId:string
   projectName:string
   leader:string
-  team:string
+  team:string[]
   deadLine:string | null
   priority:string
   status:string
   description:string
+}
+
+//PAYROLL
+export interface payroll{
+  employeeId:string
+  position:string
+  department:string
+  email:string
+  joinDate:string
+  salary:string
+  payslip:string
+  name:{
+    empname:string
+    avatar:string
+  }
 }
