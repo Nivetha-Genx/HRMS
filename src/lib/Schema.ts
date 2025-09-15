@@ -1,5 +1,5 @@
 import * as yup from "yup"
-import { number } from "zod";
+
 
 export const loginSchema = yup.object({
 
@@ -16,13 +16,17 @@ export const loginSchema = yup.object({
 
 export const signupSchema= yup.object({
 
-  firstName      : yup.string().required("First Name is required")
-                                .matches(/^[A-Za-z ]+$/),
-  lastName       : yup.string().required(),
+  firstName      : yup.string()
+                      .required("First Name is required")
+                      .matches(/^[A-Za-z ]+$/),
+  lastName       : yup.string()
+                      .matches(/^[A-Za-z ]+$/, "Last name must contain only letters")
+                      .required("Last Name is required"),
+                      
   email          :yup.string().required(" Email is required"),
   dob            :yup.string().required("DOB is required"),
   phoneNumber    : yup.string()
-                            .matches(/^[0-9]{10}$/, "Must be 10 digits")
+                      .matches(/^[0-9]{10}$/, "Must be 10 digits")
                             .required("Phone number is required"),
  password    : yup.string()
                     .required("Password is required")
@@ -41,14 +45,17 @@ confirmpassword : yup.string()
 
 export const employeeSchema = yup.object({
   employeeId            : yup.string().required("Employee ID is required"),
-  employeeName          : yup.string().required("Employee Name is required")
-                                      .matches(/^[A-Za-z ]+$/),
+  employeeName          : yup.string()
+                             .required("Employee Name is required")
+                             .trim() // remove leading/trailing spaces
+                             .matches(/^[A-Za-z]+(?: [A-Za-z]+)*$/, "Only alphabets and single spaces allowed"),
+
   email                 : yup.string().email("Invalid email")
                                       .required("Email is required")
                                       .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/, "Invalid email format"),
   phoneNumber           : yup.string()
-                            .matches(/^[0-9]{10}$/, "Must be 10 digits")
-                            .required("Phone number is required"),
+                             .matches(/^[0-9]{10}$/, "Must be 10 digits")
+                             .required("Phone number is required"),
   position              : yup.string().required("Position is required"),
   department            : yup.string().required("Department is required"),
   gender                : yup.string().required("Gender is required"),
@@ -65,40 +72,33 @@ export const employeeSchema = yup.object({
   address               : yup.string().required("Address is required"),
 
 
-  netSalary             : yup
-                            .number()
+  netSalary             : yup.number()
                             .typeError("Net Salary must be a number")
                             .positive("Net Salary must be positive")
-                             .required("Net Salary is required"),
-  basic                 : yup
-                          .number()
-                          .typeError("Basic must be a number")
-                          .positive("Basic must be positive")
-                          .required("Basic is required"),
-  conveyance            : yup
-                           .number()
-                           .typeError("Conveyance must be a number")
-                           .positive("Conveyance must be positive")
-                           .required("Conveyance is required"),
-  medicalAllowance      : yup
-                            .number()
-                            .typeError("Medical Allowance must be a number")
-                            .positive("Medical Allowance must be positive")
-                            .required("Medical Allowance is required"),
-  ESI                   : yup
-                            .number()
-                            .typeError("ESI must be a number")
-                            .positive("ESI must be positive")
-                            .min(0, "ESI cannot be negative")
-                            .required("ESI is required"),
-  PF                   : yup
-                            .number()
+                            .required("Net Salary is required"),
+  basic                 : yup.number()
+                             .typeError("Basic must be a number")
+                             .positive("Basic must be positive")
+                             .required("Basic is required"),
+  conveyance            : yup.number()
+                             .typeError("Conveyance must be a number")
+                             .positive("Conveyance must be positive")
+                             .required("Conveyance is required"),
+  medicalAllowance      : yup.number()
+                             .typeError("Medical Allowance must be a number")
+                             .positive("Medical Allowance must be positive")
+                             .required("Medical Allowance is required"),
+  ESI                   : yup.number()
+                             .typeError("ESI must be a number")
+                             .positive("ESI must be positive")
+                             .min(0, "ESI cannot be negative")
+                             .required("ESI is required"),
+  PF                   : yup.number()
                             .typeError("PF must be a number")
                             .positive("PF must be positive")
                             .min(0, "PF cannot be negative")
                             .required("PF is required"),
-  laborWelfare          : yup
-                             .number()
+  laborWelfare          : yup.number()
                              .typeError("Labor Welfare must be a number")
                              .positive("Labour Welfare must be positive")
                              .min(0, "Labor Welfare cannot be negative")
@@ -114,8 +114,8 @@ export const leaveSchema = yup.object({
   fromDate      : yup.string().required("From Date is required"),
   toDate        : yup.string().required("To Date is required"),
   numberofdays   : yup.number().typeError("Number of Days must be a number")
-                          .positive("Number of Days must be positive")
-                          .required("Number of Days is required"),
+                               .positive("Number of Days must be positive")
+                               .required("Number of Days is required"),
   reason        : yup.string().required("Reason is required"),
 });
 

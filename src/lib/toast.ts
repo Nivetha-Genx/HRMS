@@ -4,13 +4,13 @@ import { toast } from "sonner"
 export const successToast = (message: string, description?: string) =>
   toast.success(message, {
     description,
-    className: "bg-green-500 text-white border-none",
+    className: "bg-green-700 text-white border-none",
   })
 
 export const errorToast = (message: string, description?: string) =>
   toast.error(message, {
     description,
-    className: "bg-red-500 text-white border-none",
+    className: "bg-red-700 text-white border-none",
   })
 
 export const warningToast = (message: string, description?: string) =>

@@ -48,6 +48,7 @@ export function LoginForm({
         navigate("/masterLayout/dashboard1");
       } else {
         setError("Invalid email or password");
+        errorToast("Login failed", "Invalid email or password")
       }
 
 

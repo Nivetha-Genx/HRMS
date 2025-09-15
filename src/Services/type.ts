@@ -11,7 +11,7 @@ export interface LoginResponse {
 
 export interface signupRequest {
   firstName: string
-  lastName: string 
+  lastName: string
   email: string
   dob: string
   phoneNumber: string
@@ -148,4 +148,30 @@ export interface payroll{
     empname:string
     avatar:string
   }
+   id: string;
+  year: number;
+  month: number;
 }
+
+export interface Payslip {
+  employeeName: string;
+  employeeId: string;
+  year: number;
+  month: number;
+  payPeriod: string;
+  paidDays: number;
+  lopDays: number;
+  payDate: string;
+  basic:string;
+  ESI:string;
+  conveyance:string;
+  labourWelfare:string;
+  medicalAllowance:string;
+  providentFund:string;
+  grossEarnings: number;
+  totalDeductions: number;
+  netPay: number;
+  amountInWords: string;
+}
+
+

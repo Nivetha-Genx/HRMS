@@ -1,5 +1,24 @@
 
+// import { useEffect, useState } from "react";
+// import { useLocation } from "react-router-dom";
+// import { getPayslip} from "@/Services/PayrollService";
+// import type { Payslip } from "@/Services/type";
+
 export default function Payslip() {
+  //  const location = useLocation();
+  //  const { employeeId, year, month } = location.state || {};
+  //  const [payslip, setPayslip] = useState<Payslip | null>(null);
+
+  //   useEffect(() => {
+  //   if (employeeId && year && month) {
+  //     getPayslip(employeeId, year, month)
+  //       .then((data) => setPayslip(data))
+  //       .catch((err) => console.error("Error fetching payslip:", err));
+  //   }
+  //  }, [employeeId, year, month]);
+
+  //  if (!payslip) return <p>Loading payslip...</p>;
+
 
   return (
     <div>
@@ -156,6 +175,7 @@ export default function Payslip() {
               </td>
               <td className="payslip-month">
                 <h6>Payslip For the Month</h6>
+                 {/* <p>{`${payslip.month}/${payslip.year}`}</p> */}
                 <p>September 2025</p>
               </td>
             </tr>
@@ -173,16 +193,29 @@ export default function Payslip() {
           <h4 className="address">Employee Pay Summary</h4>
           <table className="summary">
             <tr>
-              <td>Employee Name : Meera Krishnan</td>
-              <td>Employee Id : ET1005</td>
+              <td>Employee Name : Meera Krishnan 
+                {/* {payslip.employeeName} */}
+              </td>
+              <td>Employee Id : ET1005
+                {/* {payslip.employeeId} */}
+              </td>
+
             </tr>
             <tr>
-              <td>Pay Period :</td>
-              <td>Paid Days :</td>
+              <td>Pay Period :
+                {/* {payslip.payPeriod} */}
+              </td>
+              <td>Paid Days :
+                {/* {payslip.paidDays} */}
+              </td>
             </tr>
             <tr>
-              <td>Loss of Pay Days :</td>
-              <td>Pay Date :</td>
+              <td>Loss of Pay Days :
+                 {/* {payslip.lopDays} */}
+              </td>
+              <td>Pay Date :
+                {/* {payslip.payDate} */}
+              </td>
             </tr>
           </table>
         </div>
@@ -198,33 +231,43 @@ export default function Payslip() {
             </tr>
             <tr>
               <td>Basic</td>
-              <td className="amount">0</td>
+              <td className="amount">0
+                  {/* {payslip.basic} */}
+              </td>
               <td>Employee State Insurance</td>
-              <td className="amount">0</td>
+              <td className="amount">0
+                  {/* {payslip.ESI} */}
+              </td>
             </tr>
             <tr>
               <td>Conveyance</td>
-              <td className="amount">0</td>
+              <td className="amount">0
+              {/* {payslip.conveyance} */}
+              </td>
               <td>Labour Welfare</td>
-              <td className="amount">0</td>
+              <td className="amount">0
+                {/* {payslip.labourWelfare} */}
+              </td>
             </tr>
             <tr>
               <td>Medical Allowance</td>
-              <td className="amount">0</td>
+              <td className="amount">0
+                {/* {payslip.medicalAllowance} */}
+              </td>
               <td>Provident Fund</td>
-              <td className="amount">0</td>
+              <td className="amount">0
+                {/* {payslip.providentFund} */}
+              </td>
             </tr>
-             {/* <tr>
-              <td>Others</td>
-              <td className="amount">0</td>
-              <td>Others</td>
-              <td className="amount">0</td>
-            </tr> */}
             <tr className="pay">
               <td>Gross Earnings</td>
-              <td>0</td>
+              <td>0
+                {/* {payslip.grossEarnings} */}
+              </td>
               <td>Total Deductions</td>
-              <td>0</td>
+              <td>0
+                {/* {payslip.totalDeductions} */}
+              </td>
             </tr>
           </table>
         </div>
@@ -248,7 +291,7 @@ export default function Payslip() {
         <div className="button">
           <table>
             <tr>
-              <td><button className="red">Generate Payslip</button></td>
+              <td><button className="red">Download Payslip</button></td>
               <td><button className="reset">Reset</button></td>
             </tr>
           </table>
@@ -257,3 +300,5 @@ export default function Payslip() {
     </div>
   );
 }
+
+

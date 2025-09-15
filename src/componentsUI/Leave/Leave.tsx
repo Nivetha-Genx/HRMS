@@ -9,6 +9,7 @@ import { SiteHeader } from "@/components/site-header"
 // import { getLeave } from '@/Services/LeaveService';
 //  import type { leave} from "@/Services/type"
 import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import Holidays from './holidays'
 
  export default function Leave() {
   // const [stats, setStats] = useState<leave| null>(null);
@@ -40,7 +41,7 @@ import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
     <>
     <div className="flex flex-col mt-5">
       <SiteHeader title="Leave" />
-       <div className="grid grid-cols-1 gap-4 px-4 my-5 
+       <div className="grid grid-cols-1 gap-4 px-4 mt-5 mb-10
                   sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
          <div className="relative flex items-center bg-white rounded-xl shadow p-4 overflow-hidden">
            <div
@@ -106,7 +107,8 @@ import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
       </div>
       </div>   
       </div>
-      <div><DataTable/></div>
+      <div><h2 className='font-semibold mx-5'>Employee's Leave List</h2><DataTable/></div>
+      {/* <div><h2 className='font-bold mx-5'>Holidays List</h2><Holidays /></div> */}
       </div>
       </>
   )

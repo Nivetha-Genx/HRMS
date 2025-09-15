@@ -57,11 +57,11 @@ export function Signup({
         
    const payload : signupRequest = {
         firstName: data.firstName,
-        lastName: data.lastName,
+        lastName:data.lastName,
         email:data.email,
         dob:data.dob,
         phoneNumber:data.phoneNumber,
-        password:data.password,
+        password: data.password,
        };
 
       await signupApi(payload) 

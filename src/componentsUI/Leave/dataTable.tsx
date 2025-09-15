@@ -257,7 +257,7 @@ export default function DataTable() {
   // }
 
   return (
-    <div className="w-full max-w mx-auto px-5 mt-10 ">
+    <div className="w-full max-w mx-auto px-5 ">
       <div className="flex flex-wrap items-center gap-4 py-4">
         <Input
           placeholder="Filter names..."

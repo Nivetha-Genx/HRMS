@@ -16,6 +16,10 @@ import { SiteHeader } from "@/components/site-header"
 // import {getpayroll} from '@/Services/PayrollService'
 // import { useEffect } from "react"
 // import { errorToast, successToast, warningToast,infoToast } from "@/lib/toast"
+import { Calendar } from "@/components/ui/calendar"
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
+import Year from '../Payroll/year'
+
 
 const data: Payment[] = [
   {
@@ -289,6 +293,7 @@ export default function DataTableDemo() {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] =React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const [date, setDate] = React.useState<Date | undefined>(new Date())
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -333,25 +338,28 @@ export default function DataTableDemo() {
 
 
   return (
+
      <div className="flex flex-col mb-5">
-        <SiteHeader title="Payroll" />
-    <div className="w-full max-w mx-auto px-5 ">
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter names..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-          <div className="flex items-center gap-2 ml-auto">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
-                Columns <ChevronDown />
-              </Button>
-            </DropdownMenuTrigger>
+       <SiteHeader title="Payroll" />
+        <div className="w-full max-w mx-auto px-5 ">
+        <div className="flex flex-wrap items-center gap-5 py-4">
+         <Input
+           placeholder="Filter names..."
+           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+           onChange={(event) =>
+           table.getColumn("name")?.setFilterValue(event.target.value)
+        }
+         className="w-full sm:max-w-sm"
+       />
+      <div className="flex items-center gap-3 ml-auto">
+        <Year />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="flex items-center gap-1">
+              Columns <ChevronDown className="w-4 h-4" />
+            </Button>
+          </DropdownMenuTrigger>
+
             <DropdownMenuContent align="end">
             {table
               .getAllColumns()
@@ -374,6 +382,7 @@ export default function DataTableDemo() {
           </DropdownMenu>
       </div>
       </div>
+     
       <div className="overflow-hidden rounded-md border">
         <Table>
           <TableHeader className=" bg-neutral-200">
