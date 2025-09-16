@@ -1,26 +1,17 @@
 
-import { toast } from "sonner"
+import { toast } from "sonner";
 
 export const successToast = (message: string, description?: string) =>
-  toast.success(message, {
-    description,
-    className: "bg-green-700 text-white border-none",
-  })
+  toast.success(message, { description });
 
 export const errorToast = (message: string, description?: string) =>
-  toast.error(message, {
-    description,
-    className: "bg-red-700 text-white border-none",
-  })
+  toast.error(message, { description });
 
 export const warningToast = (message: string, description?: string) =>
-  toast(message, {
-    description,
-    className: "bg-yellow-600 text-black border-none",
-  })
+  toast.warning(message, { description });
 
 export const infoToast = (message: string, description?: string) =>
-  toast(message, {
-    description,
-    className: "bg-blue-600 text-white border-none",
-  })
+  toast.info(message, { description });
+
+
+

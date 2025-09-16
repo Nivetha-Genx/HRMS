@@ -3,7 +3,7 @@ import type { LoginRequest , LoginResponse } from './type'
 import type { ForgotPasswordRequest, ForgotPasswordResponse } from './type'
 import type { VerifyOtpRequest, VerifyOtpResponse } from './type'
 import type { ResetPasswordRequest } from './type'
-import type { SignupRequest , SignupResponse} from './type'
+import type { signupRequest , SignupResponse} from './type'
 
 
 export async function loginApi(data: LoginRequest): Promise<LoginResponse> {
@@ -11,7 +11,7 @@ export async function loginApi(data: LoginRequest): Promise<LoginResponse> {
   return response.data
 }
 
-export async function signupApi(data: SignupRequest): Promise<SignupResponse> {
+export async function signupApi(data: signupRequest): Promise<SignupResponse> {
   const response = await api.post<SignupResponse>("/auth/signup", data)
   return response.data
 }

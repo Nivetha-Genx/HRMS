@@ -2,52 +2,82 @@ import * as yup from "yup"
 
 
 export const loginSchema = yup.object({
-
-  email        : yup.string().email("Invalid email")
-                    .required("Email is required")              
-                    .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/, "Invalid email format"),
-  password    : yup.string()
-                    .required("Password is required")
-                    .min(8, "Password must be at least 8 characters long")                                  
-                    .matches(/[A-Za-z]/, "Password must contain at least one letter")
-                    .matches(/\d.*\d.*\d/, "Password must contain at least 3 numbers")
-                    .matches(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
+  email     : yup.string().email("Invalid email")
+                  .required("Email is required")              
+                  .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/, "Invalid email format"),
+  password  : yup.string()
+                  .required("Password is required")
+                  .min(8, "Password must be at least 8 characters long")                                  
+                  .matches(/[A-Za-z]/, "Password must contain at least one letter")
+                  .matches(/\d.*\d.*\d/, "Password must contain at least 3 numbers")
+                  .matches(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
 });
 
 export const signupSchema= yup.object({
-
-  firstName      : yup.string()
+  firstName     : yup.string()
                       .required("First Name is required")
                       .matches(/^[A-Za-z ]+$/),
-  lastName       : yup.string()
-                      .matches(/^[A-Za-z ]+$/, "Last name must contain only letters")
-                      .required("Last Name is required"),
+  lastName      : yup.string()
+                      .required("Last Name is required")
+                      .matches(/^[A-Za-z ]+$/, "Last name must contain only letters"),
                       
-  email          :yup.string().required(" Email is required"),
-  dob            :yup.string().required("DOB is required"),
-  phoneNumber    : yup.string()
-                      .matches(/^[0-9]{10}$/, "Must be 10 digits")
-                            .required("Phone number is required"),
- password    : yup.string()
-                    .required("Password is required")
-                    .min(8, "Password must be at least 8 characters long")                                  
-                    .matches(/[A-Za-z]/, "Password must contain at least one letter")
-                    .matches(/\d.*\d.*\d/, "Password must contain at least 3 numbers")
-                    .matches(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
+  email         : yup .string()
+                      .email("Invalid email")
+                      .required("Email is required")              
+                      .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/, "Invalid email format"),
+  dob           : yup.string().required("DOB is required"),
+  phoneNumber   : yup.string()
+                     .matches(/^[0-9]{10}$/, "Must be 10 digits")
+                     .required("Phone number is required"),
+ password       : yup.string()
+                      .required("Password is required")
+                      .min(8, "Password must be at least 8 characters long")                                  
+                      .matches(/[A-Za-z]/, "Password must contain at least one letter")
+                      .matches(/\d.*\d.*\d/, "Password must contain at least 3 numbers")
+                      .matches(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
 confirmpassword : yup.string()
-                    .required("Password is required")
-                    .min(8, "Password must be at least 8 characters long")                                  
-                    .matches(/[A-Za-z]/, "Password must contain at least one letter")
-                    .matches(/\d.*\d.*\d/, "Password must contain at least 3 numbers")
-                    .matches(/[^A-Za-z0-9]/, "Password must contain at least one special character")
-                    .oneOf([yup.ref("password")], "Passwords must match"), 
+                     .required("Password is required")
+                     .min(8, "Password must be at least 8 characters long")                                  
+                     .matches(/[A-Za-z]/, "Password must contain at least one letter")
+                     .matches(/\d.*\d.*\d/, "Password must contain at least 3 numbers")
+                     .matches(/[^A-Za-z0-9]/, "Password must contain at least one special character")
+                     .oneOf([yup.ref("password")], "Passwords must match"), 
+})
+
+export const forgotSchema = yup.object({
+  email               : yup .string()
+                            .email("Invalid email")
+                            .required("Email is required")              
+                            .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/, "Invalid email format"),
+})
+
+export const otpSchema = yup.object({
+  otp: yup
+    .string()
+    .required("Enter OTP")
+    .test("is-numeric", "OTP must be exactly 6 digits", (value) => {
+      return typeof value === "string" && /^[0-9]{6}$/.test(value.trim());
+    })
+});
+
+export const resetSchema = yup.object({
+  newPassword: yup.string()
+                  .required("Password is required")
+                  .min(8, "Password must be at least 8 characters long")                                  
+                  .matches(/[A-Za-z]/, "Password must contain at least one letter")
+                  .matches(/\d.*\d.*\d/, "Password must contain at least 3 numbers")
+                  .matches(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
+
+   confirmPassword: yup.string()
+                  .required("Password is required")
+                  .oneOf([yup.ref("newPassword")], "Passwords do not match"),
 })
 
 export const employeeSchema = yup.object({
   employeeId            : yup.string().required("Employee ID is required"),
   employeeName          : yup.string()
                              .required("Employee Name is required")
-                             .trim() // remove leading/trailing spaces
+                             .trim() 
                              .matches(/^[A-Za-z]+(?: [A-Za-z]+)*$/, "Only alphabets and single spaces allowed"),
 
   email                 : yup.string().email("Invalid email")
@@ -61,8 +91,8 @@ export const employeeSchema = yup.object({
   gender                : yup.string().required("Gender is required"),
   dob                   : yup.string().required("Date of Birth is required"), 
   emergencyNumber       : yup.string()
-                            .matches(/^[0-9]{10}$/, "Must be 10 digits")
-                            .required("Emergency number is required"),
+                             .matches(/^[0-9]{10}$/, "Must be 10 digits")
+                             .required("Emergency number is required"),
   bloodGroup            : yup.string().required("Blood Group is required"),
   nationality           : yup.string().required("Nationality is required"),
   religion              : yup.string().required("Religion is required"),
@@ -73,9 +103,9 @@ export const employeeSchema = yup.object({
 
 
   netSalary             : yup.number()
-                            .typeError("Net Salary must be a number")
-                            .positive("Net Salary must be positive")
-                            .required("Net Salary is required"),
+                             .typeError("Net Salary must be a number")
+                             .positive("Net Salary must be positive")
+                             .required("Net Salary is required"),
   basic                 : yup.number()
                              .typeError("Basic must be a number")
                              .positive("Basic must be positive")
@@ -107,6 +137,7 @@ export const employeeSchema = yup.object({
 
 
 export const leaveSchema = yup.object({
+
   employeeId    : yup.string().required("Employee ID is required"),
   employeeName  : yup.string().required("Employee Name is required")
                               .matches(/^[A-Za-z ]+$/),
@@ -120,10 +151,11 @@ export const leaveSchema = yup.object({
 });
 
 export const projectSchema = yup.object({
+
   projectId     : yup.string().required("Project ID is required"),
   projectName   : yup.string().required("Project Name is required"),
   leader        : yup.string().required("Project Leader is required"),
- team           : yup.array()
+  team          : yup.array()
                      .of(yup.string().required())
                      .min(2, "Select at least two team member")
                      .required("Team is required"), 

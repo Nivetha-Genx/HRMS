@@ -1,6 +1,6 @@
 import React from 'react'
 "use client"
-import { Dialog,DialogClose,DialogContent,DialogFooter,DialogHeader,DialogTitle,DialogTrigger,} from "@/components/ui/dialog"
+import { Dialog,DialogClose,DialogContent,DialogFooter,DialogDescription,DialogHeader,DialogTitle,DialogTrigger,} from "@/components/ui/dialog"
 import { ChevronDownIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import { Label } from "@/components/ui/label"
@@ -20,6 +20,7 @@ import { successToast,errorToast} from "@/lib/toast"
 function editemptab({ employeeId, onSuccess }: { employeeId: string, onSuccess?: () => void }) {
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [dateOpen, setDateOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [formData, setFormData] = useState<any>({
     employeeId: "",
@@ -87,21 +88,18 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
     }
   };
 
-  const handleDelete = async () => {
-    if (!confirm("Are you sure you want to delete this employee?")) return;
+const handleDelete = async () => {
     try {
-      await deleteEmployee(employeeId);
+      await deleteEmployee(employeeId)
       console.log("Employee deleted successfully!");
       successToast("Employee deleted successfully!", "The employee has been removed.")
-      setDialogOpen(false);
-      if (onSuccess) onSuccess();
+      setOpen(false)
+      if (onSuccess) onSuccess()
     } catch (err) {
-      console.error(err);
       console.log("Failed to delete employee");
       errorToast("Failed to delete employee", "Please try again.")
     }
-  };
-
+  }
   return (
     <div>
        <DropdownMenu>
@@ -357,8 +355,33 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
           </form>
         </DialogContent>
       </Dialog>
-            <DropdownMenuItem  onClick={handleDelete}>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
+        <DropdownMenuItem   onSelect={(e) => {
+          e.preventDefault() 
+          setOpen(true)      
+           }}>Delete</DropdownMenuItem>
+       <Dialog open={open} onOpenChange={setOpen}>
+         <DialogTrigger asChild>
+          </DialogTrigger>
+         <DialogContent className="sm:max-w-md rounded-2xl">
+           <DialogHeader>
+              <DialogTitle>Confirm Deletion</DialogTitle>
+                 <DialogDescription>
+                    Are you sure you want to delete this employee? This action cannot be undone.
+                 </DialogDescription>
+           </DialogHeader>
+           <DialogFooter>
+             <Button  className="bg-gray-200 text-black hover:bg-gray-300"
+               onClick={() => setOpen(false)}>
+                 Cancel
+             </Button>
+             <Button  className="bg-red-700 text-white hover:bg-red-800"
+               onClick={handleDelete}>
+                 Delete
+             </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+    </DropdownMenuContent>
     </DropdownMenu>
     </div>
   )

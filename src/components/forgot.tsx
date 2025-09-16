@@ -13,29 +13,41 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import { successToast,warningToast,errorToast } from "@/lib/toast"
+import  { forgotSchema } from "@/lib/Schema"
+import { useForm } from "react-hook-form"
+import type { SubmitHandler } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
+import type { ForgotPasswordRequest } from "@/Services/type"
+
+type forgotFormValues = yup.InferType<typeof forgotSchema>
 
 export function Forgot({
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<"div">) { 
+
   const navigate = useNavigate()
-  const [email, setEmail] = useState("")
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState("")
   const [error, setError] = useState("")
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setMessage("")
-    setError("")
-
-     try {
-      const res = await forgotPasswordApi({ email })
+   const { register, handleSubmit, formState: { errors } } = useForm<forgotFormValues>({
+          resolver: yupResolver(forgotSchema),
+          defaultValues: {  
+           email:""
+          }
+        });
+              
+  const onSubmit: SubmitHandler<forgotFormValues> = async (data) => {
+      try {
+        const payload : ForgotPasswordRequest = {
+                   email: data.email,
+                 };
+      const res = await forgotPasswordApi(payload)
       setMessage(res.message || "Check your email for OTP.")
       successToast("OTP sent", "Check your email for OTP.")
-
       navigate("/otp")
     } catch (err: any) {
       if (err.response?.status === 404) {
@@ -64,17 +76,12 @@ export function Forgot({
           </CardDescription>
         </CardHeader>
         <CardContent>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-6">
             <div className="grid gap-3">
               <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
+                <Input id="email" placeholder="Email" {...register("email")} />
+                  {errors.email && <p className="text-sm text-red-700">{errors.email.message}</p>} 
             </div>
               
             <div className="flex flex-col gap-3">

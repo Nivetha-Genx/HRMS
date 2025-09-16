@@ -3,15 +3,12 @@
 export interface LoginRequest { email: string ,password: string}
 export interface LoginResponse { 
  token: string
-  user: {
-    id: number
-    name: string
-  }
+  user: {id: number, name: string }
 }
 
 export interface signupRequest {
   firstName: string
-  lastName: string
+  lastName: string 
   email: string
   dob: string
   phoneNumber: string
@@ -148,7 +145,7 @@ export interface payroll{
     empname:string
     avatar:string
   }
-   id: string;
+  id: string;
   year: number;
   month: number;
 }

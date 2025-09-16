@@ -46,6 +46,7 @@ export default function Payslip() {
           width: 100%;
           border-collapse: collapse;
         }
+
         .logo{
           border-top:none;
           border-bottom:none;
@@ -222,12 +223,12 @@ export default function Payslip() {
 
         <div className="section">
           <h4 className="income">Income Details</h4>
-          <table className="summary">
-            <tr>
-              <th>Earnings</th>
-              <th>Amount</th>
-              <th>Deductions</th>
-              <th>Amount</th>
+           <table className="summary">
+             <tr>
+               <th>Earnings</th>
+               <th>Amount</th>
+               <th>Deductions</th>
+               <th>Amount</th>
             </tr>
             <tr>
               <td>Basic</td>

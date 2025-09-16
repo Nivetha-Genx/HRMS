@@ -66,7 +66,7 @@ function Addemptab() {
       position: data.position,
       department: data.department,
       gender: data.gender,
-      dob: date ? date.toISOString().split("T")[0] : "", 
+      dob: data.dob ? new Date(data.dob).toISOString().split("T")[0] : "",
       emergencyNumber: data.emergencyNumber || "",
       bloodGroup: data.bloodGroup || "",
       nationality: data.nationality,
@@ -164,6 +164,7 @@ function Addemptab() {
                   <p className="text-red-700 text-sm">{errors.position?.message}</p>
                 </div>
                 <div className="grid gap-2">
+                <Label htmlFor="department">Department</Label>
                 <Controller
                   name="department"
                   control={control}
@@ -242,11 +243,9 @@ function Addemptab() {
             selected={field.value ? new Date(field.value) : undefined}
             captionLayout="dropdown"
             onSelect={(date) => {
-              if (date) {
-                field.onChange(date ? date.toLocaleDateString("en-CA") : "");
-              }
-              setDateOpen(false)
-            }}
+            field.onChange(date ?? null); 
+            setDateOpen(false);
+          }}
           />
           </PopoverContent>
           </Popover>

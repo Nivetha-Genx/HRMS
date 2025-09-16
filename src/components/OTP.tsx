@@ -8,6 +8,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import logo from '../assets/logo.svg'
 import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import  { otpSchema } from "@/lib/Schema"
+import { useForm } from "react-hook-form"
+import type { SubmitHandler } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
+import type { VerifyOtpRequest } from "@/Services/type"
+
+type otpFormValues = yup.InferType<typeof otpSchema>
 
 export function OTP({
   className,
@@ -15,21 +23,29 @@ export function OTP({
 }: React.ComponentProps<"div">) {
     
   const navigate = useNavigate()
-  const [otp, setOtp] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const location = useLocation()
 
   const email = (location.state as { email?: string })?.email || ""
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError("")
+  const { register, handleSubmit, formState: { errors } } = useForm<otpFormValues>({
+          resolver: yupResolver(otpSchema),
+          defaultValues: {  
+          otp:""
+          }
+        });
 
-    try {
+ const onSubmit: SubmitHandler<otpFormValues> = async (data) => {
+            try {
+                  setLoading(true);
+                  setError("");
+                  const payload : VerifyOtpRequest = {
+                  email,
+                  otp:data.otp,
+              };
 
-      await verifyOtpApi({ email ,otp })
+      await verifyOtpApi( payload )
       navigate("/resetpassword")
     } catch (err: any) {
       if (err.response?.status === 400) {
@@ -58,17 +74,20 @@ export function OTP({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="otp">OTP</Label>
                 <Input
                   id="otp"
-                  type="otp"
+                  type="text"
+                  maxLength={6} 
                   placeholder="Enter OTP"
-                  onChange={(e) => setOtp(e.target.value)}
-                  required
-                />
+                  onInput={(e: React.FormEvent<HTMLInputElement>) => {
+                  const target = e.currentTarget;
+                  target.value = target.value.replace(/\D/g, "");}}
+                   {...register("otp")}/>
+                    {errors.otp && <p className="text-sm text-red-700">{errors.otp.message}</p>} 
               </div>
              
               <div className="flex flex-col gap-3">

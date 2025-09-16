@@ -3,25 +3,23 @@ import { Button } from "@/components/ui/button"
 import { useNavigate , useLocation } from "react-router-dom"
 import { useState } from "react"
 import logo from '../assets/logo.svg'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import {Card, CardContent,CardDescription,CardHeader,CardTitle} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {resetPasswordApi } from '../Services/authservice'
 import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { resetSchema } from "@/lib/Schema"
+import * as yup from "yup"
+import type { ResetPasswordRequest } from "@/Services/type"
 
+type resetFormValues = yup.InferType<typeof resetSchema>
 export function Resetpassword({
   className,
   ...props
 }: React.ComponentProps<"div">) {
 
-  const [newPassword, setNewPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [message, setMessage] = useState("")
@@ -30,34 +28,36 @@ export function Resetpassword({
 
   const email = (location.state as { email?: string })?.email || ""
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
-    setMessage("")
-    setLoading(true)
+  const { register, handleSubmit, formState: { errors } } = useForm<resetFormValues>({
+          resolver: yupResolver(resetSchema),
+          defaultValues: {  
+            newPassword:"",
+            confirmPassword:""
+          }
+        });
 
-    if (newPassword !== confirmPassword) {
-      setError("Passwords do not match")
-      errorToast("Passwords do not match", "Please ensure both passwords are the same.")
-      setLoading(false)
-      return
-    }
+  const onSubmit = async (data:resetFormValues) => {
+              try {
+                    setLoading(true);
+                    setError("");
+              const payload : ResetPasswordRequest = {
+                    email,
+                    newPassword:data.newPassword,
+                };
+            await resetPasswordApi(payload);
 
-    try {
-      await resetPasswordApi({ email, newPassword })
-      setMessage("Password reset successful. You can now log in.")
-      successToast("Password reset successful", "You can now log in.")
-      navigate("/")
-      setTimeout(() => navigate("/login"), 2000)
-    } catch (err: any) {
-      setError("Failed to reset password. Try again.")
-      errorToast("Failed to reset password", "Try again.")
-      setLoading(false)
+            setMessage("Password reset successful. You can now log in.")
+            successToast("Password reset successful", "You can now log in.")
+            navigate("/")
+          } catch (err: any) {
+            setError("Failed to reset password. Try again.")
+            errorToast("Failed to reset password", "Try again.")
+            setLoading(false)
     }
   }
-
-
+  
   return (
+
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
           <CardHeader className="flex flex-col items-center space-y-4">
@@ -72,27 +72,25 @@ export function Resetpassword({
           </CardHeader>
         <CardContent>
 
-           <form onSubmit={handleSubmit}>
+           <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-col gap-6">
                 <div className="grid gap-3">
                   <Label htmlFor="password">New Password</Label>
                     <Input
                       id="newpassword"
-                      type="password"
                       placeholder="New Password"
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      required
+                      {...register("newPassword")}
                       />
+                       {errors.newPassword && <p className="text-sm text-red-700">{errors.newPassword.message}</p>} 
                 </div>
               <div className="grid gap-3">
                 <Label htmlFor="password">Confirm Password</Label>
                   <Input
                     id="confirmpassword"
-                    type="password"
                     placeholder="Confirm Password"
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
+                      {...register("confirmPassword")}
                     />
+                      {errors.confirmPassword && <p className="text-sm text-red-700">{errors.confirmPassword.message}</p>} 
               </div>
               
               <div className="flex flex-col gap-3">

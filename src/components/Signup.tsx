@@ -30,7 +30,7 @@ export function Signup({
        resolver: yupResolver(signupSchema),
            defaultValues: {  
               firstName:"",
-              lastName:"",
+              lastName:"" ,
               email:"",
               dob:"",
               phoneNumber:"",
@@ -98,7 +98,7 @@ export function Signup({
 
               <div className="grid gap-3">
                 <Input id="lastName" placeholder="Last Name" {...register("lastName")}/>
-                 {errors.lastName && <p className="text-sm text-red-700">{errors.lastName.message}</p>} 
+                 {errors.lastName && <p className="text-sm text-red-700">{errors.lastName?.message}</p>} 
               </div>
 
               <div className="grid gap-3">

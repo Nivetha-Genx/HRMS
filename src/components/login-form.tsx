@@ -7,7 +7,7 @@ import logo from '../assets/logo.svg'
 import {Card,CardContent,CardDescription,CardHeader,CardTitle} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { successToast,errorToast } from "@/lib/toast"
+import { errorToast, successToast } from "@/lib/toast";
 import { useForm } from "react-hook-form"
 import type { SubmitHandler } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -44,7 +44,7 @@ export function LoginForm({
 
   // Hardcoded check 
    if (data.email === "admin@example.com" && data.password === "password@123") {
-        successToast("Login successful", "Welcome back!");
+       successToast("Login successful", "Welcome back!");
         navigate("/masterLayout/dashboard1");
       } else {
         setError("Invalid email or password");
@@ -52,7 +52,7 @@ export function LoginForm({
       }
 
 
-    //   const res = await loginApi({ payload})
+    //   const res = await loginApi( payload)
       // successToast("Login successful", "Welcome back!")
     //   localStorage.setItem("token", res.token) 
     //   localStorage.setItem("user", JSON.stringify(res.user))

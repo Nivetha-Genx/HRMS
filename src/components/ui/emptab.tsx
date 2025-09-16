@@ -34,7 +34,7 @@ const data: Payment[] = [
     department:"IT/Technology",
     email: "shivani@example.com",
     joinDate:"20-5-2024",
-     status:"InActive",
+    status:"InActive",
   },
     {
     id: "m5gr84i9",
@@ -44,7 +44,7 @@ const data: Payment[] = [
     department:"IT/Technology",
     email: "akila@example.com",
     joinDate:"10-6-2024",
-     status:"Active",
+    status:"Active",
   },
   {
     id: "3u1reuv4",
@@ -54,7 +54,7 @@ const data: Payment[] = [
     department:"IT/Technology",
     email: "jayashree@example.com",
     joinDate:"20-8-2024",
-     status:"Active",
+    status:"Active",
   },
   {
     id: "derv1ws0",
@@ -64,7 +64,7 @@ const data: Payment[] = [
     department:"IT/Technology",
     email: "pavithra@example.com",
     joinDate:"30-2-2025",
-     status:"InActive",
+    status:"InActive",
   },
   {
     id: "5kma53ae",
@@ -281,7 +281,7 @@ export function DataTableDemo() {
                     className="capitalize"
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
+                    column.toggleVisibility(!!value)
                     }
                   >
                     {column.id}

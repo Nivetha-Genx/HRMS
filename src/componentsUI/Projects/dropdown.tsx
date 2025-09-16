@@ -19,7 +19,8 @@ import { successToast,errorToast} from "@/lib/toast"
 
 function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => void}) {
     const [open, setOpen] = React.useState(false)
-     const [dialogOpen, setDialogOpen] = React.useState(false);
+    const [dialogOpen, setDialogOpen] = React.useState(false);
+    const [opento, setOpento] = React.useState(false)
     const [date, setDate] = React.useState<Date | undefined>(undefined)
     const [formData, setFormData] = useState<project>({
                projectId: '',
@@ -71,12 +72,12 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
                 }
               };
               const handleDelete = async () => {
-                  if (!confirm("Are you sure you want to delete this project?")) return;
                   try {
                     await deleteProject(projectId);
                     console.log("Project deleted successfully!");
                     successToast("Project deleted successfully!", "")
                     setDialogOpen(false);
+                    setOpento(false)
                     if (onSuccess) onSuccess();
                   } catch (err) {
                     console.error(err);
@@ -227,7 +228,32 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
           </form>
         </DialogContent>
       </Dialog>
-            <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
+           <DropdownMenuItem   onSelect={(e) => {
+              e.preventDefault() 
+               setOpen(true)      
+                }}>Delete</DropdownMenuItem>
+                  <Dialog open={open} onOpenChange={setOpen}>
+                    <DialogTrigger asChild>
+                     </DialogTrigger>
+                    <DialogContent className="sm:max-w-md rounded-2xl">
+                      <DialogHeader>
+                         <DialogTitle>Confirm Deletion</DialogTitle>
+                            <DialogDescription>
+                               Are you sure you want to delete this project? This action cannot be undone.
+                            </DialogDescription>
+                      </DialogHeader>
+                      <DialogFooter>
+                        <Button  className="bg-gray-200 text-black hover:bg-gray-300"
+                          onClick={() => setOpen(false)}>
+                            Cancel
+                        </Button>
+                        <Button  className="bg-red-700 text-white hover:bg-red-800"
+                          onClick={handleDelete}>
+                            Delete
+                        </Button>
+                   </DialogFooter>
+                 </DialogContent>
+               </Dialog>
           </DropdownMenuContent>
         </DropdownMenu>
     </div>
