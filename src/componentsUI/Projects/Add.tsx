@@ -76,7 +76,7 @@ const Add = () => {
               <DialogTrigger asChild>
                 <Button className="ml-auto">+ Add New</Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[500px] gap-8">
+              <DialogContent className="sm:max-w-[1000px] gap-8">
                 <DialogHeader>
                    <DialogTitle>Add Project</DialogTitle>
                       <DialogDescription>
@@ -84,17 +84,23 @@ const Add = () => {
                       </DialogDescription>
                 </DialogHeader>
                    <form className="grid gap-8" onSubmit={handleSubmit(onSubmit)}>
-                <div className="grid gap-2">
+
+                <div className="h-[400px] md:h-[500px] lg:h-[600px] overflow-y-auto "> 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                <div className="grid gap-2 w-full my-5">
                   <Label htmlFor="projectID">ProjectId</Label>
                      <Input id="projectId" {...register("projectId")}   />
                        {errors.projectId && <p className="text-sm text-red-700">{errors.projectId.message}</p>} 
                 </div>
-                <div className="grid gap-2">
+                <div className="grid gap-2 w-full my-5">
                   <Label htmlFor="projectName">ProjectName</Label>
                       <Input id="projectName" {...register("projectName")}   />
                        {errors.projectName && <p className="text-sm text-red-700">{errors.projectName.message}</p>} 
                 </div>
-                <div className="grid gap-2">
+                </div>
+
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                <div className="grid gap-2 w-full my-5">
                   <Label htmlFor="leader">Team Leader</Label>
                       <Controller
                           control={control}
@@ -118,7 +124,7 @@ const Add = () => {
                       />
                  {errors.leader && <p className="text-sm text-red-700">{errors.leader.message}</p>} 
                 </div>
-                <div className="grid gap-2">
+                <div className="grid gap-2 w-full my-5">
                    <Label htmlFor="team">Select Team Members</Label>
                      <Controller
                         name="team"
@@ -148,7 +154,10 @@ const Add = () => {
               />
                 {errors.team && <p className="text-sm text-red-700">{errors.team.message}</p>}
                 </div>
-                <div className="grid gap-2">
+                </div>
+
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                <div className="grid gap-2 w-full my-5">
                   <Label htmlFor="date" className="px-1">
                     DeadLine
                   </Label>
@@ -176,7 +185,7 @@ const Add = () => {
                   </PopoverContent>
                   </Popover>
                 </div>
-                <div className="grid gap-2">
+                <div className="grid gap-2 w-full my-5">
                   <Label htmlFor="priority">Priority</Label>
                      <Controller
                         control={control}
@@ -196,7 +205,10 @@ const Add = () => {
                       />
                   {errors.priority && <p className="text-sm text-red-700">{errors.priority.message}</p>}
                 </div>
-                <div className="grid gap-2">
+                </div>
+
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                <div className="grid gap-2 w-full my-5">
                   <Label htmlFor="status">Status</Label>
                     <Controller
                         control={control}
@@ -216,10 +228,12 @@ const Add = () => {
               {errors.status && <p className="text-sm text-red-700">{errors.status.message}</p>}
               </div>
                       
-              <div className="grid gap-2">
+              <div className="grid gap-2 w-full my-5">
                 <Label htmlFor="description">Description</Label>
                  <Textarea placeholder="Type your message here." id="description"  {...register("description")} />
                    {errors.description && <p className="text-sm text-red-700">{errors.description.message}</p>}
+                 </div>
+                 </div>
                  </div>
                 
               <DialogFooter>

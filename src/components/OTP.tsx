@@ -7,7 +7,7 @@ import {Card,CardContent, CardDescription,CardHeader,CardTitle} from "@/componen
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import logo from '../assets/logo.svg'
-import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import { successToast,errorToast } from "@/lib/toast"
 import  { otpSchema } from "@/lib/Schema"
 import { useForm } from "react-hook-form"
 import type { SubmitHandler } from "react-hook-form"
@@ -46,6 +46,7 @@ export function OTP({
               };
 
       await verifyOtpApi( payload )
+      successToast("OTP send to your mail Id")
       navigate("/resetpassword")
     } catch (err: any) {
       if (err.response?.status === 400) {

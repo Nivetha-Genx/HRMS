@@ -7,7 +7,7 @@ import {Card, CardContent,CardDescription,CardHeader,CardTitle} from "@/componen
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {resetPasswordApi } from '../Services/authservice'
-import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import { successToast,errorToast } from "@/lib/toast"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { resetSchema } from "@/lib/Schema"

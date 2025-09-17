@@ -66,7 +66,7 @@ function Addemptab() {
       position: data.position,
       department: data.department,
       gender: data.gender,
-      dob: data.dob ? new Date(data.dob).toISOString().split("T")[0] : "",
+      dob: date ? new Date(date).toISOString().split("T")[0] : "",
       emergencyNumber: data.emergencyNumber || "",
       bloodGroup: data.bloodGroup || "",
       nationality: data.nationality,
@@ -106,41 +106,48 @@ function Addemptab() {
           <DialogTrigger asChild>
             <Button className="ml-auto">+ Add New</Button>
               </DialogTrigger>
-               <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
+               <DialogContent className="sm:max-w-[1000px] max-h-full overflow-y-auto">
                 <DialogHeader>
                    <DialogTitle>Add Employee</DialogTitle>
                 </DialogHeader>
               <form className="grid gap-10"  onSubmit={handleSubmit(onSubmit)}>
               
                 <Tabs defaultValue="basic" className="w-full">
-                   <TabsList className="grid w-full grid-cols-3 gap-4">
+                   <TabsList className="grid grid-cols-1 sm:grid-cols-3 w-full gap-4 sm:gap-4  bg-gray-100  rounded-xl">
                     <TabsTrigger value="basic">Basic Information</TabsTrigger>
                     <TabsTrigger value="personal">Advance Information</TabsTrigger>
                     <TabsTrigger value="job">Salary Information</TabsTrigger>
                    </TabsList>
+
+                <div className="h-[400px] md:h-[500px] lg:h-[600px] overflow-y-auto mt-5 ">
                 <TabsContent value="basic" className="space-y-8 mt-5">
-                  <div className="grid gap-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                  <div className="grid gap-2 w-full my-4">
                     <Label htmlFor="employeeId">Employee ID</Label>
                       <Input id="employeeId" {...register("employeeId")} />
                         <p className="text-red-700 text-sm">{errors.employeeId?.message}</p>
                   </div>
 
-                  <div className="grid gap-2">
+                  <div className="grid gap-2 w-full my-4">
                      <Label htmlFor="empName">Employee Name</Label>
                         <Input id="empName"{...register("employeeName")} placeholder="Enter employee name"/>
                           <p className="text-red-700 text-sm">{errors.employeeName?.message}</p>
                   </div>
-                  <div className="grid gap-2">
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                  <div className="grid gap-2 w-full my-4">
                       <Label htmlFor="email">Email</Label>
                        <Input id="email" placeholder="@gmail.com" {...register("email")}/>
                          <p className="text-red-700 text-sm">{errors.email?.message}</p>
                   </div>
-                  <div className="grid gap-2">
+                  <div className="grid gap-2 w-full my-4">
                        <Label htmlFor="phoneNumber">Phone Number</Label>
                        <Input id="phoneNumber" placeholder="Enter Phone Number" {...register("phoneNumber")} />
                          <p className="text-red-700 text-sm">{errors.phoneNumber?.message}</p>
                   </div>
-                <div className="grid gap-2">
+                  </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                <div className="grid gap-2 w-full my-4">
                      <Label htmlFor="position">Position</Label>
                     <Controller
                           control={control}
@@ -163,7 +170,7 @@ function Addemptab() {
                    )}  />
                   <p className="text-red-700 text-sm">{errors.position?.message}</p>
                 </div>
-                <div className="grid gap-2">
+                <div className="grid gap-2 w-full my-4">
                 <Label htmlFor="department">Department</Label>
                 <Controller
                   name="department"
@@ -184,16 +191,18 @@ function Addemptab() {
                 />
                 <p className="text-red-700 text-sm">{errors.department?.message}</p>
                 </div>
+                </div>
             </TabsContent>
         
               <TabsContent value="personal" className="space-y-8 mt-4">
-                 <div className="grid gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                 <div className="grid gap-4 w-full my-4">
                  <Controller
                     name="gender"
                     control={control}
                     defaultValue="male"
                     render={({ field }) => (
-                 <div className="grid gap-4">
+                 <div className="grid gap-4 w-full">
                   <Label>Gender</Label>
                 <RadioGroup
                    className="flex gap-6"
@@ -219,7 +228,7 @@ function Addemptab() {
           )}
           />
           </div>
-            <div className="grid gap-2">
+            <div className="grid gap-2 my-4">
           <Label htmlFor="dob" className="px-1">Date of Birth</Label>
         <Controller
            name="dob"
@@ -255,13 +264,15 @@ function Addemptab() {
          <p className="text-red-700 text-sm">{errors.dob.message}</p>
           )}
       </div>
+      </div>
 
-          <div className="grid gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+          <div className="grid gap-2 w-full my-4">
             <Label htmlFor="emergencyNumber">Emergency Contact Number</Label>
               <Input id="emergencyNumber" type="tel" placeholder="Enter phone number" {...register("emergencyNumber")}/>
                <p className="text-red-700 text-sm">{errors.emergencyNumber?.message}</p>
           </div>
-          <div className="grid gap-2">
+          <div className="grid gap-2 w-full my-4">
             <Label htmlFor="bloodgroup">Blood-Group</Label>
               <Controller
                   control={control}
@@ -284,8 +295,10 @@ function Addemptab() {
                         </Select> 
                     )}  />
                     <p className="text-red-700 text-sm">{errors.bloodGroup?.message}</p>
+                    </div>
               </div> 
-              <div className="grid gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+              <div className="grid gap-2 w-full ny-4">
                 <Label htmlFor="nationality">Nationality</Label>
                 <Controller
                     control={control}
@@ -303,7 +316,7 @@ function Addemptab() {
                   )}  />
                   <p className="text-red-700 text-sm">{errors.nationality?.message}</p>
               </div> 
-              <div className="grid gap-2">
+              <div className="grid gap-2 w-full my-4">
                 <Label htmlFor="religion">Religion</Label>
                 <Controller
                     control={control}
@@ -322,8 +335,10 @@ function Addemptab() {
                   </Select> 
                 )}  />
                 <p className="text-red-700 text-sm">{errors.religion?.message}</p>
+              </div>
               </div> 
-              <div className="grid gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+              <div className="grid gap-2 w-full my-4">
                 <Label htmlFor="marital status">Marital status</Label>
                <Controller
                     control={control}
@@ -341,47 +356,50 @@ function Addemptab() {
                 )}  />
                 <p className="text-red-700 text-sm">{errors.maritalStatus?.message}</p>
               </div> 
-               <div className="grid gap-2">
+               <div className="grid gap-2 w-full my-4">
                 <Label htmlFor="qualification">Educational Qualification</Label>
                 <Input id="qualification" {...register("qualification")} />
                   <p className="text-red-700 text-sm">{errors.qualification?.message}</p>
               </div> 
-              <div className="grid gap-2">
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+              <div className="grid gap-2 w-full my-4">
                 <Label htmlFor="experience">Work experience if any</Label>
                 <Input id="experience" type='number'{...register("experience")}/>
                   <p className="text-red-700 text-sm">{errors.experience?.message}</p>
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 w-full my-4">
                <Label htmlFor="address">Address</Label>
                <Textarea id="address" placeholder="Enter your address here" {...register("address")}/>
                   <p className="text-red-700 text-sm">{errors.address?.message}</p>
               </div>
+              </div>
              </TabsContent>
 
               <TabsContent value="job" className="space-y-8 mt-5">
-                <div className="flex gap-5">
-                    <div className="grid gap-2">
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                    <div className="grid gap-2 w-full">
                        <Label htmlFor="netsalary">Net Salary</Label>
                         <Input type="number" id="netsalary" {...register("netSalary")} />
                           <p className="text-red-700 text-sm">{errors.netSalary?.message}</p>
                     </div>
                   </div>
                    <h3 className="font-medium mb-4">Earnings</h3>
-                    <div className="flex gap-5">
-                      <div className="grid gap-2">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                      <div className="grid gap-2 w-full">
                         <Label htmlFor="basic">Basic</Label>
                          <Input type="number" id="basic" {...register("basic")}/>
                           <p className="text-red-700 text-sm">{errors.basic?.message}</p>
                       </div>
-                      <div className="grid gap-2">
+                      <div className="grid gap-2 w-full">
                         <Label htmlFor="conveyance">Conveyance</Label>
                         <Input type="number" id="conveyance" {...register("conveyance")}/>
                         <p className="text-red-700 text-sm">{errors.conveyance?.message}</p>
                       </div>
                     </div>
 
-                   <div className="flex gap-5">
-                       <div className="grid gap-2">
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                       <div className="grid gap-2 w-full">
                          <Label htmlFor="medicalallowance">Medical Allowance</Label>
                          <Input type="number" id="medicalallowance" {...register("medicalAllowance")}/>
                           <p className="text-red-700 text-sm">{errors.medicalAllowance?.message}</p>
@@ -389,27 +407,28 @@ function Addemptab() {
                     </div>
                       
                     <h3 className="font-medium mb-4">Deductions</h3>
-                    <div className="flex gap-5">
-                        <div className="grid gap-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                        <div className="grid gap-2 w-full">
                           <Label htmlFor="ESI">ESI</Label>
                           <Input type="number" id="ESI" {...register("ESI")}/>
                         <p className="text-red-700 text-sm">{errors.ESI?.message}</p>
                         </div>
-                        <div className="grid gap-2">
+                        <div className="grid gap-2 w-full">
                           <Label htmlFor="PF">PF</Label>
                           <Input type="number" id="PF" {...register("PF")}/>
                         <p className="text-red-700 text-sm">{errors.PF?.message}</p>
                         </div>
                     </div>
 
-                    <div className="flex gap-5">
-                      <div className="grid gap-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                      <div className="grid gap-2 w-full">
                          <Label htmlFor="labourwelfare">Labour Welfare</Label>
                          <Input type="number" id="labourwelfare" {...register("laborWelfare")} />
                         <p className="text-red-700 text-sm">{errors.laborWelfare?.message}</p>
                       </div>
                     </div>
               </TabsContent>
+              </div>
              </Tabs>
               <DialogFooter>
                   <DialogClose asChild>

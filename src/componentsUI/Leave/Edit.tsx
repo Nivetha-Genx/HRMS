@@ -14,7 +14,7 @@ import { useState,useEffect } from "react"
 import { getLeave, putLeave, deleteLeave } from "@/Services/LeaveService"
 import type { addleave } from "@/Services/type"
 import { Textarea } from "@/components/ui/textarea"
-import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import { successToast,errorToast } from "@/lib/toast"
 
 type EditProps = {
   employeeId: string

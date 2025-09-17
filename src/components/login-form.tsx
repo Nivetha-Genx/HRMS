@@ -13,7 +13,7 @@ import type { SubmitHandler } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { loginSchema } from "@/lib/Schema"
 import * as yup from "yup"
-import type { LoginRequest } from "@/Services/type"
+// import type { LoginRequest } from "@/Services/type"
 
 type loginFormValues = yup.InferType<typeof loginSchema>
 
@@ -35,10 +35,10 @@ export function LoginForm({
     
   const onSubmit: SubmitHandler<loginFormValues> = async (data) => {
            try {
-             const payload : LoginRequest = {
-               email: data.email,
-               password: data.password,
-             };
+            //  const payload : LoginRequest = {
+            //    email: data.email,
+            //    password: data.password,
+            //  };
     
            
 

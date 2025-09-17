@@ -8,7 +8,7 @@ export interface LoginResponse {
 
 export interface signupRequest {
   firstName: string
-  lastName: string 
+  lastName?: string 
   email: string
   dob: string
   phoneNumber: string
@@ -101,6 +101,16 @@ export interface attendance{
   present: string
   unInformed:string
   permission:string
+}
+
+export interface addAttendance{
+  employeeName:string
+  date:string
+  checkin:string
+  checkout:string
+  break:string
+  productionHours:string
+  status:string
 }
 
 // LEAVE

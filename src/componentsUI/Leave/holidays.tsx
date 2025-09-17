@@ -8,8 +8,8 @@ import { Checkbox } from "@/components/ui/checkbox"
 import {DropdownMenu,DropdownMenuCheckboxItem,DropdownMenuContent,DropdownMenuTrigger,} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "@/components/ui/table"
-import Edit from '../Attendance/Edit'
-import Day from '../Attendance/Day'
+import Edit from '../Attendance/Add'
+// import Day from '../Attendance/Day'
 
 const data: Payment[] = [
     {

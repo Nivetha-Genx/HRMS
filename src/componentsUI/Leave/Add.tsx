@@ -91,7 +91,7 @@ function Add() {
         <DialogTrigger asChild>
           <Button className="ml-auto">+ Add Leave</Button>
         </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px] gap-6">
+            <DialogContent className="sm:max-w-[1000px] gap-6  max-h-full overflow-y-auto">
               <DialogHeader>
                  <DialogTitle>Add Leave</DialogTitle>
                     <DialogDescription>
@@ -99,12 +99,14 @@ function Add() {
                     </DialogDescription>
               </DialogHeader>
                <form className="grid gap-8"   onSubmit={handleSubmit(onSubmit)}>
-                 <div className="grid gap-2">
+                <div className="h-[400px] md:h-[500px] lg:h-[600px] overflow-y-auto mt-5 ">
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                  <div className="grid gap-2 w-full my-5">
                    <Label htmlFor="employeeId">EmployeeId</Label>
                      <Input id="employeeId" {...register("employeeId")} />
                       {errors.employeeId && <p className="text-sm text-red-700">{errors.employeeId.message}</p>}
                  </div>
-                 <div className="grid gap-2">
+                 <div className="grid gap-2 w-full my-5">
                    <Label htmlFor="employeeName">Employee Name</Label>
                       <Controller
                           control={control}
@@ -127,7 +129,10 @@ function Add() {
                 )}/>
                 {errors.employeeName && <p className="text-sm text-red-700">{errors.employeeName.message}</p>}
                 </div>
-                <div className="grid gap-2">
+                </div>
+                  
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                <div className="grid gap-2 w-full my-5">
                   <Label htmlFor="leaveType">Leave Type</Label>
                        <Controller
                             control={control}
@@ -145,7 +150,7 @@ function Add() {
                 )}/>
                 {errors.leaveType && <p className="text-sm text-red-700">{errors.leaveType.message}</p>}
                 </div>
-                <div className="grid gap-2">
+                <div className="grid gap-2 w-full my-5">
                    <Label htmlFor="fromDate" className="px-1">
                       From Date
                     </Label>
@@ -178,7 +183,10 @@ function Add() {
                       )}/>
                       {errors.fromDate && <p className="text-sm text-red-700">{errors.fromDate.message}</p>}
                 </div>
-                <div className="grid gap-2">
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                <div className="grid gap-2 w-full my-5">
                    <Label htmlFor="to-date" className="px-1">
                      To Date
                    </Label>
@@ -211,16 +219,22 @@ function Add() {
                       )}/>
                       {errors.toDate && <p className="text-sm text-red-700">{errors.toDate.message}</p>}
                 </div>
-                <div className="grid gap-2">
+                <div className="grid gap-2 w-full my-5">
                   <Label htmlFor="numberofdays">No of Days</Label>
                       <Input id="numberofdays" type="number" {...register("numberofdays")} />
                       {errors.numberofdays && <p className="text-sm text-red-700">{errors.numberofdays.message}</p>}
                 </div>
-                <div className="grid gap-2">
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                <div className="grid gap-2 w-full my-5">
                     <Label htmlFor="reason" className="px-1">Reason</Label>
                     <Textarea id="reason" placeholder="Enter your reason here"  {...register("reason")}/>
                     {errors.reason && <p className="text-sm text-red-700">{errors.reason.message}</p>}
                 </div>
+                </div>
+                </div>
+                
               <DialogFooter>
                   <DialogClose asChild>
                       <Button variant="outline">Cancel</Button>

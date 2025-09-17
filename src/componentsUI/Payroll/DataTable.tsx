@@ -16,8 +16,8 @@ import { SiteHeader } from "@/components/site-header"
 // import {getpayroll} from '@/Services/PayrollService'
 // import { useEffect } from "react"
 // import { errorToast, successToast, warningToast,infoToast } from "@/lib/toast"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
+// import { Calendar } from "@/components/ui/calendar"
+// import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 import Year from '../Payroll/year'
 
 
@@ -293,7 +293,7 @@ export default function DataTableDemo() {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] =React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
-  const [date, setDate] = React.useState<Date | undefined>(new Date())
+  // const [date, setDate] = React.useState<Date | undefined>(new Date())
 
   // useEffect(() => {
   //   const fetchData = async () => {

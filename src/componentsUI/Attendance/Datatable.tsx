@@ -8,7 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import {DropdownMenu,DropdownMenuCheckboxItem,DropdownMenuContent,DropdownMenuTrigger,} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "@/components/ui/table"
-import Edit from '../Attendance/Edit'
+import Edit from './Add'
 import Day from '../Attendance/Day'
 
 const data: Payment[] = [
@@ -200,7 +200,8 @@ export const columns: ColumnDef<Payment>[] = [
    id: "actions",
    enableHiding: false,
    cell: () => {
-     return <Edit />;
+     return
+      // <Edit />;
   },
 },
 ]
@@ -248,6 +249,8 @@ export function DataTableDemo() {
           <Day table={table}  />
         </div>
         <div className="flex items-center ml-auto">
+          <div className="flex items-center gap-2 ml-auto">
+          <Edit />
           <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="flex items-center gap-1">
@@ -274,6 +277,7 @@ export function DataTableDemo() {
               })}
           </DropdownMenuContent>
         </DropdownMenu>
+        </div>
       </div>
       </div>
       <div className="overflow-hidden rounded-md border">

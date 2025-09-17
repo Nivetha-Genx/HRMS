@@ -4,7 +4,7 @@ import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from "recha
 import {Card,CardContent,CardDescription,  CardHeader,CardTitle,} from "@/components/ui/card"
 import {ChartContainer,ChartTooltip,ChartTooltipContent} from "@/components/ui/chart"
 import type  {ChartConfig,} from "@/components/ui/chart"
-import { toast } from "react-toastify"
+// import { toast } from "react-toastify"
 // import { useState,useEffect } from "react"
 // import type { ChartRecord } from "@/Services/type"
 // import { getChartData } from "@/Services/DashService"

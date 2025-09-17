@@ -18,10 +18,10 @@ import { successToast,errorToast} from "@/lib/toast"
 
 
 function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => void}) {
-    const [open, setOpen] = React.useState(false)
-    const [dialogOpen, setDialogOpen] = React.useState(false);
-    const [opento, setOpento] = React.useState(false)
-    const [date, setDate] = React.useState<Date | undefined>(undefined)
+    const [datePickerOpen, setDatePickerOpen] = React.useState(false); 
+    const [editDialogOpen, setEditDialogOpen] = React.useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false); 
+    const [date, setDate] = React.useState<Date | undefined>(undefined);
     const [formData, setFormData] = useState<project>({
                projectId: '',
                projectName: '',
@@ -33,7 +33,7 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
                description: ''
            })
     useEffect(() => {
-              if (!projectId || !open) return;
+              if (!projectId || !editDialogOpen) return;
            
                getProject(projectId)
                  .then((data) => {
@@ -50,7 +50,7 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
                 if (data.deadLine) setDate(new Date(data.deadLine));
                  })
                  .catch((err:any) => console.error(err));
-             }, [projectId , open]);
+             }, [projectId , editDialogOpen]);
     
              const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
               const { id, value } = e.target;
@@ -63,7 +63,7 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
                   await putProject(projectId, { ...formData, deadLine: date ? date.toISOString() : null });
                   console.log("Project updated successfully!");
                   successToast("Project updated successfully!", "")
-                  setDialogOpen(false);
+                  setEditDialogOpen(false);
                   if (onSuccess) onSuccess();
                 } catch (err) {
                   console.error(err);
@@ -76,8 +76,7 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
                     await deleteProject(projectId);
                     console.log("Project deleted successfully!");
                     successToast("Project deleted successfully!", "")
-                    setDialogOpen(false);
-                    setOpento(false)
+                    setDeleteDialogOpen(false);
                     if (onSuccess) onSuccess();
                   } catch (err) {
                     console.error(err);
@@ -99,9 +98,9 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
              <DropdownMenuLabel>Actions</DropdownMenuLabel>
                <DropdownMenuSeparator />
             <Dialog
-                open={dialogOpen}
+                open={editDialogOpen}
                 onOpenChange={(isOpen) => {
-                setDialogOpen(isOpen);
+                setEditDialogOpen(isOpen);
                 if (!isOpen) {
                 setFormData({
                   projectId: '',projectName: '', leader: '',team: [],  deadLine: '',priority:'', status: '',description: ''});
@@ -111,7 +110,7 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
             <DialogTrigger asChild>
               <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px] gap-8">
+            <DialogContent className="sm:max-w-[1000px] max-h-full overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Edit Project</DialogTitle>
                   <DialogDescription>
@@ -119,15 +118,21 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
                   </DialogDescription>
               </DialogHeader>
               <form className="grid gap-8"  onSubmit={handleUpdate}>
-                <div className="grid gap-2">
+
+                 <div className="h-[400px] md:h-[500px] lg:h-[600px] overflow-y-auto mt-5 ">
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                  <div className="grid gap-2 w-full  my-5">
                   <Label htmlFor="projectID">ProjectId</Label>
                      <Input id="projectid"  value={formData.projectId} onChange={handleChange}/>
                 </div>
-                <div className="grid gap-2">
+                <div className="grid gap-2 w-full my-5">
                   <Label htmlFor="projectName">ProjectName</Label>
                       <Input id="projectName" value={formData.projectName} onChange={handleChange} />
                 </div>
-                <div className="grid gap-2">
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                <div className="grid gap-2 w-full my-5">
                   <Label htmlFor="leader">Leader</Label>
                       <Select value={formData.leader}
                           onValueChange={(value) => setFormData({ ...formData, leader: value })}>
@@ -135,17 +140,17 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
                           <SelectValue placeholder="Select Team leader" />
                          </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="name">Shivaji</SelectItem>
-                            <SelectItem value="name">Shivani</SelectItem>
-                            <SelectItem value="name">jayashree</SelectItem>
-                            <SelectItem value="name">Akila Sri</SelectItem>
-                            <SelectItem value="name">Pavithra</SelectItem>
-                            <SelectItem value="name">Nisha</SelectItem>
-                            <SelectItem value="name">Sagana</SelectItem>
+                            <SelectItem value="shivaji">Shivaji</SelectItem>
+                            <SelectItem value="shivani">Shivani</SelectItem>
+                            <SelectItem value="jayashree">jayashree</SelectItem>
+                            <SelectItem value="akilasri">Akila Sri</SelectItem>
+                            <SelectItem value="pavithra">Pavithra</SelectItem>
+                            <SelectItem value="nisha">Nisha</SelectItem>
+                            <SelectItem value="sagana">Sagana</SelectItem>
                          </SelectContent>
                     </Select>  
                 </div>
-                <div className="grid gap-2">
+                <div className="grid gap-2 w-full my-5">
                   <Label htmlFor="team">Team</Label>
                      <Select value={formData.team[0] ??""}
                         onValueChange={(value) => setFormData({ ...formData, team: [value] })}>
@@ -153,55 +158,60 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
                         <SelectValue placeholder="Select Team members" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="name">Shivaji</SelectItem>
-                            <SelectItem value="name">Shivani</SelectItem>
-                            <SelectItem value="name">jayashree</SelectItem>
-                            <SelectItem value="name">Akila Sri</SelectItem>
-                            <SelectItem value="name">Pavithra</SelectItem>
-                            <SelectItem value="name">Nisha</SelectItem>
-                            <SelectItem value="name">Sagana</SelectItem>
+                            <SelectItem value="shivaji">Shivaji</SelectItem>
+                            <SelectItem value="shivani">Shivani</SelectItem>
+                            <SelectItem value="jayashree">jayashree</SelectItem>
+                            <SelectItem value="akilasri">Akila Sri</SelectItem>
+                            <SelectItem value="pavithra">Pavithra</SelectItem>
+                            <SelectItem value="nisha">Nisha</SelectItem>
+                            <SelectItem value="sagana">Sagana</SelectItem>
                         </SelectContent>
                     </Select>  
                 </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="date" className="px-1">DeadLine</Label>
-                  <Popover open={open} onOpenChange={setOpen}>
-                  <PopoverTrigger asChild>
-                  <Button
-                      variant="outline"
-                      id="date"
-                      className="justify-between font-normal">
-                      {date ? date.toLocaleDateString() : "Select date"}
-                    <ChevronDownIcon />
-                  </Button>
+                </div>
+
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                <div className="grid gap-2 w-full my-5">
+                <Label htmlFor="deadline">Deadline</Label>
+                  <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
+                   <PopoverTrigger asChild>
+                    <Button type="button" variant="outline" id="deadline" className="justify-between font-normal w-full">
+                       {date ? date.toLocaleDateString() : "Select date"}
+                       <ChevronDownIcon />
+                   </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    captionLayout="dropdown"
-                    onSelect={(date) => {
-                    setDate(date)
-                    setOpen(false)
-                    }} />
-                  </PopoverContent>
-                  </Popover>  
+                <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                 <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={(selectedDate) => {
+                 setDate(selectedDate);
+                 setDatePickerOpen(false);
+                }}
+                  />
+                 </PopoverContent>
+                 </Popover>
                 </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="priority">Priority</Label>
-                     <Select value={formData.priority}
-                        onValueChange={(value) => setFormData({ ...formData, priority: value })}>
-                        <SelectTrigger id="priority" className="w-full h-10">
-                            <SelectValue placeholder="Select priority" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="High">High</SelectItem>
-                            <SelectItem value="Medium">Medium</SelectItem>
-                            <SelectItem value="Low">Low</SelectItem>
-                        </SelectContent>
-                    </Select> 
-                </div>
-                <div className="grid gap-2">
+
+               <div className="grid gap-2 w-full my-5">
+                <Label htmlFor="priority">Priority</Label>
+                  <Select
+                    value={formData.priority}
+                       onValueChange={(value) => setFormData({ ...formData, priority: value })}>
+                   <SelectTrigger id="priority" className="w-full h-10">
+                    <SelectValue placeholder="Select priority" />
+                  </SelectTrigger>
+                <SelectContent>
+                <SelectItem value="High">High</SelectItem>
+                 <SelectItem value="Medium">Medium</SelectItem>
+               <SelectItem value="Low">Low</SelectItem>
+               </SelectContent>
+              </Select>
+              </div>
+             </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                <div className="grid gap-2 w-full my-5">
                     <Label htmlFor="status">Status</Label>
                       <Select  value={formData.status}
                         onValueChange={(value) => setFormData({ ...formData, status: value })}>
@@ -214,9 +224,11 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
                         </SelectContent>
                       </Select>
                 </div>
-                <div className="grid gap-2">
+                <div className="grid gap-2 w-full">
                  <Label htmlFor="description">Description</Label>
                  <Textarea placeholder="Type your message here." id="description" value={formData.description} onChange={handleChange} />
+                 </div>
+                 </div>
                  </div>
                 
               <DialogFooter>
@@ -230,9 +242,9 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
       </Dialog>
            <DropdownMenuItem   onSelect={(e) => {
               e.preventDefault() 
-               setOpen(true)      
+              setDeleteDialogOpen(true)      
                 }}>Delete</DropdownMenuItem>
-                  <Dialog open={open} onOpenChange={setOpen}>
+                  <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
                     <DialogTrigger asChild>
                      </DialogTrigger>
                     <DialogContent className="sm:max-w-md rounded-2xl">
@@ -244,7 +256,7 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
                       </DialogHeader>
                       <DialogFooter>
                         <Button  className="bg-gray-200 text-black hover:bg-gray-300"
-                          onClick={() => setOpen(false)}>
+                          onClick={() => setDeleteDialogOpen(false)}>
                             Cancel
                         </Button>
                         <Button  className="bg-red-700 text-white hover:bg-red-800"
@@ -261,3 +273,4 @@ function dropdown({projectId,onSuccess}: {projectId: string,onSuccess?: () => vo
 }
 
 export default dropdown
+

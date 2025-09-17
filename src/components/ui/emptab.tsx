@@ -13,7 +13,7 @@ import Addemptab from '../ui/Addemptab'
 // import { getEmployees } from "@/Services/EmployeeService"
 // import type { empData } from "@/Services/type"
 // import { useState,useEffect } from "react"
-import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+// import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 
 const data: Payment[] = [
     {

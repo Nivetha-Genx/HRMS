@@ -6,7 +6,7 @@ import { Card,CardContent,CardHeader,CardTitle} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { signupApi } from "@/Services/authservice"
 import logo from '../assets/logo.svg'
-import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import { successToast,errorToast } from "@/lib/toast"
 import { useForm } from "react-hook-form"
 import type { SubmitHandler } from "react-hook-form"
 import { signupSchema } from "@/lib/Schema"
@@ -29,7 +29,7 @@ export function Signup({
    const { register, handleSubmit, formState: { errors } } = useForm<SignupFormValues>({
        resolver: yupResolver(signupSchema),
            defaultValues: {  
-              firstName:"",
+              firstName:"" ,
               lastName:"" ,
               email:"",
               dob:"",

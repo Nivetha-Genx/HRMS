@@ -194,10 +194,10 @@ export default function Payslip() {
           <h4 className="address">Employee Pay Summary</h4>
           <table className="summary">
             <tr>
-              <td>Employee Name : Meera Krishnan 
+              <td>Employee Name :  
                 {/* {payslip.employeeName} */}
               </td>
-              <td>Employee Id : ET1005
+              <td>Employee Id : 
                 {/* {payslip.employeeId} */}
               </td>
 

@@ -126,7 +126,7 @@ const handleDelete = async () => {
             <DialogTrigger asChild>
               <DropdownMenuItem  onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
+            <DialogContent className="sm:max-w-[1000px] max-h-full overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Edit Employee</DialogTitle>
               </DialogHeader>
@@ -137,35 +137,44 @@ const handleDelete = async () => {
                   <TabsTrigger value="personal">Advance Information</TabsTrigger>
                   <TabsTrigger value="job">Salary Information</TabsTrigger>
                   </TabsList>
+                
+                <div className="h-[400px] md:h-[500px] lg:h-[600px] overflow-y-auto mt-5">
                 <TabsContent value="basic" className="space-y-8 mt-4">
-                 <div className="grid gap-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                 <div className="grid gap-2 w-full my-4">
                     <Label htmlFor="employeeID">EmployeeId</Label>
                     <Input id="employeeId" value={formData.employeeId} onChange={handleChange} />
                  </div>
-                  <div className="grid gap-2">
+                  <div className="grid gap-2 w-full my-4">
                      <Label htmlFor="empName">Employee Name</Label>
                      <Input id="empName" placeholder="Enter employee name" value={formData.empName} onChange={handleChange} />
                   </div>
-                  <div className="grid gap-2">
+                  </div>
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                  <div className="grid gap-2 w-full my-4">
                    <Label htmlFor="email">Email</Label>
                     <Input id="email" placeholder="@gmail.com"  value={formData.email} onChange={handleChange} />
                   </div>
-                  <div className="grid gap-2">
+                  <div className="grid gap-2 w-full my-4">
                     <Label htmlFor="phoneNumber">Phone Number</Label>
                     <Input id="phoneNumber" type='tel' placeholder="Enter Phone Number" value={formData.phoneNumber} onChange={handleChange} />
                   </div>
-                <div className="grid gap-2">
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                <div className="grid gap-2 w-full my-4">
                   <Label htmlFor="position">Position</Label>
                   <Input id="position" placeholder="Enter position"  value={formData.position} onChange={handleChange} />
                 </div>
-                <div className="grid gap-2">
+                <div className="grid gap-2 w-full my-4">
                   <Label htmlFor="department">Department</Label>
                   <Input id="department" placeholder="Enter department" value={formData.department} onChange={handleChange} />
+                </div>
                 </div>
             </TabsContent>
 
               <TabsContent value="personal" className="space-y-8 mt-4">
-                 <div className="grid gap-4">
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                 <div className="grid gap-4 w-full my-4">
                    <Label>Gender</Label>
                    <RadioGroup defaultValue="male" className="flex gap-6" 
                     value={formData.gender} 
@@ -184,7 +193,7 @@ const handleDelete = async () => {
                 </div>
                 </RadioGroup>
                  </div>
-                  <div className="grid gap-2">
+                  <div className="grid gap-2 w-full">
                      <Label htmlFor="date" className="px-1">
                        Date of birth
                      </Label>
@@ -210,11 +219,13 @@ const handleDelete = async () => {
                   </PopoverContent>
                   </Popover>
                 </div>
-              <div className="grid gap-2">
+                </div>
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+              <div className="grid gap-2 w-full my-4">
                   <Label htmlFor="emergencyNumber">Emergency Contact Number</Label>
                   <Input id="emergencyNumber" type="tel" placeholder="Enter phone number"  value={formData.emergencyNumber} onChange={handleChange} />
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 w-full my-4">
                   <Label htmlFor="bloodgroup">Blood-Group</Label>
                     <Select 
                         value={formData.bloodGroup}
@@ -234,7 +245,9 @@ const handleDelete = async () => {
                         </SelectContent>
                     </Select> 
               </div> 
-              <div className="grid gap-2">
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+              <div className="grid gap-2 w-full my-4">
                 <Label htmlFor="nationality">Nationality</Label>
                 <Select value={formData.nationality}
                         onValueChange={(value) => setFormData({ ...formData, nationality: value })}>
@@ -247,7 +260,7 @@ const handleDelete = async () => {
                        </SelectContent>
                       </Select> 
               </div> 
-              <div className="grid gap-2">
+              <div className="grid gap-2 w-full my-4">
                 <Label htmlFor="religion">Religion</Label>
                  <Select 
                         value={formData.religion}
@@ -263,7 +276,9 @@ const handleDelete = async () => {
                     </SelectContent>
                   </Select> 
               </div> 
-              <div className="grid gap-2">
+              </div>
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+              <div className="grid gap-2 w-full my-4">
                 <Label htmlFor="marital status">Marital status</Label>
                 <Select  value={formData.maritalstatus}
                         onValueChange={(value) => setFormData({ ...formData, maritalstatus: value })}>
@@ -276,56 +291,58 @@ const handleDelete = async () => {
                     </SelectContent>
                   </Select> 
               </div> 
-               <div className="grid gap-2">
+               <div className="grid gap-2 w-full my-4">
                 <Label htmlFor="qualification">Educational Qualification</Label>
                 <Input id="qualification"   value={formData.qualification} onChange={handleChange} />
               </div> 
-              <div className="grid gap-2">
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+              <div className="grid gap-2 w-full my-4">
                 <Label htmlFor="experience">Work experience if any</Label>
                 <Input id="experience" type='number'  value={formData.experience} onChange={handleChange}/>
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 w-full my-4">
                <Label htmlFor="address">Address</Label>
                <Textarea id="address" placeholder="Enter your address here"  value={formData.address} onChange={handleChange}/>
+              </div>
               </div>
              </TabsContent>
 
              <TabsContent value="job" className="space-y-8 mt-5">
-              <div className="flex gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
                   <div className="grid gap-2">
                      <Label htmlFor="netsalary">Net Salary</Label>
                         <Input id="netsalary" />
                    </div>
                 </div>
-                  
                   <h3 className="font-medium mb-4">Earnings</h3>
-                    <div className="flex gap-5">
-                       <div className="grid gap-2">
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                       <div className="grid gap-2 w-full">
                           <Label htmlFor="basic">Basic</Label>
                            <Input id="basic" />
                         </div>
-                        <div className="grid gap-2">
+                        <div className="grid gap-2 w-full">
                            <Label htmlFor="conveyance">Conveyance</Label>
                            <Input id="conveyance" />
                         </div>
                     </div>
-                    <div className="flex gap-5">
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
                        <div className="grid gap-2">
                           <Label htmlFor="medicalallowance">Medical Allowance</Label>
                           <Input id="" />
                         </div>
-                        <div className="grid gap-2">
+                        <div className="grid gap-2 ">
                           <Label htmlFor="others"> Others</Label>
                           <Input id="" />
                         </div>
                     </div>
                    <h3 className="font-medium mb-4">Deductions</h3>
-                   <div className="flex gap-5">
-                       <div className="grid gap-2">
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                       <div className="grid gap-2 ">
                           <Label htmlFor="ESI">ESI</Label>
                           <Input id="ESI" />
                        </div>
-                       <div className="grid gap-2">
+                       <div className="grid gap-2 ">
                           <Label htmlFor="PF">PF</Label>
                           <Input id="PF" />
                        </div>
@@ -334,7 +351,7 @@ const handleDelete = async () => {
                          <Input id="leave" />
                        </div> */}
                    </div>
-                   <div className="flex gap-5">
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
                       <div className="grid gap-2">
                          <Label htmlFor="labourwelfare">Labour Welfare</Label>
                          <Input id="labourwelfare" />
@@ -345,6 +362,7 @@ const handleDelete = async () => {
                       </div>
                    </div>
              </TabsContent>
+             </div>
              </Tabs>
               <DialogFooter>
                   <DialogClose asChild>

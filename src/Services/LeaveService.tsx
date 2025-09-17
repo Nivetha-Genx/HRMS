@@ -1,6 +1,11 @@
 import api from './ApiService';
 import type  {leave,addleave} from "./type";
 
+export const getCardLeave = async (): Promise<leave> => {
+  const response = await api.get<leave>('/leave');
+  return response.data;
+}
+
 export const getLeaves = async (): Promise<addleave[]> => {
   const response = await api.get<addleave[]>("/leave");
   return response.data;
@@ -24,3 +29,4 @@ export const putLeave = async (employeeId: string, data: Partial<addleave>): Pro
 export const deleteLeave = async (id: string): Promise<void> => {
   await api.delete(`/leave/${id}`);
 };
+
