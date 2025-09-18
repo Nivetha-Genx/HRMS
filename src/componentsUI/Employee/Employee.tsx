@@ -11,22 +11,28 @@ import { SiteHeader } from "@/components/site-header"
 
 
 export default function Employee() {
-//   const [stats, setStats] = useState<cardemp | null>(null);
+// const [stats, setStats] = useState<cardemp | null>(null);
 
-//    useEffect(() => {
-//      getcardemp()
-//      .then((data) => setStats(data))
-//      .then(() => successToast("Employee data loaded", ""))
-//      .then(() => infoToast("Info", "Employee data is up to date"))
-//      .then(() => warningToast("Warning", "Check your employee settings"))
-//      .catch(() => errorToast("Error", "Failed to load employee data"))
-//      .then((data) => console.log("Dashboard data:", data))
-//       .catch((err) => console.error("Error fetching dashboard:", err));
-//    }, []);
+// useEffect(() => {
+//   const fetchData = async () => {
+//     try {
+//       const data = await getcardemp();
+//       setStats(data);
+//       successToast("Employee data loaded", "");
+//       infoToast("Info", "Employee data is up to date");
+//       warningToast("Warning", "Check your employee settings");
+//       console.log("Dashboard data:", data);
+//     } catch (err) {
+//       console.error("Error fetching dashboard:", err);
+//       errorToast("Error", "Failed to load employee data");
+//     }
+//   };
+//   fetchData();
+//   }, []);
+//   if (!stats) {
+//   return <div className="text-center">Loading...</div>;
+// }
 
-//  if (!stats) {
-//     return <div className="text-center">Loading...</div>;
-//   }
   return (
     <>
     <div className="flex flex-col mb-5">
@@ -53,6 +59,24 @@ export default function Employee() {
             </div>
           </Card>
 
+          
+              <Card>
+                <div className="flex items-center justify-between p-4">
+                   <div className="flex items-center space-x-4">
+                     <div className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-600">
+                       <IconUsersGroup className="w-6 h-6 text-white"  />
+                     </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Departments</p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {/* {stats.newJoiners} */}
+                      5
+                      </p>
+                  </div>
+                </div>
+                <Badge className="bg-blue-300 text-blue-500 font-medium">+19.01%</Badge>
+                </div>
+              </Card>
 
             <Card>
              <div className="flex items-center justify-between p-4">
@@ -90,29 +114,11 @@ export default function Employee() {
                 </div>
               </Card>
 
-              <Card>
-                <div className="flex items-center justify-between p-4">
-                   <div className="flex items-center space-x-4">
-                     <div className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-600">
-                       <IconUsersGroup className="w-6 h-6 text-white"  />
-                     </div>
-                  <div>
-                    <p className="text-sm text-gray-500">New Joiners</p>
-                    <p className="text-2xl font-bold text-gray-900">
-                      {/* {stats.newJoiners} */}
-                      30
-                      </p>
-                  </div>
-                </div>
-                <Badge className="bg-blue-300 text-blue-500 font-medium">+19.01%</Badge>
-                </div>
-              </Card>
 
             </div>
           </div>
         </div>
       </div>
-
     <div>
     <DataTableDemo />
     </div>

@@ -270,12 +270,12 @@ export default function DataTable() {
          <div className="flex items-center gap-2 ml-auto">
             <Add />
              
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline"  className="flex items-center gap-1">
-                    Leave Type <ChevronDown className="w-4 h-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
+          <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                 <Button variant="outline"  className="flex items-center gap-1">
+                  Leave Type <ChevronDown className="w-4 h-4" />
+                  </Button>
+                 </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" >
                   <DropdownMenuItem
                       onClick={() => {
@@ -297,16 +297,16 @@ export default function DataTable() {
                               table.getColumn("leaveType")?.setFilterValue(undefined)
                               }}
                               >Show All</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+              </DropdownMenuContent>
+          </DropdownMenu>
               
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
                   <Button variant="outline"className="flex items-center gap-1">
                     Columns <ChevronDown className="w-4 h-4"/>
                   </Button>
-                </DropdownMenuTrigger>
-               <DropdownMenuContent align="end">
+              </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
                {table
                   .getAllColumns()
                   .filter((column) => column.getCanHide())

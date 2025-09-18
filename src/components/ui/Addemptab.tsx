@@ -34,6 +34,7 @@ function Addemptab() {
       phoneNumber: "",
       position: "",
       department: "",
+      joinDate:"",
       gender: "male",
       dob: "",
       emergencyNumber: "",
@@ -55,6 +56,7 @@ function Addemptab() {
   });
       const [dialogOpen, setDialogOpen] = React.useState(false);
       const [dateOpen, setDateOpen] = React.useState(false);
+      const[joinDateOpen,setJoinDateOpen]=React.useState(false);
       const [date, setDate] = React.useState<Date | undefined>(undefined);
       const onSubmit: SubmitHandler<EmployeeFormValues> = async (data) => {
     try {
@@ -65,6 +67,8 @@ function Addemptab() {
       phoneNumber: data.phoneNumber,
       position: data.position,
       department: data.department,
+      joinDate:data.joinDate,
+      status:data.status,
       gender: data.gender,
       dob: date ? new Date(date).toISOString().split("T")[0] : "",
       emergencyNumber: data.emergencyNumber || "",
@@ -190,6 +194,64 @@ function Addemptab() {
                   )}
                 />
                 <p className="text-red-700 text-sm">{errors.department?.message}</p>
+                </div>
+                </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+            <div className="grid gap-2 my-4">
+          <Label htmlFor="joinDate" className="px-1">Join-Date</Label>
+        <Controller
+           name="joinDate"
+           control={control}
+            render={({ field }) => (
+        <Popover open={joinDateOpen} onOpenChange={setJoinDateOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            id="joinDate"
+            className="justify-between font-normal"
+          >
+            {field.value ? new Date(field.value).toLocaleDateString() : "Select date"}
+            <ChevronDownIcon />
+          </Button>
+        </PopoverTrigger>
+
+        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+          <Calendar
+            mode="single"
+            selected={field.value ? new Date(field.value) : undefined}
+            captionLayout="dropdown"
+            onSelect={(date) => {
+            field.onChange(date ?? null); 
+            setJoinDateOpen(false);
+          }}
+          />
+          </PopoverContent>
+          </Popover>
+        )}
+        />
+        {errors.joinDate && (
+         <p className="text-red-700 text-sm">{errors.joinDate.message}</p>
+          )}
+      </div>
+           <div className="grid gap-2 w-full my-4">
+                <Label htmlFor="status">Status</Label>
+                <Controller
+                  name="status"
+                  control={control}
+                  render={({ field }) => (
+                  <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger id="status" className="w-full h-10">
+                  <SelectValue placeholder="Select status" />
+                 </SelectTrigger>
+                  <SelectContent>
+                     <SelectItem value="active">Active</SelectItem>
+                      <SelectItem value="inActive">InActive</SelectItem>
+                  </SelectContent>
+                  </Select>
+                  )}
+                />
+                <p className="text-red-700 text-sm">{errors.status?.message}</p>
                 </div>
                 </div>
             </TabsContent>

@@ -87,6 +87,8 @@ export const employeeSchema = yup.object({
                              .required("Phone number is required"),
   position              : yup.string().required("Position is required"),
   department            : yup.string().required("Department is required"),
+  joinDate              : yup.string().required("JoinDate is required"), 
+  status                : yup.string().required("Status is required"),
   gender                : yup.string().required("Gender is required"),
   dob                   : yup.string().required("Date of Birth is required"), 
   emergencyNumber       : yup.string()

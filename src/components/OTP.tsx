@@ -37,13 +37,13 @@ export function OTP({
         });
 
  const onSubmit: SubmitHandler<otpFormValues> = async (data) => {
-            try {
-                  setLoading(true);
-                  setError("");
-                  const payload : VerifyOtpRequest = {
-                  email,
-                  otp:data.otp,
-              };
+   try {
+         setLoading(true);
+          setError("");
+          const payload : VerifyOtpRequest = {
+              email,
+              otp:data.otp,
+         };
 
       await verifyOtpApi( payload )
       successToast("OTP send to your mail Id")

@@ -58,17 +58,6 @@ export interface cardemp{
   newJoiners:number
 }
 
-export interface empData{
-  id: string
-  employeeId: string
-  name:string
-  position: string
-  department: string
-  email: string
-  joinDate:string
-  status:string
-}
- 
 export interface addEmpReq{
     employeeId: string 
     employeeName: string
@@ -76,6 +65,8 @@ export interface addEmpReq{
     phoneNumber: string
     position: string
     department: string
+    joinDate:string
+    status:string
     gender: string
     dob : string
     emergencyNumber: string

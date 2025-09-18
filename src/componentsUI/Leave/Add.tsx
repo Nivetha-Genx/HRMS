@@ -106,6 +106,7 @@ function Add() {
                      <Input id="employeeId" {...register("employeeId")} />
                       {errors.employeeId && <p className="text-sm text-red-700">{errors.employeeId.message}</p>}
                  </div>
+
                  <div className="grid gap-2 w-full my-5">
                    <Label htmlFor="employeeName">Employee Name</Label>
                       <Controller
@@ -150,6 +151,7 @@ function Add() {
                 )}/>
                 {errors.leaveType && <p className="text-sm text-red-700">{errors.leaveType.message}</p>}
                 </div>
+
                 <div className="grid gap-2 w-full my-5">
                    <Label htmlFor="fromDate" className="px-1">
                       From Date
@@ -219,6 +221,7 @@ function Add() {
                       )}/>
                       {errors.toDate && <p className="text-sm text-red-700">{errors.toDate.message}</p>}
                 </div>
+                
                 <div className="grid gap-2 w-full my-5">
                   <Label htmlFor="numberofdays">No of Days</Label>
                       <Input id="numberofdays" type="number" {...register("numberofdays")} />

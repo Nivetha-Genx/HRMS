@@ -103,7 +103,7 @@ export function LoginForm({
                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline text-blue-500"
                       >
                         Forgot your password?
-                    </Link>
+                  </Link>
                 </div>
                   <Input 
                     id="password" 

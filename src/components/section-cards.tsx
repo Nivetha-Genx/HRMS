@@ -55,6 +55,7 @@ export function SectionCards() {
           <div className=""><IconUsersGroup className="size-5"/></div>
         </CardFooter>
       </Card>
+
           <Card className="@container/card  bg-blue-400">
         <CardHeader>
           <CardDescription className="text-black font-bold">Job Applications</CardDescription>
@@ -76,6 +77,7 @@ export function SectionCards() {
           <div className="">< IconBriefcase className="size-5"/></div>
         </CardFooter>
       </Card>
+
        <Card className="@container/card  bg-blue-400">
         <CardHeader>
           <CardDescription className="text-black font-bold">Projects</CardDescription>
@@ -97,6 +99,7 @@ export function SectionCards() {
           <div className="">< IconCashBanknoteEdit className="size-5"/></div>
         </CardFooter>
       </Card>
+      
       <Card className="@container/card  bg-blue-400">
         <CardHeader>
           <CardDescription className="text-black font-bold">Clients</CardDescription>

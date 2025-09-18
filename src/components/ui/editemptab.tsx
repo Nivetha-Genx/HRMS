@@ -17,10 +17,11 @@ import { getEmployee,putEmployee,deleteEmployee } from '@/Services/EmployeeServi
 import { Textarea } from "@/components/ui/textarea"
 import { successToast,errorToast} from "@/lib/toast"
 
+
 function editemptab({ employeeId, onSuccess }: { employeeId: string, onSuccess?: () => void }) {
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [dateOpen, setDateOpen] = React.useState(false);
-  const [open, setOpen] = React.useState(false)
+  const [ open, setOpen] = React.useState(false)
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [formData, setFormData] = useState<any>({
     employeeId: "",
@@ -29,6 +30,8 @@ function editemptab({ employeeId, onSuccess }: { employeeId: string, onSuccess?:
     phoneNumber: "",
     position: "",
     department: "",
+    joinDate:"",
+    status:"",
     gender: "male",
     dob: "",
     emergencyNumber: "",
@@ -79,7 +82,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
       await putEmployee(employeeId, { ...formData, dob: date ? date.toISOString() : null });
       console.log("Employee updated successfully!");
       successToast("Employee updated successfully!", "The employee details have been updated.")
-      setDialogOpen(false);
+      setOpen(false);
       if (onSuccess) onSuccess();
     } catch (err) {
       console.error(err);
@@ -93,7 +96,7 @@ const handleDelete = async () => {
       await deleteEmployee(employeeId)
       console.log("Employee deleted successfully!");
       successToast("Employee deleted successfully!", "The employee has been removed.")
-      setOpen(false)
+      setDialogOpen(false)
       if (onSuccess) onSuccess()
     } catch (err) {
       console.log("Failed to delete employee");
@@ -138,38 +141,70 @@ const handleDelete = async () => {
                   <TabsTrigger value="job">Salary Information</TabsTrigger>
                   </TabsList>
                 
-                <div className="h-[400px] md:h-[500px] lg:h-[600px] overflow-y-auto mt-5">
+              <div className="h-[400px] md:h-[500px] lg:h-[600px] overflow-y-auto mt-5">
                 <TabsContent value="basic" className="space-y-8 mt-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
                  <div className="grid gap-2 w-full my-4">
                     <Label htmlFor="employeeID">EmployeeId</Label>
                     <Input id="employeeId" value={formData.employeeId} onChange={handleChange} />
-                 </div>
+                 </div> 
+                 
                   <div className="grid gap-2 w-full my-4">
                      <Label htmlFor="empName">Employee Name</Label>
                      <Input id="empName" placeholder="Enter employee name" value={formData.empName} onChange={handleChange} />
                   </div>
-                  </div>
+                  </div> 
+
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
                   <div className="grid gap-2 w-full my-4">
                    <Label htmlFor="email">Email</Label>
                     <Input id="email" placeholder="@gmail.com"  value={formData.email} onChange={handleChange} />
                   </div>
+
                   <div className="grid gap-2 w-full my-4">
                     <Label htmlFor="phoneNumber">Phone Number</Label>
                     <Input id="phoneNumber" type='tel' placeholder="Enter Phone Number" value={formData.phoneNumber} onChange={handleChange} />
                   </div>
                   </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
                 <div className="grid gap-2 w-full my-4">
                   <Label htmlFor="position">Position</Label>
-                  <Input id="position" placeholder="Enter position"  value={formData.position} onChange={handleChange} />
+                   <Select 
+                        value={formData.position}
+                        onValueChange={(value) => setFormData({ ...formData, position: value })}>
+                        <SelectTrigger id="position" className="w-full h-10">
+                            <SelectValue placeholder="Select position" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="frontend developer">A+</SelectItem>
+                            <SelectItem value="backend developer">A-</SelectItem>
+                            <SelectItem value="full stack developer">B+</SelectItem>
+                            <SelectItem value="teamleader">B-</SelectItem>
+                            <SelectItem value="manager">AB+</SelectItem>
+                            <SelectItem value="ui/ux">AB-</SelectItem>
+                            <SelectItem value="HR">O+</SelectItem>
+                            <SelectItem value="O-">O-</SelectItem>
+                        </SelectContent>
+                        </Select> 
                 </div>
+
                 <div className="grid gap-2 w-full my-4">
                   <Label htmlFor="department">Department</Label>
                   <Input id="department" placeholder="Enter department" value={formData.department} onChange={handleChange} />
                 </div>
                 </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                 <div className="grid gap-2 w-full my-4">
+                    <Label htmlFor="joinDate">Join-Date</Label>
+                    <Input id="joinDate" placeholder="Select Join-Date" value={formData.joinDate} onChange={handleChange} />
+                </div>
+                 <div className="grid gap-2 w-full my-4">
+                   <Label htmlFor="status">Status</Label>
+                   <Input id="status" type='tel' placeholder="Select Status" value={formData.status} onChange={handleChange} />
+                  </div>
+                  </div>
             </TabsContent>
 
               <TabsContent value="personal" className="space-y-8 mt-4">
@@ -183,16 +218,19 @@ const handleDelete = async () => {
                   <RadioGroupItem value="male" id="male" />
                   <Label htmlFor="male">Male</Label>
                 </div>
+
                 <div className="flex items-center space-x-2">
                    <RadioGroupItem value="female" id="female" />
                     <Label htmlFor="female">Female</Label>
                 </div>
+                
                 <div className="flex items-center space-x-2">
                    <RadioGroupItem value="other" id="other" />
                    <Label htmlFor="other">Other</Label>
                 </div>
                 </RadioGroup>
                  </div>
+
                   <div className="grid gap-2 w-full">
                      <Label htmlFor="date" className="px-1">
                        Date of birth
@@ -220,11 +258,13 @@ const handleDelete = async () => {
                   </Popover>
                 </div>
                 </div>
+
                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
               <div className="grid gap-2 w-full my-4">
                   <Label htmlFor="emergencyNumber">Emergency Contact Number</Label>
                   <Input id="emergencyNumber" type="tel" placeholder="Enter phone number"  value={formData.emergencyNumber} onChange={handleChange} />
               </div>
+
               <div className="grid gap-2 w-full my-4">
                   <Label htmlFor="bloodgroup">Blood-Group</Label>
                     <Select 
@@ -246,6 +286,7 @@ const handleDelete = async () => {
                     </Select> 
               </div> 
               </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
               <div className="grid gap-2 w-full my-4">
                 <Label htmlFor="nationality">Nationality</Label>
@@ -260,6 +301,7 @@ const handleDelete = async () => {
                        </SelectContent>
                       </Select> 
               </div> 
+
               <div className="grid gap-2 w-full my-4">
                 <Label htmlFor="religion">Religion</Label>
                  <Select 
@@ -277,6 +319,7 @@ const handleDelete = async () => {
                   </Select> 
               </div> 
               </div>
+
                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
               <div className="grid gap-2 w-full my-4">
                 <Label htmlFor="marital status">Marital status</Label>
@@ -291,16 +334,19 @@ const handleDelete = async () => {
                     </SelectContent>
                   </Select> 
               </div> 
+
                <div className="grid gap-2 w-full my-4">
                 <Label htmlFor="qualification">Educational Qualification</Label>
                 <Input id="qualification"   value={formData.qualification} onChange={handleChange} />
               </div> 
               </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
               <div className="grid gap-2 w-full my-4">
                 <Label htmlFor="experience">Work experience if any</Label>
                 <Input id="experience" type='number'  value={formData.experience} onChange={handleChange}/>
               </div>
+
               <div className="grid gap-2 w-full my-4">
                <Label htmlFor="address">Address</Label>
                <Textarea id="address" placeholder="Enter your address here"  value={formData.address} onChange={handleChange}/>
@@ -315,33 +361,39 @@ const handleDelete = async () => {
                         <Input id="netsalary" />
                    </div>
                 </div>
+
                   <h3 className="font-medium mb-4">Earnings</h3>
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
                        <div className="grid gap-2 w-full">
                           <Label htmlFor="basic">Basic</Label>
                            <Input id="basic" />
                         </div>
+
                         <div className="grid gap-2 w-full">
                            <Label htmlFor="conveyance">Conveyance</Label>
                            <Input id="conveyance" />
                         </div>
                     </div>
+
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
                        <div className="grid gap-2">
                           <Label htmlFor="medicalallowance">Medical Allowance</Label>
                           <Input id="" />
                         </div>
+
                         <div className="grid gap-2 ">
                           <Label htmlFor="others"> Others</Label>
                           <Input id="" />
                         </div>
                     </div>
+
                    <h3 className="font-medium mb-4">Deductions</h3>
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
                        <div className="grid gap-2 ">
                           <Label htmlFor="ESI">ESI</Label>
                           <Input id="ESI" />
                        </div>
+
                        <div className="grid gap-2 ">
                           <Label htmlFor="PF">PF</Label>
                           <Input id="PF" />
@@ -351,11 +403,13 @@ const handleDelete = async () => {
                          <Input id="leave" />
                        </div> */}
                    </div>
+
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
                       <div className="grid gap-2">
                          <Label htmlFor="labourwelfare">Labour Welfare</Label>
                          <Input id="labourwelfare" />
                       </div>
+                      
                       <div className="grid gap-2">
                          <Label htmlFor="others">Others</Label>
                          <Input id="others" />
