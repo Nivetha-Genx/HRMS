@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button"
 import {DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuLabel,DropdownMenuSeparator,DropdownMenuTrigger,} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import type { project } from '@/Services/type'
-import { getProject,putProject,deleteProject } from '@/Services/projectService'
+import { getProject,putProject,deleteProject } from '@/Services/ApiService'
 import { useState,useEffect } from 'react' 
 import { Textarea } from "@/components/ui/textarea"
 import { successToast,errorToast } from "@/lib/toast"

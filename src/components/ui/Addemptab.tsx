@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import type { addEmpReq } from '@/Services/type'
-import { postEmployees } from '@/Services/EmployeeService'
+import { postEmployees } from '@/Services/ApiService'
 import { Textarea } from "@/components/ui/textarea"
 import { successToast,errorToast } from "@/lib/toast"
 import { useForm } from "react-hook-form"

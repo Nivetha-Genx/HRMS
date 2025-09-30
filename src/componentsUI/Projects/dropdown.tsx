@@ -11,7 +11,7 @@ import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
 import { ChevronDownIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import type { project } from '@/Services/type'
-import { getProject,putProject,deleteProject } from '@/Services/projectService'
+import { getProject,putProject,deleteProject } from '@/Services/ApiService'
 import { useState,useEffect } from 'react'   
 import { Textarea } from "@/components/ui/textarea"
 import { successToast,errorToast} from "@/lib/toast"

@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Dialog,DialogClose,  DialogContent,DialogDescription,DialogFooter,DialogHeader,DialogTitle,DialogTrigger,} from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import type { project } from '@/Services/type'
-import { postProject } from '@/Services/projectService' 
+import { postProject } from '@/Services/ApiService' 
 import { Textarea } from "@/components/ui/textarea"
 import { successToast,errorToast} from "@/lib/toast"
 import { useForm } from "react-hook-form"

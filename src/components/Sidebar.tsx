@@ -43,32 +43,32 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/masterLayout/dashboard1",
+      url: "/dashboard/dashboard1",
       icon: IconDashboard,
     },
     {
       title: "Employees",
-      url: "/masterLayout/employee",
+      url: "/dashboard/employee",
       icon: IconUsers,
     },
     {
       title: "Attendance",
-      url: "/masterLayout/attendance",
+      url: "/dashboard/attendance",
       icon: IconCalendar,
     },
      {
       title: "Leave",
-      url: "/masterLayout/leave",
+      url: "/dashboard/leave",
       icon: IconDoorExit,
     },
     {
       title: "Projects",
-      url: "/masterLayout/projects",
+      url: "/dashboard/projects",
       icon: IconFolder,
     },
     {
       title: "Pay roll",
-      url: "/masterLayout/payroll",
+      url: "/dashboard/payroll",
       icon: IconCreditCardPay,
     },
   ],

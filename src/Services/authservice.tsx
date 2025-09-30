@@ -1,4 +1,4 @@
-import api from './ApiService' 
+import api from './ApiService'
 import type { LoginRequest , LoginResponse } from './type'
 import type { ForgotPasswordRequest, ForgotPasswordResponse } from './type'
 import type { VerifyOtpRequest, VerifyOtpResponse } from './type'
