@@ -45,7 +45,7 @@ export function LoginForm({
   // Hardcoded check 
    if (data.email === "admin@example.com" && data.password === "password@123") {
        successToast("Login successful", "Welcome back!");
-        navigate("/dashboard/dashboard1");
+        navigate("/dashboard1");
       } else {
         setError("Invalid email or password");
         errorToast("Login failed", "Invalid email or password")

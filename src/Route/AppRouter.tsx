@@ -103,15 +103,24 @@ function AppRouter() {
         <Route path="/otp" element={<OTP />} />
         <Route path="/resetpassword" element={<Resetpassword />} />
         
-        {/* Dashboard Routes with Sidebar */}
-        <Route path="/dashboard" element={<DashboardLayout />}>
+        {/* Dashboard Routes with Sidebar - Flattened */}
+        <Route path="/dashboard1" element={<DashboardLayout />}>
           <Route index element={<Dashboard1 />} />
-          <Route path="dashboard1" element={<Dashboard1 />} />
-          <Route path="employee" element={<Employee />} />
-          <Route path="attendance" element={<Attendance />} />
-          <Route path="leave" element={<Leave />} />
-          <Route path="projects" element={<Projects />} />
-          <Route path="payroll" element={<Payroll />} />
+        </Route>
+        <Route path="/employee" element={<DashboardLayout />}>
+          <Route index element={<Employee />} />
+        </Route>
+        <Route path="/attendance" element={<DashboardLayout />}>
+          <Route index element={<Attendance />} />
+        </Route>
+        <Route path="/leave" element={<DashboardLayout />}>
+          <Route index element={<Leave />} />
+        </Route>
+        <Route path="/projects" element={<DashboardLayout />}>
+          <Route index element={<Projects />} />
+        </Route>
+        <Route path="/payroll" element={<DashboardLayout />}>
+          <Route index element={<Payroll />} />
         </Route>
         
         {/* Standalone Routes */}
