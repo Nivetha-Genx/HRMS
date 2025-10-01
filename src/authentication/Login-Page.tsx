@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
-// import { loginApi } from "../Services/authservice"
+import { loginApi } from "../Services/authservice"
 import logo from '../assets/logo.svg'
 import {Card,CardContent,CardDescription,CardHeader,CardTitle} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -13,7 +13,7 @@ import type { SubmitHandler } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { loginSchema } from "@/lib/Schema"
 import * as yup from "yup"
-// import type { LoginRequest } from "@/Services/type"
+import type { LoginRequest } from "../Services/type"
 
 type loginFormValues = yup.InferType<typeof loginSchema>
 
@@ -34,38 +34,41 @@ export function LoginForm({
       });
     
   const onSubmit: SubmitHandler<loginFormValues> = async (data) => {
-           try {
-            //  const payload : LoginRequest = {
-            //    email: data.email,
-            //    password: data.password,
-            //  };
-    
-           
+    try {
+      const payload : LoginRequest = {
+        email: data.email,
+        password: data.password,
+      };
 
-  // Hardcoded check 
-   if (data.email === "admin@example.com" && data.password === "password@123") {
-       successToast("Login successful", "Welcome back!");
+      console.log("Making login request with payload:", payload);
+      const res = await loginApi(payload)
+      console.log("Login response:", res);
+      
+      // Handle different possible response structures
+      if (res) {
+        // Try to extract token from different possible locations
+        const token = res.token || (res as any).accessToken || (res as any).access_token || "dummy-token";
+        const user = res.user || (res as any).userData || { id: 1, name: data.email };
+        
+        successToast("Login successful", "Welcome back!")
+        localStorage.setItem("token", token) 
+        localStorage.setItem("user", JSON.stringify(user))
+        console.log("Navigating to dashboard1...");
         navigate("/dashboard1");
       } else {
-        setError("Invalid email or password");
-        errorToast("Login failed", "Invalid email or password")
+        console.error("No response from server:", res);
+        setError("No response from server");
+        errorToast("Login failed", "No response from server");
       }
-
-
-    //   const res = await loginApi( payload)
-      // successToast("Login successful", "Welcome back!")
-    //   localStorage.setItem("token", res.token) 
-    //   localStorage.setItem("user", JSON.stringify(res.user))
-    //    navigate("/dashboard");
     } catch (err: any) {
-
+      console.error("Login error:", err);
       if (err.response?.status === 401) {
         setError("Invalid email or password")
-       errorToast("Login failed", "Invalid email or password")
+        errorToast("Login failed", "Invalid email or password")
       } else {
         setError("Login failed. Try again later.")
+        errorToast("Login failed", "Try again later.")
       }
-    
     }
   };
    

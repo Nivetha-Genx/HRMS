@@ -5,6 +5,7 @@ import {
   SidebarInset,
   SidebarProvider,
 } from "@/components/ui/sidebar";
+import ProtectedRoute from './Protected-Route';
 
 // Auth Pages
 import { LoginForm } from '../authentication/Login-Page';
@@ -21,6 +22,7 @@ import Leave from '../componentsUI/Leave/Leave';
 import Projects from '../componentsUI/Projects/Projects';
 import Payroll from '../componentsUI/Payroll/Payroll';
 import Payslip from '../componentsUI/Payroll/Payslip';
+import AddEmployee from '@/componentsUI/Employee/Add_employee';
 
 // Auth Page Wrappers with Layout
 function Login() {
@@ -103,28 +105,29 @@ function AppRouter() {
         <Route path="/otp" element={<OTP />} />
         <Route path="/resetpassword" element={<Resetpassword />} />
         
-        {/* Dashboard Routes with Sidebar - Flattened */}
-        <Route path="/dashboard1" element={<DashboardLayout />}>
+        {/* Dashboard Routes with Sidebar - Protected */}
+        <Route path="/dashboard1" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
           <Route index element={<Dashboard1 />} />
         </Route>
-        <Route path="/employee" element={<DashboardLayout />}>
+        <Route path="/employee" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
           <Route index element={<Employee />} />
         </Route>
-        <Route path="/attendance" element={<DashboardLayout />}>
+        <Route path="/attendance" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
           <Route index element={<Attendance />} />
         </Route>
-        <Route path="/leave" element={<DashboardLayout />}>
+        <Route path="/leave" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
           <Route index element={<Leave />} />
         </Route>
-        <Route path="/projects" element={<DashboardLayout />}>
+        <Route path="/projects" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
           <Route index element={<Projects />} />
         </Route>
-        <Route path="/payroll" element={<DashboardLayout />}>
+        <Route path="/payroll" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
           <Route index element={<Payroll />} />
         </Route>
+        <Route path="/add-employee" element={<AddEmployee/>}/>
         
-        {/* Standalone Routes */}
-        <Route path="/payslip" element={<Payslip />} />
+        {/* Standalone Routes - Protected */}
+        <Route path="/payslip" element={<ProtectedRoute><Payslip /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   );
