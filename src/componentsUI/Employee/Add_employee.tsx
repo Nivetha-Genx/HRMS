@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { LuUpload } from "react-icons/lu";
 const AddEmployee: React.FC = () => {
   const [activeMainTab, setActiveMainTab] = useState("details");
   const [activeSubTab, setActiveSubTab] = useState("basic");
@@ -43,6 +42,7 @@ const AddEmployee: React.FC = () => {
 
   const [selectedGovId, setSelectedGovId] = useState("");
   const [govIdLabel, setGovIdLabel] = useState("");
+  const [aadhaarNumber, setAadhaarNumber] = useState("");
 
   const addEducationRow = () => {
     setEducationRows([...educationRows, { education: "", school: "", startDate: "", endDate: "", percentage: "", marksheet: null }]);
@@ -128,7 +128,7 @@ const AddEmployee: React.FC = () => {
             <div className="flex gap-4 mb-4">
               <div className="flex flex-col gap-2 flex-1">
                 <label htmlFor="doj" className="text-sm font-medium">Date of Joining (DOJ)</label>
-                <input type="text" id="doj" placeholder="DD-MM-YYYY" className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <input type="date" id="doj" defaultValue={today} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
               <div className="flex flex-col gap-2 flex-1">
                 <label htmlFor="manager" className="text-sm font-medium">Reporting Manager</label>
@@ -198,6 +198,8 @@ const AddEmployee: React.FC = () => {
                 <select id="religion" className="border border-gray-300 rounded-md pl-3 pr-1 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                   <option value="" selected>Select Religion</option>
                   <option value="hindu">Hindu</option>
+                  <option value="muslim">Muslim</option>
+                  <option value="christian">Christian</option>
                   <option value="other">Other</option>
                 </select>
               </div>
@@ -205,16 +207,21 @@ const AddEmployee: React.FC = () => {
             <h4 className="text-lg font-semibold mb-4">Employee Documents</h4>
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium">Aadhaar</label>
-                <div
-                  className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-blue-500 transition-colors"
-                  onClick={() => document.getElementById("aadharFile")?.click()}
-                >
-                  <span className="text-gray-400 text-2xl flex justify-center mb-2"><LuUpload /> </span>
-                  <p className="text-sm font-semibold text-gray-600">Upload your Aadhaar</p>
-                  <p className="text-xs text-gray-400">PNG, JPG, PDF up to 10MB</p>
-                </div>
-                <input type="file" id="aadharFile" className="hidden" accept="image/*,application/pdf" />
+                <label htmlFor="aadhaarNumber" className="text-sm font-medium">Aadhaar Number</label>
+                <input 
+                  type="text" 
+                  id="aadhaarNumber" 
+                  name="aadhaarNumber"
+                  placeholder="Enter 12-digit Aadhaar number" 
+                  maxLength={12}
+                  pattern="[0-9]{12}"
+                  autoComplete="new-password"
+                  data-form-type="other"
+                  key="aadhaar-input"
+                  value={aadhaarNumber}
+                  onChange={(e) => setAadhaarNumber(e.target.value.replace(/\D/g, ''))}
+                  className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-sm font-medium">Select any government ID</label>
@@ -314,7 +321,6 @@ const AddEmployee: React.FC = () => {
                     <th className="border border-gray-300 p-2 text-left">Start Date</th>
                     <th className="border border-gray-300 p-2 text-left">End Date</th>
                     <th className="border border-gray-300 p-2 text-left">Percentage %</th>
-                    <th className="border border-gray-300 p-2 text-left">Marksheet</th>
                     <th className="border border-gray-300 p-2 text-left">Action</th>
                   </tr>
                 </thead>
@@ -335,9 +341,6 @@ const AddEmployee: React.FC = () => {
                       </td>
                       <td className="border border-gray-300 p-2">
                         {row.percentage ? row.percentage : <input type="text" placeholder="Percentage %" className="w-full border-0 focus:outline-none" />}
-                      </td>
-                      <td className="border border-gray-300 p-2 text-center">
-                        <span className="text-gray-400 cursor-pointer">📎</span>
                       </td>
                       <td className="border border-gray-300 p-2 text-center">
                         {index < educationRows.length - 1 && (
@@ -368,7 +371,6 @@ const AddEmployee: React.FC = () => {
                     <th className="border border-gray-300 p-2 text-left">Skill Priority</th>
                     <th className="border border-gray-300 p-2 text-left">Proficiency Level</th>
                     <th className="border border-gray-300 p-2 text-left">Experience With Skill</th>
-                    <th className="border border-gray-300 p-2 text-left">Certification</th>
                     <th className="border border-gray-300 p-2 text-left">Action</th>
                   </tr>
                 </thead>
@@ -389,9 +391,6 @@ const AddEmployee: React.FC = () => {
                       </td>
                       <td className="border border-gray-300 p-2">
                         {row.experience ? row.experience : <input type="text" placeholder="Experience With Skill" className="w-full border-0 focus:outline-none" />}
-                      </td>
-                      <td className="border border-gray-300 p-2 text-center">
-                        <span className="text-gray-400 cursor-pointer">📎</span>
                       </td>
                       <td className="border border-gray-300 p-2 text-center">
                         {index < skillsRows.length - 1 && (
@@ -431,7 +430,6 @@ const AddEmployee: React.FC = () => {
                     <th className="border border-gray-300 p-2 text-left">Start Date</th>
                     <th className="border border-gray-300 p-2 text-left">End Date</th>
                     <th className="border border-gray-300 p-2 text-left">Employment Type</th>
-                    <th className="border border-gray-300 p-2 text-left">Certification</th>
                     <th className="border border-gray-300 p-2 text-left">Action</th>
                   </tr>
                 </thead>
@@ -452,9 +450,6 @@ const AddEmployee: React.FC = () => {
                       </td>
                       <td className="border border-gray-300 p-2">
                         {row.type ? row.type : <input type="text" placeholder="Employment Type" className="w-full border-0 focus:outline-none" />}
-                      </td>
-                      <td className="border border-gray-300 p-2 text-center">
-                        <span className="text-gray-400 cursor-pointer">📎</span>
                       </td>
                       <td className="border border-gray-300 p-2 text-center">
                         {index < experienceRows.length - 1 && (
@@ -490,7 +485,6 @@ const AddEmployee: React.FC = () => {
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">Employee Data</h1>
-      {/* Main Tabs */}
       <div className="mb-6">
         <ul className="flex gap-2 bg-gray-200 rounded-2xl p-2">
           {mainTabs.map((tab) => (
@@ -506,11 +500,9 @@ const AddEmployee: React.FC = () => {
               {tab.label}
             </li>
           ))}
-          <li className="flex-1" /> {/* Empty space to match image */}
+          <li className="flex-1" /> 
         </ul>
       </div>
-
-      {/* Sub Tabs - Only show if main tab is details */}
       {activeMainTab === "details" && (
         <div className="mb-6">
           <ul className="flex gap-2 bg-gray-200 rounded-2xl p-2">

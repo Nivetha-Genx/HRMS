@@ -53,8 +53,8 @@ export const getChartData = async (): Promise<ChartResponse> => {
   return response.data;
 };
 
-export const getEmployees = async (): Promise<addEmpReq[]> => {
-  const response = await api.get<addEmpReq[]>("/employees");
+export const getEmployees = async (): Promise<any> => {
+  const response = await api.get("/Employee/Get-All-Employees");
   return response.data;
 }
 
@@ -161,6 +161,56 @@ export const putProject = async (projectId: string, data: Partial<project>): Pro
 
 export const deleteProject = async (projectId: string): Promise<void> => {
   await api.delete(`/project/${projectId}`);
+};
+
+// DEPARTMENT SERVICES
+export const getDepartments = async (): Promise<any[]> => {
+  const response = await api.get<any[]>("/Department/All-Departments");
+  return response.data;
+};
+
+export const getDepartment = async (id: string): Promise<any> => {
+  const response = await api.get<any>(`/Department/Department-Id?id=${id}`);
+  return response.data;
+};
+
+export const postDepartment = async (data: any): Promise<any> => {
+  const response = await api.post<any>("/Department/Add-Department", data);
+  return response.data;
+};
+
+export const putDepartment = async (id: string, data: any): Promise<any> => {
+  const response = await api.put<any>(`/Department/Update-Department?id=${id}`, data);
+  return response.data;
+};
+
+export const deleteDepartment = async (id: string): Promise<void> => {
+  await api.delete(`/Department/Delete-Department?id=${id}`);
+};
+
+// DESIGNATION SERVICES
+export const getDesignations = async (): Promise<any[]> => {
+  const response = await api.get<any[]>("/Designation/Get-All-Designations");
+  return response.data;
+};
+
+export const getDesignation = async (id: string): Promise<any> => {
+  const response = await api.get<any>(`/Designation/Get-Designation-By-Id?id=${id}`);
+  return response.data;
+};
+
+export const postDesignation = async (data: any): Promise<any> => {
+  const response = await api.post<any>("/Designation", data);
+  return response.data;
+};
+
+export const putDesignation = async (id: string, data: any): Promise<any> => {
+  const response = await api.put<any>(`/Designation/Update-Designation?id=${id}`, data);
+  return response.data;
+};
+
+export const deleteDesignation = async (id: string): Promise<void> => {
+  await api.delete(`/Designation/Delete-Designation?id=${id}`);
 };
 
 // Export the api instance as default for use in other services

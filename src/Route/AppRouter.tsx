@@ -17,6 +17,8 @@ import { Forgot as ForgotForm } from '../authentication/forgot';
 // Dashboard Pages
 import Dashboard1 from '../componentsUI/Dashboard/Dashboard1';
 import Employee from '../componentsUI/Employee/Employee';
+import Department from '../componentsUI/Department/Department';
+import Designation from '../componentsUI/Designation/Designation';
 import Attendance from '../componentsUI/Attendance/Attendance';
 import Leave from '../componentsUI/Leave/Leave';
 import Projects from '../componentsUI/Projects/Projects';
@@ -111,6 +113,12 @@ function AppRouter() {
         </Route>
         <Route path="/employee" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
           <Route index element={<Employee />} />
+        </Route>
+        <Route path="/department" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
+          <Route index element={<Department />} />
+        </Route>
+        <Route path="/designation" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
+          <Route index element={<Designation />} />
         </Route>
         <Route path="/attendance" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
           <Route index element={<Attendance />} />

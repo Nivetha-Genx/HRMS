@@ -23,6 +23,10 @@ export function NavUser({
     navigate("/");
   };
 
+  const handleAccountClick = () => {
+    navigate("/add-employee");
+  };
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -67,7 +71,7 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={handleAccountClick}>
                 <IconUserCircle />
                 Account
               </DropdownMenuItem>

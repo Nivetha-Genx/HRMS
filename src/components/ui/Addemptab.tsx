@@ -10,27 +10,62 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import type { addEmpReq } from '@/Services/type'
-import { postEmployees } from '@/Services/ApiService'
 import { Textarea } from "@/components/ui/textarea"
 import { successToast,errorToast } from "@/lib/toast"
 import { useForm } from "react-hook-form"
 import type { SubmitHandler } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
-import { employeeSchema } from "@/lib/Schema"
-import * as yup from "yup"
 import { Controller } from "react-hook-form"
 
-type EmployeeFormValues = yup.InferType<typeof employeeSchema>;
+// Custom type for the new basic information structure
+type BasicInfoFormValues = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  role: number;
+  deptId?: string;
+  designationId?: string;
+  // Keep existing fields for other tabs
+  employeeId: string;
+  employeeName: string;
+  phoneNumber: string;
+  position: string;
+  department: string;
+  joinDate: string;
+  status: string;
+  gender: string;
+  dob: string;
+  emergencyNumber: string;
+  bloodGroup: string;
+  nationality: string;
+  religion: string;
+  maritalStatus: string;
+  qualification: string;
+  experience: string;
+  address: string;
+  netSalary: number;
+  basic: number;
+  conveyance: number;
+  medicalAllowance: number;
+  ESI: number;
+  PF: number;
+  laborWelfare: number;
+};
 
 function Addemptab() {
        const { register, handleSubmit, control, reset, formState: { errors } } =
-  useForm<EmployeeFormValues>({
-    resolver: yupResolver(employeeSchema),
+  useForm<BasicInfoFormValues>({
     defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      role: 0,
+      deptId: "",
+      designationId: "",
+      // Keep existing fields for other tabs
       employeeId: "",
       employeeName: "",
-      email: "",
       phoneNumber: "",
       position: "",
       department: "",
@@ -56,40 +91,25 @@ function Addemptab() {
   });
       const [dialogOpen, setDialogOpen] = React.useState(false);
       const [dateOpen, setDateOpen] = React.useState(false);
-      const[joinDateOpen,setJoinDateOpen]=React.useState(false);
-      const [date, setDate] = React.useState<Date | undefined>(undefined);
-      const onSubmit: SubmitHandler<EmployeeFormValues> = async (data) => {
+      const onSubmit: SubmitHandler<BasicInfoFormValues> = async (data) => {
     try {
-    const payload: addEmpReq = {
-      employeeId: data.employeeId,
-      employeeName: data.employeeName,
+    // Create payload with new basic information structure
+    const payload = {
+      firstName: data.firstName,
+      lastName: data.lastName,
       email: data.email,
-      phoneNumber: data.phoneNumber,
-      position: data.position,
-      department: data.department,
-      joinDate:data.joinDate,
-      status:data.status,
-      gender: data.gender,
-      dob: date ? new Date(date).toISOString().split("T")[0] : "",
-      emergencyNumber: data.emergencyNumber || "",
-      bloodGroup: data.bloodGroup || "",
-      nationality: data.nationality,
-      religion: data.religion,
-      maritalStatus: data.maritalStatus || "",
-      qualification: data.qualification,
-      experience: data.experience || "",
-      address: data.address,
-      netSalary: data.netSalary,
-      basic: data.basic,
-      conveyance: data.conveyance,
-      medicalAllowance: data.medicalAllowance,
-      ESI: data.ESI,
-      PF: data.PF,
-      laborWelfare: data.laborWelfare,
-};
-    await postEmployees(payload);
+      password: data.password,
+      role: data.role,
+      deptId: data.deptId || null,
+      designationId: data.designationId || null,
+    };
+    
+    // TODO: Replace with actual API call
+    console.log("Employee payload:", payload);
+    
     successToast("Employee added successfully!", "The new employee has been added.");
     reset();
+    setDialogOpen(false);
   } catch (err) {
     errorToast("Error adding employee", "There was an issue adding the new employee.");
   }
@@ -103,7 +123,6 @@ function Addemptab() {
           setDialogOpen(isOpen);
           if (!isOpen) {
           reset();
-          setDate(undefined);
            }
           }}>
 
@@ -126,135 +145,70 @@ function Addemptab() {
                 <div className="h-[400px] md:h-[500px] lg:h-[600px] overflow-y-auto mt-5 ">
                 <TabsContent value="basic" className="space-y-8 mt-5">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
-                  <div className="grid gap-2 w-full my-4">
-                    <Label htmlFor="employeeId">Employee ID</Label>
-                      <Input id="employeeId" {...register("employeeId")} />
-                        <p className="text-red-700 text-sm">{errors.employeeId?.message}</p>
+                    <div className="grid gap-2 w-full my-4">
+                      <Label htmlFor="firstName">First Name</Label>
+                      <Input id="firstName" {...register("firstName")} placeholder="Enter first name" />
+                      <p className="text-red-700 text-sm">{errors.firstName?.message}</p>
+                    </div>
+
+                    <div className="grid gap-2 w-full my-4">
+                      <Label htmlFor="lastName">Last Name</Label>
+                      <Input id="lastName" {...register("lastName")} placeholder="Enter last name" />
+                      <p className="text-red-700 text-sm">{errors.lastName?.message}</p>
+                    </div>
                   </div>
 
-                  <div className="grid gap-2 w-full my-4">
-                     <Label htmlFor="empName">Employee Name</Label>
-                        <Input id="empName"{...register("employeeName")} placeholder="Enter employee name"/>
-                          <p className="text-red-700 text-sm">{errors.employeeName?.message}</p>
-                  </div>
-                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
-                  <div className="grid gap-2 w-full my-4">
+                    <div className="grid gap-2 w-full my-4">
                       <Label htmlFor="email">Email</Label>
-                       <Input id="email" placeholder="@gmail.com" {...register("email")}/>
-                         <p className="text-red-700 text-sm">{errors.email?.message}</p>
+                      <Input id="email" type="email" placeholder="@gmail.com" {...register("email")} />
+                      <p className="text-red-700 text-sm">{errors.email?.message}</p>
+                    </div>
+                    
+                    <div className="grid gap-2 w-full my-4">
+                      <Label htmlFor="password">Password</Label>
+                      <Input id="password" type="password" placeholder="Enter password" {...register("password")} />
+                      <p className="text-red-700 text-sm">{errors.password?.message}</p>
+                    </div>
                   </div>
-                  <div className="grid gap-2 w-full my-4">
-                       <Label htmlFor="phoneNumber">Phone Number</Label>
-                       <Input id="phoneNumber" placeholder="Enter Phone Number" {...register("phoneNumber")} />
-                         <p className="text-red-700 text-sm">{errors.phoneNumber?.message}</p>
-                  </div>
-                  </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
-                <div className="grid gap-2 w-full my-4">
-                     <Label htmlFor="position">Position</Label>
-                    <Controller
-                          control={control}
-                        name="position"
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                    <div className="grid gap-2 w-full my-4">
+                      <Label htmlFor="role">Role</Label>
+                      <Controller
+                        control={control}
+                        name="role"
                         render={({ field }) => (
-                        <Select onValueChange={field.onChange} value={field.value}>
-                        <SelectTrigger id="position" className="w-full h-10">
-                            <SelectValue placeholder="Select position" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="frontend developer">Frontend Developer</SelectItem>
-                            <SelectItem value="backend developer">Backend Developer</SelectItem>
-                            <SelectItem value="developer">Full stack developer</SelectItem>
-                            <SelectItem value="designer">Designer</SelectItem>
-                            <SelectItem value="teamlead">Team Lead</SelectItem>
-                            <SelectItem value="manager">Manager</SelectItem>
-                            <SelectItem value="HR">HR</SelectItem>
-                        </SelectContent>
-                    </Select> 
-                   )}  />
-                  <p className="text-red-700 text-sm">{errors.position?.message}</p>
-                </div>
-                <div className="grid gap-2 w-full my-4">
-                <Label htmlFor="department">Department</Label>
-                <Controller
-                  name="department"
-                  control={control}
-                  render={({ field }) => (
-                  <Select onValueChange={field.onChange} value={field.value}>
-                  <SelectTrigger id="department" className="w-full h-10">
-                  <SelectValue placeholder="Select department" />
-                 </SelectTrigger>
-                  <SelectContent>
-                     <SelectItem value="research and development">Research and Development</SelectItem>
-                      <SelectItem value="UI/UX">UI/UX</SelectItem>
-                      <SelectItem value="human resource">Human Resource</SelectItem>
-                     <SelectItem value="administration">Administration</SelectItem>
-                  </SelectContent>
-                  </Select>
-                  )}
-                />
-                <p className="text-red-700 text-sm">{errors.department?.message}</p>
-                </div>
-                </div>
+                          <Select onValueChange={(value) => field.onChange(parseInt(value))} value={field.value?.toString()}>
+                            <SelectTrigger id="role" className="w-full h-10">
+                              <SelectValue placeholder="Select role" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="1">Admin</SelectItem>
+                              <SelectItem value="2">HR</SelectItem>
+                              <SelectItem value="3">Employee</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
+                      <p className="text-red-700 text-sm">{errors.role?.message}</p>
+                    </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
-            <div className="grid gap-2 my-4">
-          <Label htmlFor="joinDate" className="px-1">Join-Date</Label>
-        <Controller
-           name="joinDate"
-           control={control}
-            render={({ field }) => (
-        <Popover open={joinDateOpen} onOpenChange={setJoinDateOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            id="joinDate"
-            className="justify-between font-normal"
-          >
-            {field.value ? new Date(field.value).toLocaleDateString() : "Select date"}
-            <ChevronDownIcon />
-          </Button>
-        </PopoverTrigger>
+                    <div className="grid gap-2 w-full my-4">
+                      <Label htmlFor="deptId">Department ID (Optional)</Label>
+                      <Input id="deptId" {...register("deptId")} placeholder="Enter department ID" />
+                      <p className="text-red-700 text-sm">{errors.deptId?.message}</p>
+                    </div>
+                  </div>
 
-        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-          <Calendar
-            mode="single"
-            selected={field.value ? new Date(field.value) : undefined}
-            captionLayout="dropdown"
-            onSelect={(date) => {
-            field.onChange(date ?? null); 
-            setJoinDateOpen(false);
-          }}
-          />
-          </PopoverContent>
-          </Popover>
-        )}
-        />
-        {errors.joinDate && (
-         <p className="text-red-700 text-sm">{errors.joinDate.message}</p>
-          )}
-      </div>
-           <div className="grid gap-2 w-full my-4">
-                <Label htmlFor="status">Status</Label>
-                <Controller
-                  name="status"
-                  control={control}
-                  render={({ field }) => (
-                  <Select onValueChange={field.onChange} value={field.value}>
-                  <SelectTrigger id="status" className="w-full h-10">
-                  <SelectValue placeholder="Select status" />
-                 </SelectTrigger>
-                  <SelectContent>
-                     <SelectItem value="active">Active</SelectItem>
-                      <SelectItem value="inActive">InActive</SelectItem>
-                  </SelectContent>
-                  </Select>
-                  )}
-                />
-                <p className="text-red-700 text-sm">{errors.status?.message}</p>
-                </div>
-                </div>
-            </TabsContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                    <div className="grid gap-2 w-full my-4">
+                      <Label htmlFor="designationId">Designation ID (Optional)</Label>
+                      <Input id="designationId" {...register("designationId")} placeholder="Enter designation ID" />
+                      <p className="text-red-700 text-sm">{errors.designationId?.message}</p>
+                    </div>
+                  </div>
+                </TabsContent>
         
               <TabsContent value="personal" className="space-y-8 mt-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">

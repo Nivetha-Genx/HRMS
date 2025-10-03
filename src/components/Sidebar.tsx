@@ -2,7 +2,7 @@ import * as React from "react"
 import logo from '../assets/logo.svg'
 import {
   IconCamera,
-
+  IconBuilding,
   IconDashboard,
   IconDatabase,
   IconFileAi,
@@ -16,6 +16,7 @@ import {
   IconSearch,
   IconSettings,
   IconCreditCardPay,
+  IconBriefcase,
  
 } from "@tabler/icons-react"
 
@@ -50,6 +51,16 @@ const data = {
       title: "Employees",
       url: "/employee",
       icon: IconUsers,
+    },
+    {
+      title: "Department",
+      url: "/department",
+      icon: IconBuilding,
+    },
+    {
+      title: "Designation",
+      url: "/designation",
+      icon: IconBriefcase,
     },
     {
       title: "Attendance",
