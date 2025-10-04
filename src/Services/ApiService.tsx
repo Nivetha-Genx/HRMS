@@ -14,7 +14,7 @@ import type {
 } from "./type";
 
 // API Configuration
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://localhost:7106/api" 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://localhost:7271/api" 
 
 const api = axios.create({
   baseURL: API_BASE,
@@ -54,8 +54,14 @@ export const getChartData = async (): Promise<ChartResponse> => {
 };
 
 export const getEmployees = async (): Promise<any> => {
-  const response = await api.get("/Employee/Get-All-Employees");
-  return response.data;
+  try {
+    const response = await api.get("/Employee/Get-All-Employees");
+   
+    return response.data;
+  } catch (error) {
+  
+    throw error;
+  }
 }
 
 // EMPLOYEE SERVICES
@@ -76,6 +82,12 @@ export const getEmployee = async (id: string): Promise<addEmpReq> => {
 
 export const postEmployees = async (data: addEmpReq): Promise<addEmpReq> => {
   const response = await api.post<addEmpReq>("/employees", data);
+  return response.data;
+}
+
+// New employee POST function for user registration
+export const postEmployee = async (data: any): Promise<any> => {
+  const response = await api.post<any>("/Auth/Register-User", data);
   return response.data;
 }
 
@@ -211,6 +223,18 @@ export const putDesignation = async (id: string, data: any): Promise<any> => {
 
 export const deleteDesignation = async (id: string): Promise<void> => {
   await api.delete(`/Designation/Delete-Designation?id=${id}`);
+};
+
+// USER PROFILE SERVICES
+export const getCurrentUser = async (): Promise<any> => {
+  try {
+    const response = await api.get("/Employee/EmpId");
+   
+    return response.data;
+  } catch (error) {
+
+    throw error;
+  }
 };
 
 // Export the api instance as default for use in other services

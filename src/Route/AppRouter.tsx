@@ -19,6 +19,7 @@ import Dashboard1 from '../componentsUI/Dashboard/Dashboard1';
 import Employee from '../componentsUI/Employee/Employee';
 import Department from '../componentsUI/Department/Department';
 import Designation from '../componentsUI/Designation/Designation';
+import Shifts from '../componentsUI/Shifts/Shifts';
 import Attendance from '../componentsUI/Attendance/Attendance';
 import Leave from '../componentsUI/Leave/Leave';
 import Projects from '../componentsUI/Projects/Projects';
@@ -120,6 +121,9 @@ function AppRouter() {
         <Route path="/designation" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
           <Route index element={<Designation />} />
         </Route>
+        <Route path="/shifts" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
+          <Route index element={<Shifts />} />
+        </Route>
         <Route path="/attendance" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
           <Route index element={<Attendance />} />
         </Route>
@@ -132,7 +136,9 @@ function AppRouter() {
         <Route path="/payroll" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
           <Route index element={<Payroll />} />
         </Route>
-        <Route path="/add-employee" element={<AddEmployee/>}/>
+        <Route path="/add-employee" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
+          <Route index element={<AddEmployee />} />
+        </Route>
         
         {/* Standalone Routes - Protected */}
         <Route path="/payslip" element={<ProtectedRoute><Payslip /></ProtectedRoute>} />

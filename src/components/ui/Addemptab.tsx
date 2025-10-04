@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 "use client"
-import { Dialog,DialogClose,DialogContent,DialogFooter,DialogHeader,DialogTitle,DialogTrigger,} from "@/components/ui/dialog"
-import { ChevronDownIcon } from "lucide-react"
+import { Dialog,DialogClose,DialogContent,DialogDescription,DialogFooter,DialogHeader,DialogTitle,DialogTrigger,} from "@/components/ui/dialog"
+import { ChevronDownIcon, Eye, EyeOff } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import { Label } from "@/components/ui/label"
 import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
@@ -15,6 +15,7 @@ import { successToast,errorToast } from "@/lib/toast"
 import { useForm } from "react-hook-form"
 import type { SubmitHandler } from "react-hook-form"
 import { Controller } from "react-hook-form"
+import { postEmployee, getDepartments, getDesignations } from "@/Services/ApiService"
 
 // Custom type for the new basic information structure
 type BasicInfoFormValues = {
@@ -51,9 +52,19 @@ type BasicInfoFormValues = {
   PF: number;
   laborWelfare: number;
 };
+interface AddemptabProps {
+  onSuccess?: () => void;
+}
 
-function Addemptab() {
-       const { register, handleSubmit, control, reset, formState: { errors } } =
+function Addemptab({ onSuccess }: AddemptabProps) {
+  const [departments, setDepartments] = useState<any[]>([])
+  const [designations, setDesignations] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [dateOpen, setDateOpen] = React.useState(false)
+  const [dialogOpen, setDialogOpen] = React.useState(false)
+
+  const { register, handleSubmit, control, reset, formState: { errors } } =
   useForm<BasicInfoFormValues>({
     defaultValues: {
       firstName: "",
@@ -89,8 +100,41 @@ function Addemptab() {
       laborWelfare: 0,
     }
   });
-      const [dialogOpen, setDialogOpen] = React.useState(false);
-      const [dateOpen, setDateOpen] = React.useState(false);
+  // Fetch departments and designations on component mount
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("Fetching departments and designations...")
+        setIsLoading(true)
+        const [deptResponse, desigResponse] = await Promise.all([
+          getDepartments(),
+          getDesignations()
+        ])
+        console.log("Departments:", deptResponse)
+        console.log("Designations:", desigResponse)
+        
+        // Handle API response structure {success: true, data: Array(...)}
+        const departmentData = (deptResponse as any)?.data || deptResponse || []
+        const designationData = (desigResponse as any)?.data || desigResponse || []
+        
+        setDepartments(Array.isArray(departmentData) ? departmentData : [])
+        setDesignations(Array.isArray(designationData) ? designationData : [])
+      } catch (error) {
+        console.error("Error fetching departments/designations:", error)
+        // Set empty arrays as fallback to prevent UI issues
+        setDepartments([])
+        setDesignations([])
+        errorToast("Error loading data", "Failed to load departments and designations")
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    
+    // Only fetch when dialog is opened to avoid unnecessary API calls
+    if (dialogOpen) {
+      fetchData()
+    }
+  }, [dialogOpen])
       const onSubmit: SubmitHandler<BasicInfoFormValues> = async (data) => {
     try {
     // Create payload with new basic information structure
@@ -104,22 +148,31 @@ function Addemptab() {
       designationId: data.designationId || null,
     };
     
-    // TODO: Replace with actual API call
-    console.log("Employee payload:", payload);
+    // Make actual API call
+    await postEmployee(payload);
     
     successToast("Employee added successfully!", "The new employee has been added.");
     reset();
     setDialogOpen(false);
+    
+    // Call onSuccess callback to refresh data
+    if (onSuccess) {
+      onSuccess();
+    }
   } catch (err) {
+    console.error("Error adding employee:", err);
     errorToast("Error adding employee", "There was an issue adding the new employee.");
   }
 };
 
-  return (
-    <div>
-       <Dialog
+  // Add error boundary to prevent page from going blank
+  try {
+    return (
+      <div>
+         <Dialog
           open={dialogOpen}
           onOpenChange={(isOpen) => {
+          console.log("Dialog state changing to:", isOpen)
           setDialogOpen(isOpen);
           if (!isOpen) {
           reset();
@@ -127,12 +180,26 @@ function Addemptab() {
           }}>
 
           <DialogTrigger asChild>
-            <Button className="ml-auto">+ Add New</Button>
+            <Button className="ml-auto">
+              + Add New
+            </Button>
               </DialogTrigger>
-               <DialogContent className="sm:max-w-[1000px] max-h-full overflow-y-auto">
+               <DialogContent className="sm:max-w-[900px] max-h-[85vh] overflow-y-auto">
                 <DialogHeader>
                    <DialogTitle>Add Employee</DialogTitle>
+                   <DialogDescription>
+                     Fill in the employee information below to add a new employee to the system.
+                   </DialogDescription>
                 </DialogHeader>
+                
+                {isLoading ? (
+                  <div className="flex items-center justify-center py-8">
+                    <div className="text-center">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+                      <p>Loading departments and designations...</p>
+                    </div>
+                  </div>
+                ) : (
               <form className="grid gap-10"  onSubmit={handleSubmit(onSubmit)}>
               
                 <Tabs defaultValue="basic" className="w-full">
@@ -142,7 +209,7 @@ function Addemptab() {
                     <TabsTrigger value="job">Salary Information</TabsTrigger>
                    </TabsList>
 
-                <div className="h-[400px] md:h-[500px] lg:h-[600px] overflow-y-auto mt-5 ">
+                <div className="h-[400px] md:h-[450px] lg:h-[500px] overflow-y-auto mt-5 ">
                 <TabsContent value="basic" className="space-y-8 mt-5">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
                     <div className="grid gap-2 w-full my-4">
@@ -167,7 +234,28 @@ function Addemptab() {
                     
                     <div className="grid gap-2 w-full my-4">
                       <Label htmlFor="password">Password</Label>
-                      <Input id="password" type="password" placeholder="Enter password" {...register("password")} />
+                      <div className="relative">
+                        <Input 
+                          id="password" 
+                          type={showPassword ? "text" : "password"} 
+                          placeholder="Enter password" 
+                          {...register("password")} 
+                          className="pr-10"
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? (
+                            <EyeOff className="h-4 w-4 text-gray-500" />
+                          ) : (
+                            <Eye className="h-4 w-4 text-gray-500" />
+                          )}
+                        </Button>
+                      </div>
                       <p className="text-red-700 text-sm">{errors.password?.message}</p>
                     </div>
                   </div>
@@ -184,9 +272,9 @@ function Addemptab() {
                               <SelectValue placeholder="Select role" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="1">Admin</SelectItem>
-                              <SelectItem value="2">HR</SelectItem>
-                              <SelectItem value="3">Employee</SelectItem>
+                              <SelectItem key="role-1" value="1">Admin</SelectItem>
+                              <SelectItem key="role-2" value="2">HR</SelectItem>
+                              <SelectItem key="role-3" value="3">Employee</SelectItem>
                             </SelectContent>
                           </Select>
                         )}
@@ -195,16 +283,50 @@ function Addemptab() {
                     </div>
 
                     <div className="grid gap-2 w-full my-4">
-                      <Label htmlFor="deptId">Department ID (Optional)</Label>
-                      <Input id="deptId" {...register("deptId")} placeholder="Enter department ID" />
+                      <Label htmlFor="deptId">Department (Optional)</Label>
+                      <Controller
+                        control={control}
+                        name="deptId"
+                        render={({ field }) => (
+                          <Select onValueChange={field.onChange} value={field.value}>
+                            <SelectTrigger id="deptId" className="w-full h-10">
+                              <SelectValue placeholder="Select department" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {departments.map((dept, index) => (
+                                <SelectItem key={dept.deptId || dept.id || `dept-${index}`} value={dept.deptId || dept.id}>
+                                  {dept.deptName || dept.departmentName}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
                       <p className="text-red-700 text-sm">{errors.deptId?.message}</p>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
                     <div className="grid gap-2 w-full my-4">
-                      <Label htmlFor="designationId">Designation ID (Optional)</Label>
-                      <Input id="designationId" {...register("designationId")} placeholder="Enter designation ID" />
+                      <Label htmlFor="designationId">Designation (Optional)</Label>
+                      <Controller
+                        control={control}
+                        name="designationId"
+                        render={({ field }) => (
+                          <Select onValueChange={field.onChange} value={field.value}>
+                            <SelectTrigger id="designationId" className="w-full h-10">
+                              <SelectValue placeholder="Select designation" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {designations.map((desig, index) => (
+                                <SelectItem key={desig.desigId || desig.id || `desig-${index}`} value={desig.desigId || desig.id}>
+                                  {desig.desigName || desig.designationName}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
                       <p className="text-red-700 text-sm">{errors.designationId?.message}</p>
                     </div>
                   </div>
@@ -299,14 +421,14 @@ function Addemptab() {
                             <SelectValue placeholder="Select Blood-Group" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="A+">A+</SelectItem>
-                            <SelectItem value="A-">A-</SelectItem>
-                            <SelectItem value="B+">B+</SelectItem>
-                            <SelectItem value="B-">B-</SelectItem>
-                            <SelectItem value="AB+">AB+</SelectItem>
-                            <SelectItem value="AB-">AB-</SelectItem>
-                            <SelectItem value="O+">O+</SelectItem>
-                            <SelectItem value="O-">O-</SelectItem>
+                            <SelectItem key="blood-a-pos" value="A+">A+</SelectItem>
+                            <SelectItem key="blood-a-neg" value="A-">A-</SelectItem>
+                            <SelectItem key="blood-b-pos" value="B+">B+</SelectItem>
+                            <SelectItem key="blood-b-neg" value="B-">B-</SelectItem>
+                            <SelectItem key="blood-ab-pos" value="AB+">AB+</SelectItem>
+                            <SelectItem key="blood-ab-neg" value="AB-">AB-</SelectItem>
+                            <SelectItem key="blood-o-pos" value="O+">O+</SelectItem>
+                            <SelectItem key="blood-o-neg" value="O-">O-</SelectItem>
                         </SelectContent>
                         </Select> 
                     )}  />
@@ -325,8 +447,8 @@ function Addemptab() {
                       <SelectValue placeholder="Select Nationality" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="indian">Indian</SelectItem>
-                        <SelectItem value="others">Others</SelectItem>
+                        <SelectItem key="nationality-indian" value="indian">Indian</SelectItem>
+                        <SelectItem key="nationality-others" value="others">Others</SelectItem>
                        </SelectContent>
                       </Select> 
                   )}  />
@@ -343,10 +465,10 @@ function Addemptab() {
                       <SelectValue placeholder="Select Religion" />
                       </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="hindu">Hindu</SelectItem>
-                      <SelectItem value="christian">Christian</SelectItem>
-                      <SelectItem value="muslium">Muslium</SelectItem>
-                      <SelectItem value="others">Others</SelectItem>
+                      <SelectItem key="religion-hindu" value="hindu">Hindu</SelectItem>
+                      <SelectItem key="religion-christian" value="christian">Christian</SelectItem>
+                      <SelectItem key="religion-muslim" value="muslium">Muslium</SelectItem>
+                      <SelectItem key="religion-others" value="others">Others</SelectItem>
                     </SelectContent>
                   </Select> 
                 )}  />
@@ -365,8 +487,8 @@ function Addemptab() {
                       <SelectValue placeholder="Select status" />
                       </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="married">Married</SelectItem>
-                      <SelectItem value="unmarried">Unmarried</SelectItem>
+                      <SelectItem key="marital-married" value="married">Married</SelectItem>
+                      <SelectItem key="marital-unmarried" value="unmarried">Unmarried</SelectItem>
                     </SelectContent>
                   </Select> 
                 )}  />
@@ -453,10 +575,21 @@ function Addemptab() {
                   <Button type="submit">Save</Button>
               </DialogFooter>
           </form>
+                )}
         </DialogContent>
       </Dialog>
     </div>
   )
+  } catch (error) {
+    console.error("Error rendering Addemptab component:", error)
+    return (
+      <div>
+        <Button className="ml-auto" disabled>
+          + Add New (Error)
+        </Button>
+      </div>
+    )
+  }
 }
 
 export default Addemptab

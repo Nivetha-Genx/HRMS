@@ -1,5 +1,7 @@
 import * as React from "react"
+import { useState, useEffect } from "react"
 import logo from '../assets/logo.svg'
+import { getCurrentUser } from "@/Services/ApiService"
 import {
   IconCamera,
   IconBuilding,
@@ -17,6 +19,7 @@ import {
   IconSettings,
   IconCreditCardPay,
   IconBriefcase,
+  IconClock,
  
 } from "@tabler/icons-react"
 
@@ -61,6 +64,11 @@ const data = {
       title: "Designation",
       url: "/designation",
       icon: IconBriefcase,
+    },
+    {
+      title: "Shifts",
+      url: "/shifts",
+      icon: IconClock,
     },
     {
       title: "Attendance",
@@ -168,6 +176,122 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [user, setUser] = useState(data.user) // Initialize with default data
+  const [loading, setLoading] = useState(true)
+  
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        
+        // Check all possible localStorage keys for user data
+        const storedUser = localStorage.getItem("user")
+        const storedUserData = localStorage.getItem("userData") 
+        const storedAuthUser = localStorage.getItem("authUser")
+        
+      
+        
+        // Try to find user data in any of these keys
+        let foundUserData = null
+        
+        if (storedUser) {
+          try {
+            foundUserData = JSON.parse(storedUser)
+          } catch (e) {
+          }
+        }
+        
+        if (!foundUserData && storedUserData) {
+          try {
+            foundUserData = JSON.parse(storedUserData)
+          } catch (e) {
+          
+          }
+        }
+        
+        if (!foundUserData && storedAuthUser) {
+          try {
+            foundUserData = JSON.parse(storedAuthUser)
+           
+          } catch (e) {
+          
+          }
+        }
+        
+        if (foundUserData) {
+          // Extract name and email properly
+          let displayName = "Admin"
+          let displayEmail = "admin@example.com"
+          
+          // Handle different possible data structures
+          if (foundUserData.name) {
+            // If name contains email format, extract both
+            if (foundUserData.name.includes("@")) {
+              displayEmail = foundUserData.name
+              displayName = foundUserData.name.split("@")[0] // Use part before @ as name
+            } else {
+              displayName = foundUserData.name
+            }
+          }
+          
+          if (foundUserData.email) {
+            displayEmail = foundUserData.email
+          }
+          
+          if (foundUserData.firstName) {
+            displayName = foundUserData.firstName + (foundUserData.lastName ? ` ${foundUserData.lastName}` : "")
+          }
+          
+          const dynamicUser = {
+            name: displayName,
+            email: displayEmail,
+            avatar: "/avatars/shadcn.jpg",
+          }
+          
+       
+          setUser(dynamicUser)
+          setLoading(false)
+          return
+        }
+        
+        // Fallback: Try API call with dummy token (will likely fail)
+        const token = localStorage.getItem("token")
+       
+        
+        if (!token || token === "dummy-token") {
+       
+          setLoading(false)
+          return
+        }
+        
+        const response = await getCurrentUser()
+      
+        
+        // Handle API response
+        let userData = response
+        if (response && response.data) {
+          userData = response.data
+        }
+        
+        const dynamicUser = {
+          name: userData?.firstName || userData?.name || "Admin",
+          email: userData?.email || "admin@example.com", 
+          avatar: "/avatars/shadcn.jpg",
+        }
+        
+      
+        setUser(dynamicUser)
+        
+      } catch (error) {
+      
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchCurrentUser()
+  }, [])
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -191,7 +315,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        {loading ? (
+          <div className="p-2 text-sm text-gray-500">Loading user...</div>
+        ) : (
+          <>
+            <NavUser user={user} />
+           
+          </>
+        )}
       </SidebarFooter>
     </Sidebar>
   )

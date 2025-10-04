@@ -14,6 +14,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { loginSchema } from "@/lib/Schema"
 import * as yup from "yup"
 import type { LoginRequest } from "../Services/type"
+import { IconEye, IconEyeOff } from "@tabler/icons-react"
 
 type loginFormValues = yup.InferType<typeof loginSchema>
 
@@ -23,6 +24,7 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
 
   const [error, setError] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
   const navigate=useNavigate();
 
       const { register, handleSubmit, formState: { errors } } = useForm<loginFormValues>({
@@ -40,9 +42,9 @@ export function LoginForm({
         password: data.password,
       };
 
-      console.log("Making login request with payload:", payload);
+   
       const res = await loginApi(payload)
-      console.log("Login response:", res);
+     
       
       // Handle different possible response structures
       if (res) {
@@ -53,15 +55,15 @@ export function LoginForm({
         successToast("Login successful", "Welcome back!")
         localStorage.setItem("token", token) 
         localStorage.setItem("user", JSON.stringify(user))
-        console.log("Navigating to dashboard1...");
+     
         navigate("/dashboard1");
       } else {
-        console.error("No response from server:", res);
+       
         setError("No response from server");
         errorToast("Login failed", "No response from server");
       }
     } catch (err: any) {
-      console.error("Login error:", err);
+    
       if (err.response?.status === 401) {
         setError("Invalid email or password")
         errorToast("Login failed", "Invalid email or password")
@@ -108,10 +110,23 @@ export function LoginForm({
                         Forgot your password?
                   </Link>
                 </div>
+                <div className="relative">
                   <Input 
                     id="password" 
-                     {...register("password")} 
-                    required />
+                    type={showPassword ? "text" : "password"}
+                     {...register("password")} />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <IconEyeOff className="h-4 w-4 text-gray-400" />
+                    ) : (
+                      <IconEye className="h-4 w-4 text-gray-400" />
+                    )}
+                  </button>
+                </div>
                      {errors.password && <p className="text-sm text-red-700">{errors.password.message}</p>} 
                 </div>
 

@@ -177,14 +177,13 @@ const handleDelete = async () => {
                             <SelectValue placeholder="Select position" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="frontend developer">A+</SelectItem>
-                            <SelectItem value="backend developer">A-</SelectItem>
-                            <SelectItem value="full stack developer">B+</SelectItem>
-                            <SelectItem value="teamleader">B-</SelectItem>
-                            <SelectItem value="manager">AB+</SelectItem>
-                            <SelectItem value="ui/ux">AB-</SelectItem>
-                            <SelectItem value="HR">O+</SelectItem>
-                            <SelectItem value="O-">O-</SelectItem>
+                            <SelectItem key="pos-frontend" value="frontend developer">Frontend Developer</SelectItem>
+                            <SelectItem key="pos-backend" value="backend developer">Backend Developer</SelectItem>
+                            <SelectItem key="pos-fullstack" value="full stack developer">Full Stack Developer</SelectItem>
+                            <SelectItem key="pos-teamlead" value="teamleader">Team Leader</SelectItem>
+                            <SelectItem key="pos-manager" value="manager">Manager</SelectItem>
+                            <SelectItem key="pos-uiux" value="ui/ux">UI/UX Designer</SelectItem>
+                            <SelectItem key="pos-hr" value="HR">HR</SelectItem>
                         </SelectContent>
                         </Select> 
                 </div>
@@ -274,14 +273,14 @@ const handleDelete = async () => {
                             <SelectValue placeholder="Select Blood-Group" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="A+">A+</SelectItem>
-                            <SelectItem value="A-">A-</SelectItem>
-                            <SelectItem value="B+">B+</SelectItem>
-                            <SelectItem value="B-">B-</SelectItem>
-                            <SelectItem value="AB+">AB+</SelectItem>
-                            <SelectItem value="AB-">AB-</SelectItem>
-                            <SelectItem value="O+">O+</SelectItem>
-                            <SelectItem value="O-">O-</SelectItem>
+                            <SelectItem key="edit-blood-a-pos" value="A+">A+</SelectItem>
+                            <SelectItem key="edit-blood-a-neg" value="A-">A-</SelectItem>
+                            <SelectItem key="edit-blood-b-pos" value="B+">B+</SelectItem>
+                            <SelectItem key="edit-blood-b-neg" value="B-">B-</SelectItem>
+                            <SelectItem key="edit-blood-ab-pos" value="AB+">AB+</SelectItem>
+                            <SelectItem key="edit-blood-ab-neg" value="AB-">AB-</SelectItem>
+                            <SelectItem key="edit-blood-o-pos" value="O+">O+</SelectItem>
+                            <SelectItem key="edit-blood-o-neg" value="O-">O-</SelectItem>
                         </SelectContent>
                     </Select> 
               </div> 
@@ -296,8 +295,8 @@ const handleDelete = async () => {
                       <SelectValue placeholder="Select Nationality" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="indian">Indian</SelectItem>
-                        <SelectItem value="others">Others</SelectItem>
+                        <SelectItem key="edit-nationality-indian" value="indian">Indian</SelectItem>
+                        <SelectItem key="edit-nationality-others" value="others">Others</SelectItem>
                        </SelectContent>
                       </Select> 
               </div> 
@@ -311,10 +310,10 @@ const handleDelete = async () => {
                       <SelectValue placeholder="Select Religion" />
                       </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="hindu">Hindu</SelectItem>
-                      <SelectItem value="christian">Christian</SelectItem>
-                      <SelectItem value="muslium">Muslium</SelectItem>
-                      <SelectItem value="others">Others</SelectItem>
+                      <SelectItem key="edit-religion-hindu" value="hindu">Hindu</SelectItem>
+                      <SelectItem key="edit-religion-christian" value="christian">Christian</SelectItem>
+                      <SelectItem key="edit-religion-muslim" value="muslium">Muslim</SelectItem>
+                      <SelectItem key="edit-religion-others" value="others">Others</SelectItem>
                     </SelectContent>
                   </Select> 
               </div> 
@@ -329,8 +328,8 @@ const handleDelete = async () => {
                       <SelectValue placeholder="Select status" />
                       </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="married">Married</SelectItem>
-                      <SelectItem value="unmarried">Unmarried</SelectItem>
+                      <SelectItem key="edit-marital-married" value="married">Married</SelectItem>
+                      <SelectItem key="edit-marital-unmarried" value="unmarried">Unmarried</SelectItem>
                     </SelectContent>
                   </Select> 
               </div> 

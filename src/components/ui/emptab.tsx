@@ -2,91 +2,18 @@
 import * as React from "react"
 import {flexRender,getCoreRowModel,getFilteredRowModel,getPaginationRowModel,getSortedRowModel,useReactTable,} from "@tanstack/react-table"
 import type{ColumnDef,ColumnFiltersState,SortingState,VisibilityState,} from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown} from "lucide-react"
+import { ArrowUpDown, ChevronDown, MoreHorizontal} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import {DropdownMenu,DropdownMenuCheckboxItem,DropdownMenuContent,DropdownMenuTrigger,} from "@/components/ui/dropdown-menu"
+import {DropdownMenu,DropdownMenuCheckboxItem,DropdownMenuContent,DropdownMenuItem,DropdownMenuSeparator,DropdownMenuTrigger,} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "@/components/ui/table"
 import Editemptab from '../ui/editemptab'
 import Addemptab from '../ui/Addemptab'
-// import { getEmployees } from "@/Services/EmployeeService"
-// import type { empData } from "@/Services/type"
-// import { useState,useEffect } from "react"
-// import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
-
-const data: Payment[] = [
-    {
-    id: "ghqej43k",
-    employeeId:"ET001",
-    name:"Shivaji Maharaj",
-    position:"Manager",
-    department:"IT/Technology",
-    email: "shivaji@example.com",
-    joinDate:"20-4-2024",
-    status:"Active",
-  },  
-  {
-    id: "lhcej53d",
-    employeeId:"ET002",
-    name:"Shivani Nachiyar",
-    position:"Frontend developer",
-    department:"IT/Technology",
-    email: "shivani@example.com",
-    joinDate:"20-5-2024",
-    status:"InActive",
-  },
-    {
-    id: "m5gr84i9",
-    employeeId:"ET003",
-    name:"Akila Sri",
-    position: "Backend developer",
-    department:"IT/Technology",
-    email: "akila@example.com",
-    joinDate:"10-6-2024",
-    status:"Active",
-  },
-  {
-    id: "3u1reuv4",
-    employeeId:"ET004",
-    name: "Jayashree",
-    position: "Frontend developer",
-    department:"IT/Technology",
-    email: "jayashree@example.com",
-    joinDate:"20-8-2024",
-    status:"Active",
-  },
-  {
-    id: "derv1ws0",
-    employeeId:"ET005",
-    name:"Pavithra Sundaram",
-    position:"UI/UX designer",
-    department:"IT/Technology",
-    email: "pavithra@example.com",
-    joinDate:"30-2-2025",
-    status:"InActive",
-  },
-  {
-    id: "5kma53ae",
-    employeeId:"ET006",
-    name:"Nisha Dhanasegaran",
-    position : "Team Lead",
-    department:"IT/Technology",
-    email: "nisha@example.com",
-    joinDate:"29-4-2025",
-    status:"Active",
-  },
-  {
-    id: "bhqecj4p",
-    employeeId:"ET007",
-    name:"Sagana",
-    position:"Developer",
-    department:"IT/Technology",
-    email: "sagana@example.com",
-    joinDate:"10-6-2025",
-    status:"Active",
-  },
-]
+import { getEmployees, deleteEmployee } from "@/Services/ApiService"
+import { useState,useEffect } from "react"
+import { errorToast, successToast } from "@/lib/toast"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 export type Payment = {
   id: string
   employeeId: string
@@ -94,9 +21,99 @@ export type Payment = {
   position: string
   department: string
   email: string
+  mobile?: string
   joinDate:string
   status:string
+  fullData?: any
 }
+
+// View Employee Details Component
+function ViewEmployeeDetails({ employee, open, onOpenChange }: { employee: Payment, open: boolean, onOpenChange: (open: boolean) => void }) {
+  if (!employee.fullData) return null
+  
+  const emp = employee.fullData
+  
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Employee Details</DialogTitle>
+        </DialogHeader>
+        <div className="grid gap-6">
+          {/* Basic Information */}
+          <div className="grid gap-4">
+            <h3 className="text-lg font-semibold">Basic Information</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium text-gray-500">First Name</label>
+                <p className={`text-sm ${!emp.firstName ? 'text-gray-500 font-bold' : ''}`}>{emp.firstName || '—'}</p>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-gray-500">Last Name</label>
+                <p className={`text-sm ${!emp.lastName ? 'text-gray-500 font-bold' : ''}`}>{emp.lastName || '—'}</p>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-gray-500">Email</label>
+                <p className={`text-sm ${!emp.email ? 'text-gray-500 font-bold' : ''}`}>{emp.email || '—'}</p>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-gray-500">Mobile</label>
+                <p className={`text-sm ${!emp.mobile ? 'text-gray-500 font-bold' : ''}`}>{emp.mobile || '—'}</p>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-gray-500">Department</label>
+                <p className={`text-sm ${!emp.deptName ? 'text-gray-500 font-bold' : ''}`}>{emp.deptName || '—'}</p>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-gray-500">Blood Group</label>
+                <p className={`text-sm ${!emp.bloodGroup ? 'text-gray-500 font-bold' : ''}`}>{emp.bloodGroup || '—'}</p>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-gray-500">Religion</label>
+                <p className={`text-sm ${!emp.religion ? 'text-gray-500 font-bold' : ''}`}>{emp.religion || '—'}</p>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-gray-500">Marital Status</label>
+                <p className="text-sm">{emp.isMarried ? 'Married' : 'Single'}</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Address Information */}
+          <div className="grid gap-4">
+            <h3 className="text-lg font-semibold">Address Information</h3>
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label className="text-sm font-medium text-gray-500">Current Address</label>
+                <p className={`text-sm ${!emp.currentAddress ? 'text-gray-500 font-bold' : ''}`}>{emp.currentAddress || '—'}</p>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-gray-500">Permanent Address</label>
+                <p className={`text-sm ${!emp.permanentAddress ? 'text-gray-500 font-bold' : ''}`}>{emp.permanentAddress || '—'}</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Emergency Contact */}
+          <div className="grid gap-4">
+            <h3 className="text-lg font-semibold">Emergency Contact</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium text-gray-500">Contact Name</label>
+                <p className={`text-sm ${!emp.relationName ? 'text-gray-500 font-bold' : ''}`}>{emp.relationName || '—'}</p>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-gray-500">Contact Phone</label>
+                <p className={`text-sm ${!emp.relationPhone ? 'text-gray-500 font-bold' : ''}`}>{emp.relationPhone || '—'}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 export const columns: ColumnDef<Payment>[] = [
   {
     id: "select",
@@ -119,13 +136,6 @@ export const columns: ColumnDef<Payment>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  {
-    accessorKey: "employeeId",
-    header: "EmployeeId",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("employeeId")}</div>
-    ),
-  },
     {
   accessorKey: "name",
   header: () => <div className="text-left">Name</div>,
@@ -147,90 +157,158 @@ export const columns: ColumnDef<Payment>[] = [
         </Button>
       )
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+    cell: ({ row }) => {
+      const email = row.getValue("email") as string
+      return <div className={`lowercase ${email === '—' ? 'text-gray-500 font-bold' : ''}`}>{email}</div>
+    },
   },
     {
-    accessorKey: "position",
-    header: "Position",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("position")}</div>
-    ),
+    accessorKey: "mobile",
+    header: "Mobile",
+    cell: ({ row }) => {
+      const mobile = row.getValue("mobile") as string
+      return <div className={mobile === '—' ? 'text-gray-500 font-bold' : ''}>{mobile}</div>
+    },
   },
    {
     accessorKey: "department",
     header: "Department",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("department")}</div>
-    ),
-  },
-  {
-    accessorKey: "joinDate",
-    header: "Join-Date",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("joinDate")}</div>
-    ),
-  },
-  {
-   accessorKey: "status",
-   header: "Status",
-   cell: ({ row }) => {
-    const status = row.getValue("status") as string;
-    let textColor = "";
-
-    switch (status.toLowerCase()) {
-      case "active":
-        textColor = "text-green-700 font-semibold";
-        break;
-      case "inactive":
-        textColor = "text-red-700 font-semibold";
-        break;
-      default:
-        textColor = "text-gray-700";
-    }
-
-    return <div className={`capitalize ${textColor}`}>{status}</div>;
-  },
-},
-  {
-    id: "actions",
-    enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original
-      
-      return (
-        <Editemptab employeeId={payment.employeeId} onSuccess={() => window.location.reload()} />
-      )
+      const department = row.getValue("department") as string
+      return <div className={`capitalize ${department === '—' ? 'text-gray-500 font-bold' : ''}`}>{department}</div>
     },
   },
+  
+ 
 ]
 export function DataTableDemo() {
-  // const [data, setData] = React.useState<empData[]>([])
-  // const [loading, setLoading] = React.useState(true)
-
+  const [employees, setEmployees] = useState<Payment[]>([])
+  const [loading, setLoading] = useState(true)
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] =React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
 
-  //useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const employees = await getEmployees()
-  //       setData(employees)
-  //      successToast("Employees data loaded", "")
-  //     } catch (error) {
-  //       console.error(" Failed to fetch employees:", error)
-  //      errorToast("Failed to fetch employees", "")
-  //     } finally {
-  //       setLoading(false)
-  //     }
-  //   }
-  //   fetchData()
-  // }, [])
+  // Fetch employees data function
+  const fetchEmployees = async () => {
+    try {
+      setLoading(true)
+      const response = await getEmployees()
+      
+    
+      
+      // Check if response is valid and has data
+      let employeeData = []
+      
+      if (Array.isArray(response)) {
+        employeeData = response
+      } else if (response && Array.isArray(response.data)) {
+        employeeData = response.data
+      } else if (response && response.employees && Array.isArray(response.employees)) {
+        employeeData = response.employees
+      } else {
+     
+        errorToast("API Error", "Invalid API response format.")
+        setEmployees([])
+        return
+      }
+      
+      // Transform API response to match Payment interface
+      const transformedData: Payment[] = employeeData.map((emp: any) => ({
+        id: emp.empId || emp.id || emp.employeeId,
+        employeeId: emp.empId || emp.employeeId || emp.id,
+        name: `${emp.firstName || ''} ${emp.lastName || ''}`.trim() || 'Unknown',
+        position: emp.position || emp.designation || '—',
+        department: emp.deptName || emp.department || '—',
+        email: emp.email || '—',
+        mobile: emp.mobile || '—',
+        joinDate: emp.joinDate || emp.joiningDate || '—',
+        status: emp.status || emp.isActive ? 'Active' : 'Inactive',
+        // Store full employee data for view details
+        fullData: emp
+      }))
+      
+     
+      setEmployees(transformedData)
+    } catch (error) {
+     
+      errorToast("Error loading employees", "Failed to load employee data")
+      setEmployees([]) // Set empty array as fallback
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Load employees on component mount
+  useEffect(() => {
+    fetchEmployees()
+  }, [])
+
+  // Create columns with access to fetchEmployees
+  const columnsWithActions: ColumnDef<Payment>[] = [
+    ...columns,
+    {
+      id: "actions",
+      header: "Actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        const payment = row.original
+        const [viewDialogOpen, setViewDialogOpen] = React.useState(false)
+        
+        const handleDelete = async () => {
+          if (window.confirm('Are you sure you want to delete this employee?')) {
+            try {
+              await deleteEmployee(payment.employeeId)
+              successToast('Employee deleted successfully')
+              fetchEmployees() // Refresh the table
+            } catch (error) {
+              errorToast('Failed to delete employee')
+            }
+          }
+        }
+        
+        return (
+          <div className="flex items-center">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0">
+                  <span className="sr-only">Open menu</span>
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => setViewDialogOpen(true)}>
+                  View Details
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <div>
+                    <Editemptab employeeId={payment.employeeId} onSuccess={fetchEmployees} />
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem 
+                  onClick={handleDelete}
+                  className="text-red-600"
+                >
+                  Delete Employee
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            
+            <ViewEmployeeDetails 
+              employee={payment} 
+              open={viewDialogOpen} 
+              onOpenChange={setViewDialogOpen} 
+            />
+          </div>
+        )
+      },
+    },
+  ]
 
   const table = useReactTable({
-    data,
-    columns,
+    data: employees,
+    columns: columnsWithActions,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -246,9 +324,10 @@ export function DataTableDemo() {
       rowSelection,
     },
   })
-  //  if (loading) {
-  //   return <div className="text-center py-6">Loading employees...</div>
-  // }
+  
+  if (loading) {
+    return <div className="text-center py-6">Loading employees...</div>
+  }
 
 
   return (
@@ -262,7 +341,7 @@ export function DataTableDemo() {
           }
           className="max-w-sm" />
          <div className="flex items-center gap-2 ml-auto">
-            <Addemptab />
+            <Addemptab onSuccess={fetchEmployees} />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

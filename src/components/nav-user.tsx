@@ -16,6 +16,25 @@ export function NavUser({
   const { isMobile } = useSidebar()
   const navigate = useNavigate();
 
+  // Generate user initials from name
+  const getUserInitials = (name: string): string => {
+    if (!name) return "U";
+    
+    const nameParts = name.trim().split(" ");
+    
+    if (nameParts.length === 1) {
+      // Single name: take first letter
+      return nameParts[0].charAt(0).toUpperCase();
+    } else {
+      // Multiple names: take first letter of first and last name
+      const firstInitial = nameParts[0].charAt(0).toUpperCase();
+      const lastInitial = nameParts[nameParts.length - 1].charAt(0).toUpperCase();
+      return firstInitial + lastInitial;
+    }
+  };
+
+  const userInitials = getUserInitials(user.name);
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -38,7 +57,7 @@ export function NavUser({
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg bg-blue-400 text-white">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg bg-blue-400 text-white">{userInitials}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
@@ -48,6 +67,7 @@ export function NavUser({
               </div>
               <IconDotsVertical className="ml-auto size-4" />
             </SidebarMenuButton>
+            
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
@@ -59,7 +79,7 @@ export function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg ">CN</AvatarFallback>
+                  <AvatarFallback className="rounded-lg ">{userInitials}</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate text-black font-medium">{user.name}</span>

@@ -1,3 +1,4 @@
+
 import * as yup from "yup"
 
 export const loginSchema = yup.object({
@@ -6,10 +7,7 @@ export const loginSchema = yup.object({
                   .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/, "Invalid email format"),
   password  : yup.string()
                   .required("Password is required")
-                  .min(8, "Password must be at least 8 characters long")                                  
-                  .matches(/[A-Za-z]/, "Password must contain at least one letter")
-                  .matches(/\d.*\d.*\d/, "Password must contain at least 3 numbers")
-                  .matches(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
+                  .min(8, "Password must be at least 8 characters"),
 });
 
 export const signupSchema= yup.object({

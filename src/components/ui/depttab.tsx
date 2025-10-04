@@ -215,42 +215,8 @@ export function DepartmentTableDemo() {
         
         setData(departmentData);
       } catch (apiError) {
-        console.warn('Department API endpoint not available, using mock data:', apiError);
-        
-        // Fallback to mock data when API is not available
-        const mockDepartments = [
-          {
-            id: "dept001",
-            deptId: "5e6019b4-6fda-4333-b169-8a9529e4dd34",
-            deptName: "Information Technology",
-            deptHeadName: "John Doe",
-            employees: []
-          },
-          {
-            id: "dept002", 
-            deptId: "7f8029c5-8feb-5444-c27a-9b0630f5ee45",
-            deptName: "Human Resources",
-            deptHeadName: "Jane Smith",
-            employees: []
-          },
-          {
-            id: "dept003",
-            deptId: "9g9039d6-9fec-6555-d38b-ac1741g6ff56", 
-            deptName: "Finance",
-            deptHeadName: "Mike Johnson",
-            employees: []
-          },
-          {
-            id: "dept004",
-            deptId: "ah1049e7-afed-7666-e49c-bd2852h7gg67",
-            deptName: "Marketing",
-            deptHeadName: "Sarah Wilson",
-            employees: []
-          },
-        ];
-        
-        setData(mockDepartments);
-        console.log('Using mock department data:', mockDepartments);
+        console.error('Error fetching departments from API:', apiError);
+        setData([]);
       }
     } catch (err) {
       console.error('Error fetching departments:', err);
