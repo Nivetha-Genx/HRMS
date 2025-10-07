@@ -7,6 +7,7 @@ import type {
   cardemp,
   addEmpReq,
   leave,
+  empLeave,
   addleave,
   payroll,
   Payslip,
@@ -91,6 +92,11 @@ export const deleteEmployee = async (id: string): Promise<void> => {
 // LEAVE SERVICES
 export const getCardLeave = async (): Promise<leave> => {
   const response = await api.get<leave>('/leave');
+  return response.data;
+}
+
+export const getEmpCardLeave = async (): Promise<empLeave> => {
+  const response = await api.get<empLeave>('/leave');
   return response.data;
 }
 

@@ -21,6 +21,8 @@ import Leave from '../componentsUI/Leave/Leave';
 import Projects from '../componentsUI/Projects/Projects';
 import Payroll from '../componentsUI/Payroll/Payroll';
 import Payslip from '../componentsUI/Payroll/Payslip';
+import LeaveRequest from '@/componentsUI/Leave/Req';
+import EmployeeLeave from '@/componentsUI/Leave/EmployeeLeave';
 
 // Auth Page Wrappers with Layout
 function Login() {
@@ -115,6 +117,12 @@ function AppRouter() {
         </Route>
         <Route path="/leave" element={<DashboardLayout />}>
           <Route index element={<Leave />} />
+        </Route>
+         <Route path="/employeeleave" element={<DashboardLayout />}>
+          <Route index element={<EmployeeLeave />} />
+        </Route>
+        <Route path="/leaverequest" element={<DashboardLayout />}>
+          <Route index element={<LeaveRequest />} />
         </Route>
         <Route path="/projects" element={<DashboardLayout />}>
           <Route index element={<Projects />} />

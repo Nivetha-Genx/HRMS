@@ -1,20 +1,20 @@
 import { IconUserEdit, IconUserCheck, IconUserExclamation, IconUserQuestion } from '@tabler/icons-react';
-import DataTable from "./dataTable";
+import EmpDataTable from "../Leave/EmpDataTable"
 import { SiteHeader } from "@/components/site-header";
 import LeaveCard from "./LeaveCard"; 
-// import { useState,useEffect } from "react"
-// import { getCardLeave } from "../../Services/ApiService"
-// import type { leave} from "@/Services/type"
-// import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+import { useState,useEffect } from "react"
+import { getEmpCardLeave } from "../../Services/ApiService"
+import type { empLeave} from "@/Services/type"
+import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 
 
- export default function Leave() {
-//   const [stats, setStats] = useState<leave| null>(null);
+ export default function EmployeeLeave() {
+//   const [stats, setStats] = useState<empLeave| null>(null);
 
 //    useEffect(() => {
 //       const fetchData = async () => {
 //       try {
-//       const data = await getCardLeave();
+//       const data = await getEmpCardLeave();
 //       setStats(data);
 //         successToast("Leave data loaded successfully", "")
 //         infoToast("Info", "Leave data is up to date")
@@ -41,41 +41,52 @@ import LeaveCard from "./LeaveCard";
         
         <LeaveCard
           icon={<IconUserCheck className="text-white w-6 h-6" />}
-          title="Total Present"
-          value="180"
-          // value={stats.totalPresent}
-          extra="/200"
+          title="Annual Leaves"
+          value="05"
+          subtitle="Remaining Leaves"
+          remainingLeaves='3'
+        //   value={stats.annualLeaves.total}
+        //   remainingLeaves={stats.annualLeaves.remainingLeaves}
           color="bg-green-600"
         />
 
         <LeaveCard
           icon={<IconUserEdit className="text-white w-6 h-6" />}
-          title="Planned Leaves"
+          title="Medical Leaves"
           value="10"
-          // value= {stats.plannedLeaves}
+          subtitle="Remaining Leaves"
+          remainingLeaves='4'
+          //value={stats.medicalleaves.total}
+        // remainingLeaves={stats.medicalleaves.remainingLeaves}
           color="bg-orange-600"
         />
 
         <LeaveCard
           icon={<IconUserExclamation className="text-white w-6 h-6" />}
-          title="Unplanned Leaves"
+          title="Casual Leaves"
           value="10"
-          // value={stats.unplannedLeavesl}
+          subtitle="Remaining Leaves"
+          remainingLeaves='8'
+          //value={stats.casualleaves.total}
+        //  remainingLeaves={stats.casualleaves.remainingLeaves}
           color="bg-pink-600"
         />
 
         <LeaveCard
           icon={<IconUserQuestion className="text-white w-6 h-6" />}
-          title="Pending Request"
+          title="Other Leaves"
           value="15"
-          // value={stats.pendingRequest}
+          subtitle="Remaining Leaves"
+          remainingLeaves='12'
+         //value={stats.otherleaves.total}
+        // remainingLeaves={stats.otherleaves.remainingLeaves}
           color="bg-blue-600"
         />
       </div>
 
       <div>
         <h2 className="font-semibold mx-5">Employee's Leave List</h2>
-        <DataTable />
+        <EmpDataTable />
       </div>
     </div>
   );

@@ -19,9 +19,6 @@ import { useNavigate } from "react-router-dom";
 
 const data: Payment[] = [
     {
-    id: "ghqej43k",
-    employeeId:"ET001",
-    employeeName:"Shivaji Maharaj",
     leaveType:"Medical Leave",
     from:"30-8-2025",
     to: "5-9-2025",
@@ -29,9 +26,6 @@ const data: Payment[] = [
     status:"Approved"
   },
   {
-    id: "lhcej53d",
-    employeeId:"ET002",
-    employeeName:"Shivani Nachiyar",
     leaveType:"Casual Leave",
     from:"31-8-2025",
     to: "4-9-2025",
@@ -39,9 +33,6 @@ const data: Payment[] = [
     status:"Rejected"
   },
     {
-    id: "m5gr84i9",
-    employeeId:"ET003",
-    employeeName:"Akila Sri",
     leaveType:"Medical Leave",
     from:"25-8-2025",
     to: "29-8-2025",
@@ -49,9 +40,6 @@ const data: Payment[] = [
     status:"Approved"
   },
   {
-    id: "3u1reuv4",
-    employeeId:"ET004",
-    employeeName: "Jayashree",
     leaveType:"Casual Leave",
     from:"6-9-2025",
     to: "8-9-2025",
@@ -59,29 +47,20 @@ const data: Payment[] = [
     status:"Rejected"
   },
   {
-    id: "derv1ws0",
-    employeeId:"ET005",
-    employeeName:"Pavithra Sundaram",
     leaveType:"Medical Leave",
     from:"7-8-2025",
     to: "8-9-2025",
     numberofdays:"2 Days",
-    status:"pending"
+    status:"Approved"
   },
   {
-    id: "5kma53ae",
-    employeeId:"ET006",
-    employeeName:"Nisha Dhanasegaran",
     leaveType:"Casual Leave",
     from:"10-9-2025",
     to: "15-9-2025",
     numberofdays:"6 Days",
-    status:"pending"
+    status:"Rejected"
   },
   {
-    id: "bhqecj4p", 
-    employeeId:"ET007",
-    employeeName:"Sagana",
     leaveType:"Casual Leave",
     from:"12-8-2025",
     to: "15-9-2025",
@@ -91,9 +70,6 @@ const data: Payment[] = [
 ]
 
 export type Payment = {
-  id: string
-  employeeId: string
-  employeeName:string
   leaveType: string
   from: string
   to: string
@@ -124,21 +100,21 @@ export const columns: ColumnDef<Payment>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  {
-    accessorKey: "employeeId",
-    header: "EmployeeId",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("employeeId")}</div>
-    ),
-  },
-  {
-    accessorKey: "employeeName",
-    header: () => <div className="text-left">Employee Name</div>,
-    cell: ({ row }) => {
-    const employeeName = row.getValue("employeeName") as string
-    return <div className="text-left font-medium">{employeeName}</div>
-  },
-},
+//   {
+//     accessorKey: "employeeId",
+//     header: "EmployeeId",
+//     cell: ({ row }) => (
+//       <div className="capitalize">{row.getValue("employeeId")}</div>
+//     ),
+//   },
+//   {
+//     accessorKey: "employeeName",
+//     header: () => <div className="text-left">Employee Name</div>,
+//     cell: ({ row }) => {
+//     const employeeName = row.getValue("employeeName") as string
+//     return <div className="text-left font-medium">{employeeName}</div>
+//   },
+// },
 {
     accessorKey: "leaveType",
     header: "Leave Type",
@@ -185,9 +161,9 @@ export const columns: ColumnDef<Payment>[] = [
       case "approved":
         textColor = "text-green-700 font-semibold";
         break;
-      case "pending":
-        textColor = "text-yellow-700 font-semibold";
-        break;
+    //   case "pending":
+    //     textColor = "text-yellow-700 font-semibold";
+    //     break;
       case "rejected":
         textColor = "text-red-700 font-semibold";
         break;
@@ -203,13 +179,13 @@ export const columns: ColumnDef<Payment>[] = [
   enableHiding: false,
   cell: ({ row }) => {
     const emp = row.original
-    return <Edit employeeId={emp.employeeId} onSuccess={() => window.location.reload()} />
+    // return <Edit employeeId={emp.employeeId} onSuccess={() => window.location.reload()} />
   },
 },
 
 ]
 
-export default function DataTable() {
+export default function EmpDataTable() {
   //   const [data, setData] = React.useState<addleave[]>([])
   // const [loading, setLoading] = React.useState(true)
   const [sorting, setSorting] = React.useState<SortingState>([])
@@ -262,10 +238,10 @@ export default function DataTable() {
     <div className="w-full max-w mx-auto px-5 ">
       <div className="flex flex-wrap items-center gap-4 py-4">
         <Input
-          placeholder="Filter names..."
-          value={(table.getColumn("employeeName")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter leavetypes..."
+          value={(table.getColumn("leaveType")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("employeeName")?.setFilterValue(event.target.value)
+            table.getColumn("leaveType")?.setFilterValue(event.target.value)
           }
           className="w-full sm:max-w-sm"
         />

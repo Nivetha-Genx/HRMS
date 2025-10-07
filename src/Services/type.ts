@@ -111,12 +111,26 @@ export interface leave{
   unplannedLeaves:string
   pendingRequest:string
 }
+
+export interface LeaveType {
+  total: string
+  remainingLeaves: string
+}
+
+export interface empLeave {
+  annualLeaves: LeaveType
+  medicalLeaves: LeaveType
+  casualLeaves: LeaveType
+  otherLeaves?: LeaveType
+}
+
 export interface addleave{
   employeeId:string
   employeeName:string
   leaveType:string
   fromDate:string | null
   toDate:string | null
+  dayBreakdown?:string
   numberofdays:number
   reason:string
 }

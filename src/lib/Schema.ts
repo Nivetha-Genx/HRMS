@@ -143,6 +143,7 @@ export const leaveSchema = yup.object({
   leaveType     : yup.string().required("Leave Type is required"),
   fromDate      : yup.string().required("From Date is required"),
   toDate        : yup.string().required("To Date is required"),
+  dayBreakdown :yup.string().required("dayBreakdown is required"),
   numberofdays   : yup.number().typeError("Number of Days must be a number")
                                .positive("Number of Days must be positive")
                                .required("Number of Days is required"),
