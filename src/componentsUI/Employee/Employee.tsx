@@ -4,34 +4,11 @@ import {IconUsersGroup } from "@tabler/icons-react"
 import { Badge } from "@/components/ui/badge"
 import {Card,} from "@/components/ui/card"
 import { SiteHeader } from "@/components/site-header"
-// import { useState,useEffect } from "react"
-// import type { cardemp } from "@/Services/type"
-// import { getcardemp } from "@/Services/EmployeeService"
-// import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
+
 
 
 export default function Employee() {
-// const [stats, setStats] = useState<cardemp | null>(null);
 
-// useEffect(() => {
-//   const fetchData = async () => {
-//     try {
-//       const data = await getcardemp();
-//       setStats(data);
-//       successToast("Employee data loaded", "");
-//       infoToast("Info", "Employee data is up to date");
-//       warningToast("Warning", "Check your employee settings");
-//       console.log("Dashboard data:", data);
-//     } catch (err) {
-//       console.error("Error fetching dashboard:", err);
-//       errorToast("Error", "Failed to load employee data");
-//     }
-//   };
-//   fetchData();
-//   }, []);
-//   if (!stats) {
-//   return <div className="text-center">Loading...</div>;
-// }
 
   return (
     <>

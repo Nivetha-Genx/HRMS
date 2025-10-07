@@ -7,7 +7,7 @@ import type { signupRequest , SignupResponse} from './type'
 
 
 export async function loginApi(data: LoginRequest): Promise<LoginResponse> {
-  const response = await api.post<LoginResponse>("/auth/login", data)
+  const response = await api.post<LoginResponse>("/Auth/Login", data)
   return response.data
 }
 

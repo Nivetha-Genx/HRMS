@@ -15,7 +15,7 @@ import type {
 } from "./type";
 
 // API Configuration
-const API_BASE = "https://your-backend-url.com/api" 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://localhost:7106/api" 
 
 const api = axios.create({
   baseURL: API_BASE,
