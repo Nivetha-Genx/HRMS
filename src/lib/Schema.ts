@@ -147,6 +147,7 @@ export const leaveSchema = yup.object({
   numberofdays   : yup.number().typeError("Number of Days must be a number")
                                .positive("Number of Days must be positive")
                                .required("Number of Days is required"),
+  reqfromtl : yup.string().required("TeamLead is required"),
   reason        : yup.string().required("Reason is required"),
 });
 

@@ -6,7 +6,7 @@ import { Calendar } from "@/components/ui/calendar"
 import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { useEffect} from "react"
+import { useState,useEffect} from "react"
 import type { addleave } from "@/Services/type"
 import { postLeave } from "../../Services/ApiService"
 import { Textarea } from "@/components/ui/textarea"
@@ -17,18 +17,23 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { leaveSchema } from "@/lib/Schema"
 import * as yup from "yup"
 import { Controller } from "react-hook-form"
+import { getDropdownData } from "../../Services/ApiService"
 
 type LeaveFormValues = yup.InferType<typeof leaveSchema>;
 
 const LeaveRequest: React.FC = () => {
-    const [fromDate, setFromDate] = React.useState<Date | undefined>(undefined)
+          const [fromDate, setFromDate] = React.useState<Date | undefined>(undefined)
           const [toDate, setToDate] = React.useState<Date | undefined>(undefined)
           const [openFrom, setOpenFrom] = React.useState(false)
           const [openTo, setOpenTo] = React.useState(false)
 
+          const [leaveTypes, setLeaveTypes] = useState<{ id: number; name: string; value: string }[]>([])
+          const [teamLeads, setTeamLeads] = useState<{ id: number; name: string }[]>([])
+
           const {
-            register,handleSubmit,control,reset,setValue, formState: { errors },} = useForm<LeaveFormValues>({
-                 resolver: yupResolver(leaveSchema),
+            register,handleSubmit,control,reset,setValue,   
+            formState: { errors },
+             } = useForm<LeaveFormValues>({ resolver: yupResolver(leaveSchema),
                  defaultValues: {
                       employeeId:"",
                       employeeName: "",
@@ -36,10 +41,26 @@ const LeaveRequest: React.FC = () => {
                       fromDate: "",
                       toDate: "",
                       dayBreakdown:"",
+                      reqfromtl:"",
                       numberofdays: 0,
                       reason: "",
                    },
               });
+
+             
+             useEffect(() => {
+            const fetchDropdowns = async () => {
+            try {
+               const { leaveTypes, teamLeads } = await getDropdownData();
+               setLeaveTypes(leaveTypes);
+               setTeamLeads(teamLeads);
+            } catch {
+             console.log("Failed to load dropdowns", "Please try again later.");
+           }
+          };
+
+    fetchDropdowns();
+  }, []);
 
           const onSubmit : SubmitHandler<LeaveFormValues> = async (data) => {
             try {
@@ -51,17 +72,18 @@ const LeaveRequest: React.FC = () => {
                       toDate: toDate ? toDate.toISOString().split("T")[0] : "",
                       dayBreakdown: data.dayBreakdown,
                       numberofdays: data.numberofdays,  
+                      reqfromtl: data.reqfromtl,
                       reason: data.reason,
                     };
                       await postLeave(payload); 
-                      console.log("Leave added successfully!")
-                      successToast("Leave added successfully", "The leave has been recorded.")
+                      console.log("Leave request added successfully!")
+                      successToast("Leave request added successfully", "The leave request has been recorded.")
                       reset();    
                       setFromDate(undefined);
                       setToDate(undefined);
                     } catch (err) {
-                      console.log("Error adding leave", err);
-                      errorToast("Error adding leave", "Please try again.")
+                      console.log("Error adding leave request", err);
+                      errorToast("Error adding leave request", "Please try again.")
                   } 
                 };
 
@@ -78,37 +100,45 @@ const LeaveRequest: React.FC = () => {
 
   return (
         <div className="w-full px-20 md:px-20 py-20 bg-white">
-           <h3 className="text-xl font-semibold mb-6">Leave Request</h3>
+           <h3 className="text-lg font-semibold mb-6">Leave Request</h3>
               <form className="grid grid-cols-1 md:grid-cols-2 gap-15 w-full"  onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col">
-                     <label className="text-sm text-gray-700 mb-1 font-semibold">EmployeeID</label>
-                         <Input id="employeeId" type="text" {...register("employeeId")} />
-                             {errors.employeeId && <p className="text-sm text-red-700">{errors.employeeId.message}</p>}
-                 </div>
-
+                     <label className="text-sm font-semibold text-gray-700 mb-1">EmployeeId</label>
+                           <Input id="employeeId" {...register("employeeId")} />
+                                 {errors.employeeId && <p className="text-sm text-red-700">{errors.employeeId.message}</p>}
+                </div>
                 <div className="flex flex-col">
-                     <label className="text-sm text-gray-700 mb-1 font-semibold">Employee Name</label>
-                         <Input id="employeeName" type="text" {...register("employeeName")} />
-                             {errors.employeeName && <p className="text-sm text-red-700">{errors.employeeName.message}</p>}
-                 </div>
+                     <label className="text-sm font-semibold text-gray-700 mb-1">Employee Name</label>
+                           <input
+                              type="text"
+                              value="Akila sri"
+                              readOnly
+                              className="border border-gray-300 rounded-md px-3 py-2 text-sm w-full" />
+                </div>
 
                  <div className="flex flex-col">
                     <label className="text-sm text-gray-700 mb-1 font-semibold">Leave Type</label>
                          <Controller
-                              control={control}
-                              name="leaveType"
-                              render={({ field }) => (
-                           <Select {...field} onValueChange={(value) => field.onChange(value)} value={field.value}>
-                               <SelectTrigger id="leaveType" className="w-full h-10">
+                            control={control}
+                            name="leaveType"
+                            render={({ field }) => (
+                         <Select {...field} onValueChange={(value) => field.onChange(value)} value={field.value}>
+                              <SelectTrigger id="leaveType" className="w-full h-10">
                                   <SelectValue placeholder="Select Leave Type" />
                                </SelectTrigger>
-                                  <SelectContent>
-                                     <SelectItem value="MedicalLeave">Medical Leave</SelectItem>
-                                     <SelectItem value="CasualLeave">Casual Leave</SelectItem>  
-                                  </SelectContent>
-                           </Select>  
+                                <SelectContent>
+                                   {leaveTypes.length > 0 ? ( leaveTypes.map((type) => (
+                                        <SelectItem key={type.id} value={type.value}>
+                                             {type.name}
+                                        </SelectItem>
+                                     ))
+                                     ) : (
+                                <SelectItem disabled value="loading"> Loading...</SelectItem>
+                                )}
+                               </SelectContent>
+                         </Select>  
                          )}/>
-                          {errors.leaveType && <p className="text-sm text-red-700">{errors.leaveType.message}</p>}
+                            {errors.leaveType && <p className="text-sm text-red-700">{errors.leaveType.message}</p>}
                  </div>
 
                  <div className="flex flex-col">
@@ -199,6 +229,30 @@ const LeaveRequest: React.FC = () => {
                          )}/>
                     {errors.dayBreakdown && <p className="text-sm text-red-700">{errors.dayBreakdown.message}</p>}
                  </div>
+
+                 <div className="flex flex-col">
+                    <label className="text-sm text-gray-700 mb-1 font-semibold">Request from Team Lead</label>
+                      <Controller
+                         control={control}
+                         name="reqfromtl"
+                         render={({ field }) => (
+                      <Select {...field} onValueChange={(value) => field.onChange(value)} value={field.value}>
+                        <SelectTrigger id="reqfromtl" className="w-full h-10">
+                           <SelectValue placeholder="Select Team Lead" />
+                       </SelectTrigger>
+                       <SelectContent>
+                           {teamLeads.length > 0 ? ( teamLeads.map((lead) => (
+                             <SelectItem key={lead.id} value={lead.name}> {lead.name} </SelectItem>
+                           ))
+                          ) : (
+                         <SelectItem disabled value="loading"> Loading... </SelectItem>
+                         )}
+                       </SelectContent>
+                      </Select>
+                    )}
+                    />
+                       {errors.reqfromtl && <p className="text-sm text-red-700">{errors.reqfromtl.message}</p>}
+                </div>                  
 
                  <div className="flex flex-col col-span-1 md:col-span-2">
                     <label className="text-sm text-gray-700 mb-1 font-semibold">Remarks</label>

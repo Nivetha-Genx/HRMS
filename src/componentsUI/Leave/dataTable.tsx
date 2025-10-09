@@ -5,17 +5,17 @@ import type{ColumnDef,ColumnFiltersState,SortingState,VisibilityState,} from "@t
 import {  ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import {DropdownMenu,DropdownMenuCheckboxItem,DropdownMenuContent,DropdownMenuItem,DropdownMenuTrigger,} from "@/components/ui/dropdown-menu"
+import {DropdownMenu,DropdownMenuCheckboxItem,DropdownMenuContent,DropdownMenuItem,DropdownMenuTrigger,DropdownMenuSeparator,DropdownMenuLabel} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "@/components/ui/table"
-import Edit from '../Leave/Edit'
-import LeaveRequest from "./Req"
 import { useNavigate } from "react-router-dom";
-// import type { addleave } from "@/Services/type"
+import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { useState,useEffect } from 'react' 
+import { deleteLeave } from "@/Services/ApiService"
+import { successToast,errorToast} from "@/lib/toast"
 // import { getLeaves } from "@/Services/LeaveService"
 // import { useEffect } from "react"
 // import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
-// import { se } from "date-fns/locale"
 
 const data: Payment[] = [
     {
@@ -167,13 +167,6 @@ export const columns: ColumnDef<Payment>[] = [
       <div className="capitalize">{row.getValue("numberofdays")}</div>
     ),
   },
-  // {
-  //   accessorKey: "status",
-  //   header: "Status",
-  //   cell: ({ row }) => (
-  //     <div className="capitalize">{row.getValue("status")}</div>
-  //   ),
-  // },
   {
   accessorKey: "status",
   header: "Status",
@@ -198,16 +191,53 @@ export const columns: ColumnDef<Payment>[] = [
     return <div className={`capitalize ${textColor}`}>{status}</div>;
   },
 },
-{
-  id: "actions",
-  enableHiding: false,
-  cell: ({ row }) => {
-    const emp = row.original
-    return <Edit employeeId={emp.employeeId} onSuccess={() => window.location.reload()} />
-  },
-},
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const emp = row.original;
+       const navigate = useNavigate();
 
-]
+       const handleDelete = async (LeaveId: string) => {
+        try {
+             await deleteLeave(LeaveId);
+             console.log("Project deleted successfully!");
+             successToast("Project deleted successfully!", "")
+            } catch (err) {
+            console.error(err);
+            console.log("Failed to delete Project");
+            errorToast("Failed to delete project", "")
+            }
+           };
+
+      return (
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8 p-0">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+               <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => navigate(`/editleaverequest/${emp.id}`)}>
+                <Pencil className="mr-2 h-4 w-4"/> Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handleDelete(emp.id.toString())}
+                className="text-red-600 focus:text-red-600">
+                <Trash2 className="mr-2 h-4 w-4" /> Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </>
+      );
+    },
+  },
+];
+
 
 export default function DataTable() {
   //   const [data, setData] = React.useState<addleave[]>([])
@@ -270,7 +300,6 @@ export default function DataTable() {
           className="w-full sm:max-w-sm"
         />
          <div className="flex items-center gap-2 ml-auto">
-            {/* <Add />  */}
             <Button
               className="ml-auto"
               onClick={() => navigate("/leaveRequest")}>

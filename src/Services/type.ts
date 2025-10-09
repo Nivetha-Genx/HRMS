@@ -132,6 +132,7 @@ export interface addleave{
   toDate:string | null
   dayBreakdown?:string
   numberofdays:number
+   reqfromtl:string
   reason:string
 }
 

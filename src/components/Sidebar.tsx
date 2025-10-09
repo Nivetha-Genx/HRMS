@@ -51,14 +51,14 @@ const data = {
       icon: IconUsers,
     },
     {
-      title: "Attendance",
-      url: "/attendance",
-      icon: IconCalendar,
-    },
-     {
       title: "Leave",
       url: "/leave",
       icon: IconDoorExit,
+    },
+    {
+      title: "Attendance",
+      url: "/attendance",
+      icon: IconCalendar,
     },
     {
       title: "Projects",

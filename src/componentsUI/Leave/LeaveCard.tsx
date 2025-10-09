@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import React, { useEffect, useState } from "react";
 
 type LeaveCardProps = {
   icon: ReactNode;
@@ -8,9 +9,14 @@ type LeaveCardProps = {
   extra?: string;
   subtitle?:string;
   remainingLeaves?:string;
+  role?: "admin" | "employee";
+  extraField1?: string;
+  extraField2?: string;
+
 };
 
-export default function LeaveCard({ icon, title, value, color, extra, subtitle, remainingLeaves }: LeaveCardProps) {
+export default function LeaveCard({ icon, title, value, color, extra, subtitle, remainingLeaves,role="admin",extraField1, extraField2}: LeaveCardProps) {
+
   return (
     <div className="relative flex items-center bg-white rounded-xl shadow p-4 overflow-hidden">
        <div
@@ -24,7 +30,19 @@ export default function LeaveCard({ icon, title, value, color, extra, subtitle, 
           <p className="text-xl font-bold text-gray-500">
               {value} {extra && <span className="text-gray-400">{extra}</span>}
           </p>
-          <p className="text-gray-500 text-sm">{subtitle} : {remainingLeaves}</p>
+          {subtitle && remainingLeaves && (
+          <p className="text-gray-500 text-sm">
+            {subtitle} : {remainingLeaves}
+          </p>
+        )}
+
+        {role === "employee" && (
+          <div className="mt-2 space-y-1">
+            {extraField1 && <p className="text-gray-600 text-sm">{extraField1}</p>}
+            {extraField2 && <p className="text-gray-600 text-sm">{extraField2}</p>}
+          </div>
+        )}
+         
          
        </div>
     </div>

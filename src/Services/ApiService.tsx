@@ -15,7 +15,7 @@ import type {
 } from "./type";
 
 // API Configuration
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://localhost:7106/api" 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://localhost:7271/api" 
 
 const api = axios.create({
   baseURL: API_BASE,
@@ -94,6 +94,14 @@ export const getCardLeave = async (): Promise<leave> => {
   const response = await api.get<leave>('/leave');
   return response.data;
 }
+
+export const getDropdownData = async (): Promise<{leaveTypes: any[];teamLeads: any[]; }> => {
+  const [leaveRes, leadRes] = await Promise.all([api.get("/leave-types"),api.get("/team-leads"),]);
+  return {
+    leaveTypes: leaveRes.data.data || [],
+    teamLeads: leadRes.data.data || [],
+  };
+};
 
 export const getEmpCardLeave = async (): Promise<empLeave> => {
   const response = await api.get<empLeave>('/leave');

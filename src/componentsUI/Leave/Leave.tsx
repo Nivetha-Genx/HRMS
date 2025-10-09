@@ -2,13 +2,27 @@ import { IconUserEdit, IconUserCheck, IconUserExclamation, IconUserQuestion } fr
 import DataTable from "./dataTable";
 import { SiteHeader } from "@/components/site-header";
 import LeaveCard from "./LeaveCard"; 
-// import { useState,useEffect } from "react"
+import { useState,useEffect } from "react"
 // import { getCardLeave } from "../../Services/ApiService"
 // import type { leave} from "@/Services/type"
 // import { successToast,warningToast,errorToast,infoToast } from "@/lib/toast"
 
 
  export default function Leave() {
+  const [role, setRole] = useState<"admin" | "employee">("employee"); 
+
+  useEffect(() => {
+    const storedRole = localStorage.getItem("role"); 
+    if (storedRole === "admin" || storedRole === "employee") {
+      setRole(storedRole);
+    }
+  }, []);
+
+
+  const employeeExtraFields = role === "employee" 
+    ? { extraField1: "Remaining Leaves: 2", extraField2: "CarryForward leaves: 10" } 
+    : {};
+
 //   const [stats, setStats] = useState<leave| null>(null);
 
 //    useEffect(() => {
@@ -36,17 +50,19 @@ import LeaveCard from "./LeaveCard";
   return (
     <div className="flex flex-col">
       <SiteHeader title="Leave" />
-
-      <div className="grid grid-cols-1 gap-4 px-4 mt-5 mb-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        
-        <LeaveCard
-          icon={<IconUserCheck className="text-white w-6 h-6" />}
-          title="Total Present"
-          value="180"
-          // value={stats.totalPresent}
-          extra="/200"
-          color="bg-green-600"
-        />
+         <div className="grid grid-cols-1 gap-4 px-4 mt-5 mb-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <LeaveCard
+                 icon={<IconUserCheck className="text-white w-6 h-6" />}
+                 title="Total Present"
+                 value="180"
+              // subtitle="Remaining Leaves"
+              // remainingLeaves="07"
+              // value={stats.totalPresent}
+                 extra="/200"
+                 color="bg-green-600"
+                 role={role}
+                  {...employeeExtraFields} 
+             />
 
         <LeaveCard
           icon={<IconUserEdit className="text-white w-6 h-6" />}
@@ -54,6 +70,8 @@ import LeaveCard from "./LeaveCard";
           value="10"
           // value= {stats.plannedLeaves}
           color="bg-orange-600"
+           role={role}
+          {...employeeExtraFields} 
         />
 
         <LeaveCard
@@ -62,6 +80,8 @@ import LeaveCard from "./LeaveCard";
           value="10"
           // value={stats.unplannedLeavesl}
           color="bg-pink-600"
+           role={role}
+          {...employeeExtraFields} 
         />
 
         <LeaveCard
@@ -70,6 +90,8 @@ import LeaveCard from "./LeaveCard";
           value="15"
           // value={stats.pendingRequest}
           color="bg-blue-600"
+           role={role}
+          {...employeeExtraFields} 
         />
       </div>
 
