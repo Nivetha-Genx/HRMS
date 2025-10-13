@@ -48,13 +48,28 @@ export function LoginForm({
       
       // Handle different possible response structures
       if (res) {
+        console.log("Login response:", res);
+        
         // Try to extract token from different possible locations
-        const token = res.token || (res as any).accessToken || (res as any).access_token || "dummy-token";
+        // Based on your API response, the token is in the 'message' field
+        const token = (res as any).message || res.token || (res as any).accessToken || (res as any).access_token;
         const user = res.user || (res as any).userData || { id: 1, name: data.email };
+        
+        console.log("Extracted token:", token);
+        console.log("Token length:", token ? token.length : 0);
+        
+        if (!token) {
+          console.error("No token found in login response!");
+          setError("Authentication failed - no token received");
+          errorToast("Login failed", "No authentication token received");
+          return;
+        }
         
         successToast("Login successful", "Welcome back!")
         localStorage.setItem("token", token) 
         localStorage.setItem("user", JSON.stringify(user))
+        
+        console.log("Token stored in localStorage successfully");
      
         navigate("/dashboard1");
       } else {

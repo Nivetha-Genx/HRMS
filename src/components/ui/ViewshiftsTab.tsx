@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
-import { type Shift } from "./shiftstab"
+import { type Shift } from "./ShiftsTable"
 
 interface ViewShiftDialogProps {
   shift: Shift

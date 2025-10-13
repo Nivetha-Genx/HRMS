@@ -23,7 +23,7 @@ import type { ForgotPasswordRequest } from "@/Services/type"
 
 type forgotFormValues = yup.InferType<typeof forgotSchema>
 
-export function Forgot({
+export function Forgot({                                                                                                                                                                 
   className,
   ...props
 }: React.ComponentProps<"div">) { 

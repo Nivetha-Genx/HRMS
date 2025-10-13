@@ -254,7 +254,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           return
         }
         
-        // Fallback: Try API call with dummy token (will likely fail)
+      
         const token = localStorage.getItem("token")
        
         

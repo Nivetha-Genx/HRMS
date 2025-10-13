@@ -1,4 +1,4 @@
-import { ShiftsTableDemo } from "../../components/ui/shiftstab"
+import { ShiftsTableDemo } from "../../components/ui/ShiftsTable"
 import { IconClock } from "@tabler/icons-react"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"

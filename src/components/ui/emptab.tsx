@@ -1,15 +1,14 @@
-"use client"
+
 import * as React from "react"
 import {flexRender,getCoreRowModel,getFilteredRowModel,getPaginationRowModel,getSortedRowModel,useReactTable,} from "@tanstack/react-table"
 import type{ColumnDef,ColumnFiltersState,SortingState,VisibilityState,} from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal} from "lucide-react"
+import { ArrowUpDown, ChevronDown, MoreVertical, Eye, Edit, Trash2} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {DropdownMenu,DropdownMenuCheckboxItem,DropdownMenuContent,DropdownMenuItem,DropdownMenuSeparator,DropdownMenuTrigger,} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "@/components/ui/table"
-import Editemptab from '../ui/editemptab'
-import Addemptab from '../ui/Addemptab'
+import { useNavigate } from 'react-router-dom'
 import { getEmployees, deleteEmployee } from "@/Services/ApiService"
 import { useState,useEffect } from "react"
 import { errorToast, successToast } from "@/lib/toast"
@@ -182,6 +181,7 @@ export const columns: ColumnDef<Payment>[] = [
  
 ]
 export function DataTableDemo() {
+  const navigate = useNavigate()
   const [employees, setEmployees] = useState<Payment[]>([])
   const [loading, setLoading] = useState(true)
   const [sorting, setSorting] = React.useState<SortingState>([])
@@ -193,21 +193,11 @@ export function DataTableDemo() {
   const fetchEmployees = async () => {
     try {
       setLoading(true)
-      const response = await getEmployees()
-      
-    
+      const employeeData = await getEmployees()
       
       // Check if response is valid and has data
-      let employeeData = []
-      
-      if (Array.isArray(response)) {
-        employeeData = response
-      } else if (response && Array.isArray(response.data)) {
-        employeeData = response.data
-      } else if (response && response.employees && Array.isArray(response.employees)) {
-        employeeData = response.employees
-      } else {
-     
+      if (!Array.isArray(employeeData)) {
+        console.error("Invalid response format:", employeeData)
         errorToast("API Error", "Invalid API response format.")
         setEmployees([])
         return
@@ -255,6 +245,14 @@ export function DataTableDemo() {
         const payment = row.original
         const [viewDialogOpen, setViewDialogOpen] = React.useState(false)
         
+        const handleView = () => {
+          setViewDialogOpen(true)
+        }
+        
+        const handleEdit = () => {
+          navigate(`/add-employee?edit=${payment.employeeId}`)
+        }
+        
         const handleDelete = async () => {
           if (window.confirm('Are you sure you want to delete this employee?')) {
             try {
@@ -273,24 +271,26 @@ export function DataTableDemo() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-8 w-8 p-0">
                   <span className="sr-only">Open menu</span>
-                  <MoreHorizontal className="h-4 w-4" />
+                  <MoreVertical className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setViewDialogOpen(true)}>
+                <DropdownMenuItem onClick={handleView}>
+                  <Eye className="mr-2 h-4 w-4" />
                   View Details
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <div>
-                    <Editemptab employeeId={payment.employeeId} onSuccess={fetchEmployees} />
-                  </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleEdit}>
+                  <Edit className="mr-2 h-4 w-4" />
+                  Edit Employee
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem 
                   onClick={handleDelete}
-                  className="text-red-600"
+                  className="text-red-600 focus:text-red-600"
                 >
-                  Delete Employee
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Delete
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -341,7 +341,12 @@ export function DataTableDemo() {
           }
           className="max-w-sm" />
          <div className="flex items-center gap-2 ml-auto">
-            <Addemptab onSuccess={fetchEmployees} />
+            <Button 
+              onClick={() => navigate('/add-employee')}
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              + Add New
+            </Button>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

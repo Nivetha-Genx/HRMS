@@ -1,4 +1,4 @@
-import {DepartmentTableDemo} from "../../components/ui/depttab"
+import {DepartmentTableDemo} from "../../components/ui/Department_Table"
 import {IconBuilding } from "@tabler/icons-react"
 import { Badge } from "@/components/ui/badge"
 import {Card,} from "@/components/ui/card"

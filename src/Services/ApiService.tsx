@@ -25,11 +25,44 @@ const api = axios.create({
 
 api.interceptors.request.use((config: any) => {
   const token = localStorage.getItem("token")
+  console.log("API Request Interceptor:", {
+    url: config.url,
+    method: config.method,
+    hasToken: !!token,
+    tokenLength: token ? token.length : 0,
+    tokenStart: token ? token.substring(0, 20) + "..." : "No token"
+  })
+  
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
+    console.log("Authorization header set:", config.headers.Authorization.substring(0, 30) + "...")
+  } else {
+    console.warn("No token found for API request!")
   }
   return config
 })
+
+// Add response interceptor for debugging
+api.interceptors.response.use(
+  (response) => {
+    console.log("API Response Success:", {
+      url: response.config.url,
+      status: response.status,
+      data: response.data
+    })
+    return response
+  },
+  (error) => {
+    console.error("API Response Error:", {
+      url: error.config?.url,
+      status: error.response?.status,
+      message: error.message,
+      responseData: error.response?.data,
+      headers: error.response?.headers
+    })
+    return Promise.reject(error)
+  }
+)
 
 // ATTENDANCE SERVICES
 export const getAttendance = async (): Promise<attendance> => {
@@ -56,10 +89,20 @@ export const getChartData = async (): Promise<ChartResponse> => {
 export const getEmployees = async (): Promise<any> => {
   try {
     const response = await api.get("/Employee/Get-All-Employees");
-   
+    
+    // Handle the nested response structure: { success: true, data: { data: [...] } }
+    if (response.data && response.data.success && response.data.data && response.data.data.data) {
+      return response.data.data.data; // Return the actual employee array
+    }
+    
+    // Fallback for other possible structures
+    if (response.data && response.data.data) {
+      return response.data.data;
+    }
+    
     return response.data;
   } catch (error) {
-  
+    console.error("Error fetching employees:", error);
     throw error;
   }
 }
@@ -88,6 +131,24 @@ export const postEmployees = async (data: addEmpReq): Promise<addEmpReq> => {
 // New employee POST function for user registration
 export const postEmployee = async (data: any): Promise<any> => {
   const response = await api.post<any>("/Auth/Register-User", data);
+  return response.data;
+}
+
+// Employee Bio POST function
+export const postEmployeeBio = async (data: any): Promise<any> => {
+  const response = await api.post<any>("/Employee/Add-Employee-bio", data);
+  return response.data;
+}
+
+// Employee Education POST function
+export const postEmployeeEducation = async (data: any): Promise<any> => {
+  const response = await api.post<any>("/Employee/Add-Employee-Education", data);
+  return response.data;
+}
+
+// Employee Emergency Contact POST function
+export const postEmployeeEmergencyContact = async (data: any): Promise<any> => {
+  const response = await api.post<any>("/Employee/Add-Employee-Emergency-Contact", data);
   return response.data;
 }
 
@@ -223,6 +284,12 @@ export const putDesignation = async (id: string, data: any): Promise<any> => {
 
 export const deleteDesignation = async (id: string): Promise<void> => {
   await api.delete(`/Designation/Delete-Designation?id=${id}`);
+};
+
+// SHIFT SERVICES
+export const getShifts = async (): Promise<any[]> => {
+  const response = await api.get<any[]>("/Shift/Get-All-Shifts");
+  return response.data;
 };
 
 // USER PROFILE SERVICES

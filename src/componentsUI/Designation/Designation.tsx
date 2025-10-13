@@ -1,4 +1,4 @@
-import {DesignationTableDemo} from "@/components/ui/desigTab.tsx"
+import {DesignationTableDemo} from "@/components/ui/Designation_Table"
 import {IconBriefcase } from "@tabler/icons-react"
 import { Badge } from "@/components/ui/badge"
 import {Card,} from "@/components/ui/card"
